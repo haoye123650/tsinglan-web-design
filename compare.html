@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>首页三版对照 · 无限游戏</title>
+<style>
+  :root{
+    --ink:#08060c;
+    --gold:#C79B6E;
+    --paper:#F4EDE6;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--ink);color:var(--paper);
+    font-family:"PingFang SC","Hiragino Sans GB",sans-serif}
+  header{
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 18px;
+    padding:14px 20px;border-bottom:1px solid rgba(199,155,110,.2);
+  }
+  h1{margin:0;font-size:13px;font-weight:500;letter-spacing:.18em;color:var(--gold)}
+  header p{margin:0;font-size:11px;color:rgba(244,237,230,.45);letter-spacing:.06em}
+  header a{font-size:11px;color:rgba(244,237,230,.6);text-decoration:none;
+    border-bottom:1px solid rgba(199,155,110,.4);padding-bottom:1px}
+  header a:first-of-type{margin-left:auto}
+  .pair{display:grid;grid-template-columns:1fr;gap:1px;background:rgba(199,155,110,.16)}
+  .item{background:#08060c;display:flex;flex-direction:column;min-width:0}
+  .item h2{
+    margin:0;padding:11px 14px;font-size:11px;font-weight:500;letter-spacing:.14em;
+    color:rgba(244,237,230,.78);border-bottom:1px solid rgba(199,155,110,.12);
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;line-height:1.5;
+  }
+  .item h2 b{font-weight:500;color:var(--gold);letter-spacing:.1em}
+  .item h2 span{color:rgba(244,237,230,.36);font-weight:400;letter-spacing:.04em;font-size:10px}
+  iframe{display:block;width:100%;height:78vh;min-height:560px;border:0}
+  @media (min-width:900px){
+    .pair{grid-template-columns:repeat(3,1fr)}
+    iframe{height:calc(100vh - 112px)}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>A / B / C 三版对照</h1>
+  <p>无限游戏 · 2026.12.05 · 每格约 1/3 宽，看到的就是手机端比例</p>
+  <a href="index-a.html" target="_blank">A 单独看 →</a>
+  <a href="index-b.html" target="_blank">B →</a>
+  <a href="index-c.html" target="_blank">C →</a>
+</header>
+
+<div class="pair">
+  <section class="item">
+    <h2><b>A</b> 电影感 <span>居中字标 / 克制 / 一张海报</span></h2>
+    <iframe src="index-a.html" title="A 版 电影感"></iframe>
+  </section>
+  <section class="item">
+    <h2><b>B</b> 加载页 <span>HUD 外框 / 进度条 / 街机键 / 关卡路线</span></h2>
+    <iframe src="index-b.html" title="B 版 加载页"></iframe>
+  </section>
+  <section class="item">
+    <h2><b>C</b> 扫描界面 <span>瞄准环 / 透视地网 / RGB 撕裂 / 数据读数</span></h2>
+    <iframe src="index-c.html" title="C 版 扫描界面"></iframe>
+  </section>
+</div>
+</body>
+</html>
