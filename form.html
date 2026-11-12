@@ -263,6 +263,7 @@ body{
 .role__en{
   font-family:var(--font-led);font-size:7px;letter-spacing:.2em;
   color:rgba(242,236,230,.3);
+  white-space:nowrap;
   transition:color .24s;
 }
 .role__d{
@@ -418,6 +419,7 @@ body{
 .card__role span{
   font-family:var(--font-led);font-size:6.5px;letter-spacing:.22em;
   color:rgba(255,111,181,.55);
+  white-space:nowrap;
 }
 .card__line{
   height:1px;margin:20px 0 14px;
@@ -526,7 +528,7 @@ body{
   </div>
 
   <div class="roles">
-    <div class="roles__lb">你想以什么方式参与<span>可选</span></div>
+    <div class="roles__lb">你的学习者风格<span>KOLB · 可选</span></div>
     <div class="roles__grid" id="roles"></div>
   </div>
 
@@ -551,8 +553,8 @@ body{
     <h2 class="card__name" id="cName">—</h2>
     <div class="card__role">
       <svg id="cIcon" viewBox="0 0 24 24"></svg>
-      <b id="cRole">探索者</b>
-      <span id="cRoleEn">EXPLORER</span>
+      <b id="cRole">发散型</b>
+      <span id="cRoleEn">DIVERGER</span>
     </div>
     <div class="card__line"></div>
     <div class="card__foot">
@@ -569,16 +571,16 @@ body{
 (function(){
 'use strict';
 
-/* ============ 玩家原型 ============ */
+/* ============ 学习者风格（Kolb 体验式学习四型） ============ */
 const ROLES = [
-  { id:'explorer', cn:'探索者', en:'EXPLORER', d:'总要先把每个角落走一遍',
+  { id:'diverger', cn:'发散型', en:'DIVERGER', d:'先感受，再从很多个角度看它',
     p:'M12 3v18M3 12h18M12 6.2l1.9 3.9 3.9 1.9-3.9 1.9L12 17.8l-1.9-3.9L6.2 12l3.9-1.9z' },
-  { id:'builder', cn:'建造者', en:'BUILDER', d:'把想法做成别人能用的东西',
+  { id:'assimilator', cn:'逻辑型', en:'ASSIMILATOR', d:'先把道理想通，再动手',
     p:'M12 3.4L21 19H3zM12 9.6l4.2 7.4H7.8z' },
-  { id:'mender', cn:'修补者', en:'MENDER', d:'让快要坏掉的东西重新转起来',
+  { id:'converger', cn:'应用型', en:'CONVERGER', d:'想到办法就把它做出来',
     p:'M20 12a8 8 0 1 1-2.6-5.9M20 4.2V10h-5.8' },
-  { id:'teller', cn:'讲述者', en:'STORYTELLER', d:'让发生过的事被人记住',
-    p:'M4 6.5h11.5M4 11.5h16M4 16.5h9M18 15.2c1.6 0 2.9 1.2 2.9 2.7S19.6 20.6 18 20.6' }
+  { id:'accommodator', cn:'创新型', en:'ACCOMMODATOR', d:'先做起来，边做边改',
+    p:'M13 2.5L5.5 13.2h5l-1 8.3 7.9-11h-5.1z' }
 ];
 
 const $ = s => document.querySelector(s);

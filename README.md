@@ -8,9 +8,11 @@
 | `index-a.html` | A 版 · 电影感（居中巨型渐变字标 + PLAY） |
 | `index-b.html` | B 版 · HUD 加载页（进度条 + 关卡路线） |
 | `index-c.html` | C 版 · 科幻扫描界面（全息瞄准环 + 撕裂字标） |
-| `game.html` | 吃豆人式小游戏（集齐「无限游戏」四字通关） |
-| `form.html` | 创建玩家身份（不联网、不留存，仅本机） |
-| `story.html` | 项目背景与缘起 |
+| `game.html` | 马里奥顶砖（五个砖块，两块金砖各藏一枚 logo，顶出后合体） |
+| `form.html` | 创建玩家身份 · 科尔布学习风格四型（不联网、不留存，仅本机） |
+| `story.html` | 新手村介绍 · New Players Starter Guide |
 | `compare.html` | 三版首页并排对照 |
 
 三个首页顶部有 A / B / C 切换器，可直接互跳。
+
+> A/B/C 三版共用同一个游戏页 `game.html`（马里奥顶砖），通关后进入 `form.html`。

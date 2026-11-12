@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#04030A">
-<title>无限游戏 · THE INFINITE GAME — 2026.12.05</title>
-<meta name="description" content="第十三届中国教育创新年会（场外深研）暨清澜山学校第四届创新教育论坛，2026 年 12 月 5 日，东莞·清澜山学校。">
+<title>无限可能的学校 · THE INFINITE GAME — 2026.12.05</title>
+<meta name="description" content="第十三届中国教育创新年会（场外深研）暨清澜山学校第四届创新教育论坛——无限可能的学校。2026 年 12 月 5 日，东莞·清澜山学校。">
 <style>
 /* ==========================================================
    版本 C · SCANNER（赛博/科幻向）
@@ -29,6 +29,12 @@
   font-family:"Orbitron";
   src:url("assets/orbitron-900.woff2") format("woff2");
   font-weight:800 900;font-display:block;
+}
+/* Zpix 最像素 —— 只子集了「无限可能的学校」七个字，内嵌 1.2KB */
+@font-face{
+  font-family:"Zpix";
+  src:url("data:font/woff2;base64,d09GMgABAAAAAAOsAAsAAAAAB5gAAANfAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAZBEICohAhm8BNgIkAxQLEgAEIAWCCgcgG/IFUZTNRRfgywOewOYFdZiQSBkOrmzbIpOGJZivxyTaY4z91BJiLPZtv+snQdDv1/bJl3RiSaebE6lq6UQ8FSRrJERSJDGUdvZ0b86VpsdJx310lEaJnqX6TppQ9/84QrG6vgMcoG8pu8Fi8Xb+zEOwuAtUpi2sbyDCbgCYJ14gCV4g9CSxI8hu5/NBT3CgUMMw8djrLTRLao2sENHQ/2+/VRFr/AZ0bxxipaQ/6J3B7H3ENEQJkVZZ0ehtT9+UtsX1vdFbSe6cad+3Cu4daGPQqcigv9MF5D3b0Ih6Aptt/i8czeicn/2PVq/tBlD/BCAA5H1vBRAlAAkowEchAB/NOXBxUXD1OWv+urrO9W/jv96/edO3PKw/vbOvJpdP6EAQ2ONwTLXrR0sQHSCeAAA0AKAw0Tixea2oS0pFZ9xv9kG/3+knaqpGUklmzszNWw2FfLjKNqoYvfoTy3DwaHrTqXBYIOVFmhWHEDZwBCbjuxdFw8ED9MymUwJNNHtVrgTL2ZgRln2LVAprMekTJDYRx7ILOYrREKd6VcXiNPwGH8rFVeZOUiyL6pOuXO3U3ORbskWFv1jwGC3cI57P3UIuE7Bq+DuDicT5AVwANk6dQdid8EvIHTvpdsJ4wHtQ9yBRgkKCRg2C/9M/ZfBIw2pUJoEwj4zHT3/8xpBzsnXa/ayb6kktRzcHWSm9qhml0lhIqlS+54rH6nwLEk+YDrEvA8V8DIbTwK3SzZSop08YXc6FZAy9CqoZrixnM87ErCDGRDLkeK40dRm8SSMlD54EIbyUbjeBcpfhnsX9m8oFQUqmpOzNlMxcWIVKKAKNIJ2kMXIN94ZeFgtnQbMnr9RVJJVM1Y3ddPlMkxWp0NW5AXMbMBakDZdmHbvQdfLE5SZXfGt3VihL5U28UOKtNuUBQMg3BWf31rnzU8v+IwB/77f0Qe/zd8QnfsBGdhDw00gZvgwTcAEdFkUCnQEJUaf6hYV5nvaaxSOF0BPAPWyHwObeIXFQcShiRsc6z2EQ8CrMGHUsVs+JuQPJ32jrWuhYqkmoGxtKujI20NXw6MylM0k7E10bcZ2aBjZa2dORhccILie1LePjqpnDHTznTp3riureySiC2ZSRksOCW02Uek5joxilJWZWsfjbBwQAAA==") format("woff2");
+  font-weight:400;font-display:swap;
 }
 
 :root{
@@ -300,7 +306,7 @@ body{
 .core::before{
   content:"";
   position:absolute;
-  left:50%;top:47%;
+  left:50%;top:41%;
   width:calc(var(--tfs) * 5.6);
   height:calc(var(--tfs) * 2.6);
   transform:translate(-50%,-50%);
@@ -312,7 +318,7 @@ body{
 /* 全息瞄准环：直径跟字标字号绑定，任何尺寸下比例一致 */
 .ret{
   position:absolute;
-  left:50%;top:47%;
+  left:50%;top:41%;
   width:calc(var(--tfs) * 5.15);
   height:auto;
   transform:
@@ -350,20 +356,25 @@ body{
   text-shadow:0 0 18px rgba(159,211,236,.45);
 }
 
-/* 字标 */
+/* 字标：改用定稿立体字的透明图，不再用多层文字叠出来 */
 .title{
   position:relative;
-  display:inline-block;
-  margin:0;
-  font-family:var(--font-display);
-  font-weight:900;
-  font-size:var(--tfs);
-  line-height:.86;
-  letter-spacing:.02em;
+  display:block;
+  margin:clamp(10px,2.2vw,22px) 0 0;   /* 与上方眉标拉开，别贴着 */
+  line-height:0;              /* 去掉图片底部的基线空隙 */
   isolation:isolate;
-  /* 美式霓虹招牌：整体右倾 + 字身拉宽 */
-  transform:skewX(-7deg) scaleX(1.07);
-  transform-origin:50% 55%;
+}
+.title picture{display:block}
+.title__img{
+  display:block;
+  width:min(84vw,760px);
+  height:auto;
+  /* 紫青定稿字压在金粉霓虹底上，补一层暖紫光晕做过渡 */
+  filter:
+    drop-shadow(0 0 clamp(12px,3vw,30px) rgba(255,111,181,.20))
+    drop-shadow(0 0 clamp(30px,8vw,80px) rgba(150,60,220,.26));
+  user-select:none;
+  -webkit-user-drag:none;
 }
 .title__base{
   position:relative;
@@ -500,6 +511,17 @@ body{
   display:inline-block;
   margin:0 .5em;
   color:rgba(199,155,110,.7);
+}
+/* 「无限可能的学校」换像素字：Zpix 原生 12px 网格，非整数倍会发虚 */
+.sub .px{
+  font-family:"Zpix",var(--font-display);
+  font-size:12px;
+  letter-spacing:.04em;
+  color:rgba(250,244,236,.94);
+  /* 点阵字笔画细，用一层极淡的辉光把它"点亮"，与右侧 Orbitron 的视觉重量拉平 */
+  text-shadow:0 0 10px rgba(255,214,235,.3),0 0 22px rgba(150,60,220,.22);
+  -webkit-font-smoothing:none;
+  -moz-osx-font-smoothing:unset;
 }
 
 /* 切角街机键 */
@@ -847,21 +869,21 @@ body{
     </p>
 
     <h1 class="title in in3">
-      <span class="title__glow" aria-hidden="true">无限游戏</span>
-      <span class="title__base">无限游戏</span>
-      <span class="title__rim" aria-hidden="true">无限游戏</span>
-      <span class="title__g title__g--a" aria-hidden="true">无限游戏</span>
-      <span class="title__g title__g--b" aria-hidden="true">无限游戏</span>
+      <picture>
+        <source srcset="assets/logo-infinite-game.webp" type="image/webp">
+        <img class="title__img" src="assets/logo-infinite-game.png" width="1200" height="339"
+             alt="无限游戏 — 无限可能的学校" draggable="false">
+      </picture>
     </h1>
 
     <div class="spec in in4" aria-hidden="true">
-      <i></i>THE INFINITE GAME<i></i>
+      <i></i>INFINITE POSSIBILITIES<i></i>
     </div>
 
-    <p class="sub in in4">无限可能的学校<s>/</s>DESIGN WITH AI</p>
+    <p class="sub in in4"><span class="px">无限可能的学校</span><s>/</s>DESIGN WITH AI</p>
 
     <span class="play-wrap in in5">
-      <a class="play" href="game.html" aria-label="开始游戏，进入无限游戏">
+      <a class="play" href="game.html" aria-label="开始游戏，走进无限可能的学校">
         <b>PLAY</b>
         <i class="play__tri" aria-hidden="true"></i>
       </a>
