@@ -259,12 +259,12 @@ body{
   -webkit-user-drag:none;
 }
 /* 论坛主视觉在上，年会 lockup 在下，宽度收一档形成台阶，视觉重量才平衡 */
-.brands__logo--forum{width:clamp(130px,42vw,320px)}
-.brands__logo--pgy{width:clamp(106px,34vw,262px);opacity:.94}
+.brands__logo--forum{width:clamp(108px,42vw,320px)}
+.brands__logo--pgy{width:clamp(88px,34vw,262px);opacity:.94}
 /* 学校 lockup 顶到右上角，右边缘与取景框同一条线 */
 .brands__logo--ts{
   flex:none;
-  width:clamp(96px,30vw,252px);
+  width:clamp(78px,30vw,252px);
   opacity:.97;
 }
 
@@ -567,7 +567,7 @@ body{
 /* ---------- 底栏读数 ---------- */
 .hud--bottom{
   display:grid;
-  gap:10px;
+  gap:8px;
 }
 .data{
   display:grid;
@@ -611,8 +611,8 @@ body{
 .ticker{
   position:relative;
   overflow:hidden;
-  height:13px;
-  margin-top:2px;
+  height:18px;          /* 13px 会切掉 Orbitron 的字身，18px 才完整 */
+  margin-top:0;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
 }
@@ -680,15 +680,31 @@ body{
   .spec{letter-spacing:.14em}
 }
 @media (max-height:680px){
-  .kicker{margin-bottom:10px;line-height:1.62;font-size:clamp(11px,3vw,13.5px)}
-  .play-wrap{margin-top:20px}
-  .spec{margin-top:12px}
+  .kicker{margin-bottom:9px;line-height:1.55;font-size:clamp(11px,3vw,13px)}
+  .play-wrap{margin-top:16px}
+  .spec{margin-top:11px}
+  .title{margin-top:8px}
+  .tip{margin-top:11px}
   .core{--lw:min(80vw,860px)}
+  .data{padding-top:8px}
   /* 矮屏把合作方 lockup 整体收一档，别跟字标抢高度 */
   .brands{gap:6px}
   .brands__logo--forum{width:clamp(112px,34vw,250px)}
   .brands__logo--pgy{width:clamp(92px,27vw,204px)}
   .brands__logo--ts{width:clamp(84px,24vw,184px)}
+}
+/* 短屏（iPhone SE2/8 的 667、安卓 640 这一档）：跑马灯是纯装饰，
+   它的高度直接让给主内容，绝不让底部被切 */
+@media (max-height:760px){
+  .ticker{display:none}
+  .play{min-height:56px}
+  .play b{font-size:15px}
+  .kicker{margin-bottom:7px}
+}
+@media (max-height:640px){
+  .core{--lw:min(74vw,760px)}
+  .play-wrap{margin-top:13px}
+  .tip{margin-top:9px}
 }
 
 /* ---------- 降低动效 ---------- */
