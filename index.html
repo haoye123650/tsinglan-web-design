@@ -607,30 +607,6 @@ body{
   color:rgba(199,155,110,.8);
 }
 
-/* 滚动字幕 */
-.ticker{
-  position:relative;
-  overflow:hidden;
-  height:18px;          /* 13px 会切掉 Orbitron 的字身，18px 才完整 */
-  margin-top:0;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
-  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
-}
-.ticker__row{
-  display:flex;
-  width:max-content;
-  animation:tick 26s linear infinite;
-}
-.ticker__row span{
-  font-family:var(--font-mono);
-  font-size:8px;
-  letter-spacing:.18em;
-  white-space:nowrap;
-  color:rgba(199,155,110,.5);
-  padding-right:34px;
-}
-@keyframes tick{to{transform:translateX(-50%)}}
-
 /* ---------- 入场 ---------- */
 .in{opacity:0;transform:translateY(12px);animation:bootIn .9s cubic-bezier(.22,1,.36,1) forwards}
 .in1{animation-delay:.10s}
@@ -649,7 +625,6 @@ body{
   .data{max-width:760px}
   .hud--bottom{justify-items:center}
   .data{width:100%}
-  .ticker{width:100%;max-width:1100px;justify-self:center}
 }
 
 /* 两侧竖排信息：宽屏才出现，给画面一个“仪表”感 */
@@ -693,10 +668,8 @@ body{
   .brands__logo--pgy{width:clamp(92px,27vw,204px)}
   .brands__logo--ts{width:clamp(84px,24vw,184px)}
 }
-/* 短屏（iPhone SE2/8 的 667、安卓 640 这一档）：跑马灯是纯装饰，
-   它的高度直接让给主内容，绝不让底部被切 */
+/* 短屏（iPhone SE2/8 的 667、安卓 640 这一档）：再收一档，别让底部被切 */
 @media (max-height:760px){
-  .ticker{display:none}
   .play{min-height:56px}
   .play b{font-size:15px}
   .kicker{margin-bottom:7px}
@@ -825,7 +798,7 @@ body{
       </a>
     </span>
 
-    <p class="tip in in6">TAP TO START · 通关后创建玩家身份</p>
+    <p class="tip in in6">TAP TO START · 通关后进入会场</p>
   </section>
 
   <footer class="hud hud--bottom in in6">
@@ -839,16 +812,8 @@ body{
         <span class="data__v">水木剧场</span>
       </div>
       <div class="data__i">
-        <span class="data__k">坐标</span>
-        <span class="data__v">东莞<small>·</small>松山湖</span>
-      </div>
-    </div>
-    <div class="ticker" aria-hidden="true">
-      <div class="ticker__row">
-        <span>TRY AND ALL IS POSSIBLE</span><span>无限可能的学校</span><span>2026.12.05</span>
-        <span>SHUIMU THEATER</span><span>DONGGUAN</span><span>DESIGN WITH AI</span>
-        <span>TRY AND ALL IS POSSIBLE</span><span>无限可能的学校</span><span>2026.12.05</span>
-        <span>SHUIMU THEATER</span><span>DONGGUAN</span><span>DESIGN WITH AI</span>
+        <span class="data__k">日期</span>
+        <span class="data__v">12.05<small> SAT</small></span>
       </div>
     </div>
   </footer>

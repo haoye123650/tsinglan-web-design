@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<meta name="theme-color" content="#04030A">
+<meta name="robots" content="noindex">
+<title>十二场工作坊 · 无限可能的学校</title>
+<meta name="description" content="2026 年 12 月 5 日 11:35–12:35 的十二场平行工作坊。提前报名，报满即止。地点和名额之后补充。">
+<style>
+@font-face{
+  font-family:"Orbitron";
+  src:url("assets/orbitron-500.woff2") format("woff2");
+  font-weight:400 600;font-display:swap;
+}
+@font-face{
+  font-family:"Orbitron";
+  src:url("assets/orbitron-700.woff2") format("woff2");
+  font-weight:700;font-display:swap;
+}
+@font-face{
+  font-family:"Orbitron";
+  src:url("assets/orbitron-900.woff2") format("woff2");
+  font-weight:800 900;font-display:swap;
+}
+
+:root{
+  --ink:#04030A;
+  --violet:#3B227B;
+  --gold:#C79B6E;
+  --gold-l:#F0D6B6;
+  --gold-hi:#FFD9A8;
+  --ice:#9FD3EC;
+  --paper:#F2ECE6;
+  --font-cn:"PingFang SC","Hiragino Sans GB","Heiti SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  --font-led:"Orbitron","SF Mono",Menlo,ui-monospace,monospace;
+  --pad:clamp(20px,6vw,34px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--ink);-webkit-text-size-adjust:100%}
+html,body{margin:0;padding:0}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--font-cn);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg__grad{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(70% 34% at 50% 0%, rgba(59,34,123,.4) 0%, rgba(59,34,123,0) 66%),
+    radial-gradient(50% 26% at 82% 88%, rgba(255,46,154,.07) 0%, rgba(255,46,154,0) 70%),
+    linear-gradient(180deg,#06040D 0%,#04030A 42%,#07050F 100%);
+}
+.floor{
+  position:fixed;left:0;right:0;bottom:0;height:30vh;z-index:0;
+  pointer-events:none;perspective:760px;perspective-origin:50% 0%;
+  -webkit-mask-image:linear-gradient(to top,#000 0%,#000 12%,rgba(0,0,0,.44) 42%,transparent 72%);
+  mask-image:linear-gradient(to top,#000 0%,#000 12%,rgba(0,0,0,.44) 42%,transparent 72%);
+}
+.floor__grid{
+  position:absolute;left:-70%;right:-70%;top:0;bottom:0;
+  transform-origin:50% 100%;transform:rotateX(68deg);opacity:.34;
+  background-image:
+    linear-gradient(rgba(159,211,236,.42) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(159,211,236,.28) 1px, transparent 1px);
+  background-size:96px 96px;
+}
+.scan{
+  position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.42;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.026) 0px,rgba(255,255,255,.026) 1px,transparent 1px,transparent 3px);
+  mix-blend-mode:overlay;
+}
+.vig{
+  position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(130% 90% at 50% 30%,transparent 52%,rgba(4,3,10,.7) 100%);
+}
+.wrap{
+  position:relative;z-index:5;
+  max-width:560px;margin:0 auto;
+  padding:calc(env(safe-area-inset-top,0px) + 20px) var(--pad) calc(env(safe-area-inset-bottom,0px) + 36px);
+}
+.brand{
+  position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;gap:9px;
+  padding:10px 0 12px;
+  font-family:var(--font-led);font-weight:700;
+  font-size:9px;letter-spacing:.12em;white-space:nowrap;
+  color:rgba(240,214,182,.6);
+  background:linear-gradient(180deg,rgba(4,3,10,.92) 60%,rgba(4,3,10,0));
+}
+.brand i{font-style:normal;font-size:15px;line-height:1;color:var(--gold-hi)}
+.brand em{margin-left:auto;font-style:normal;font-size:7px;letter-spacing:.12em;color:rgba(242,236,230,.26)}
+@media (max-width:300px){.brand em{display:none}}
+.brand a{
+  color:rgba(240,214,182,.6);text-decoration:none;
+  display:flex;align-items:center;
+  -webkit-tap-highlight-color:transparent;
+}
+.brand a svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.brand a:active{color:var(--gold-hi)}
+.head{padding:clamp(22px,6vh,48px) 0 8px}
+.head__k{
+  display:flex;align-items:center;gap:10px;
+  margin:0 0 14px;
+  font-family:var(--font-led);font-size:8.5px;letter-spacing:.4em;
+  color:rgba(159,211,236,.68);
+}
+.head__k::before{
+  content:"";width:26px;height:1px;flex:none;
+  background:linear-gradient(90deg,var(--ice),transparent);
+}
+.head__t{
+  margin:0;
+  font-size:clamp(27px,8vw,36px);
+  font-weight:700;line-height:1.32;letter-spacing:.02em;
+  background:linear-gradient(178deg,#FFF5E6 6%,var(--gold-l) 36%,var(--gold) 66%,#8C6742 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+.head__d{
+  margin:14px 0 0;
+  font-family:var(--font-led);font-size:9px;letter-spacing:.18em;
+  color:rgba(242,236,230,.3);
+}
+.flow{position:relative;margin-top:clamp(26px,6vh,44px)}
+.flow::before{
+  content:"";position:absolute;left:7px;top:6px;bottom:6px;width:1px;
+  background:linear-gradient(180deg,rgba(159,211,236,.5),rgba(199,155,110,.16));
+}
+.sec{position:relative;padding:0 0 8px 34px}
+.sec__dot{
+  position:absolute;left:0;top:5px;
+  width:15px;height:15px;border-radius:50%;
+  background:var(--ink);
+  border:1px solid rgba(159,211,236,.55);
+}
+.sec__dot::after{
+  content:"";position:absolute;left:50%;top:50%;
+  width:3px;height:3px;border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:var(--ice);
+}
+.sec__k{
+  margin:0 0 10px;
+  font-family:var(--font-led);font-size:8px;letter-spacing:.32em;
+  color:rgba(199,155,110,.72);
+}
+.sec__t{
+  margin:0 0 14px;
+  font-size:19px;font-weight:700;letter-spacing:.03em;
+  color:#FFF3E2;
+}
+.sec p{
+  margin:0 0 12px;
+  font-size:14.5px;line-height:1.85;
+  color:rgba(242,236,230,.62);
+}
+.steps{margin-top:6px;display:flex;flex-direction:column;gap:8px}
+.step{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:11px 13px;
+  border:1px solid rgba(199,155,110,.18);
+  background:linear-gradient(168deg,rgba(255,255,255,.03),rgba(255,255,255,.006));
+}
+.step b{
+  flex:none;padding-top:2px;
+  font-family:var(--font-led);font-size:12px;font-weight:700;
+  letter-spacing:.06em;color:var(--gold-hi);white-space:nowrap;
+}
+.step span{
+  flex:1;min-width:0;
+  font-size:13px;line-height:1.5;letter-spacing:.02em;
+  color:rgba(242,236,230,.78);
+}
+.step span i{
+  display:block;margin-top:3px;
+  font-style:normal;color:rgba(242,236,230,.4);font-size:11.5px;
+}
+</style>
+</head>
+<body>
+
+<div class="bg"><div class="bg__grad"></div></div>
+<div class="floor"><div class="floor__grid"></div></div>
+<div class="scan"></div>
+<div class="vig"></div>
+
+<main class="wrap">
+
+  <div class="brand">
+    <i>∞</i>TRY AND ALL IS POSSIBLE<em>ROOMS</em>
+    <a href="schedule.html" aria-label="返回主线任务">
+      <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+    </a>
+  </div>
+
+  <div class="head">
+    <p class="head__k">SIDE QUESTS</p>
+    <h1 class="head__t">十二场工作坊</h1>
+    <p class="head__d">11:35–12:35</p>
+  </div>
+
+  <div class="flow">
+
+    <section class="sec">
+      <span class="sec__dot"></span>
+      <p class="sec__k">01 · 提前报名</p>
+      <h2 class="sec__t">同一时间，十二场</h2>
+      <p>同一时间只能去一场。嘉宾提前报名，报满即止。地点和名额之后补充。</p>
+      <div class="steps">
+        <div class="step"><b>01</b><span>拒绝「伪装变革」：AI 时代重构真实学习设计的实操路径<i>黎蒙</i></span></div>
+        <div class="step"><b>02</b><span>当 AI 比我们会讲道理：国际化学校的德育，如何从「管住人」走向「长出判断」<i>林静姿</i></span></div>
+        <div class="step"><b>03</b><span>破解学习迷宫：AI 驱动下的个性化学习空间与路线设计<i>孙成伟</i></span></div>
+        <div class="step"><b>04</b><span>让数据「开口说话」：AI 驱动下的教务管理转型<i>祁镇华 · 向晶</i></span></div>
+        <div class="step"><b>05</b><span>当作业可以一键生成：我们如何重塑「真学习」评估<i>Roselyn · 郭嘉</i></span></div>
+        <div class="step"><b>06</b><span>破局「课表难题」：如何系统化打造「每天一节」的硬核体育课程<i>莫启源 · 阎泽雄</i></span></div>
+        <div class="step"><b>07</b><span>当画笔遇上代码：CG Lab 如何把艺术、工程与设计锻造成跨学科课程<i>张赞</i></span></div>
+        <div class="step"><b>08</b><span>学生的主体性与能动性，如何从「发现问题」走向「回应真实世界」<i>谈昕然 · Ryan Wong</i></span></div>
+        <div class="step"><b>09</b><span>先照顾好人，再谈成绩：一套 SEL 教材与课程<i>王珊 · 王艺桐 · 魏荣</i></span></div>
+        <div class="step"><b>10</b><span>最后一年，交出你自己的作品：小学、初中的毕业项目<i>魏方 · 郭航</i></span></div>
+        <div class="step"><b>11</b><span>从读到写，从课本到舞台：语文组的十二年<i>白文婷</i></span></div>
+        <div class="step"><b>12</b><span>把「创新基因」做成可复制的模板：初中科学差异化跨学科 PBL<i>柏苇</i></span></div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+</body>
+</html>

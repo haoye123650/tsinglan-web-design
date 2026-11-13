@@ -310,7 +310,7 @@ canvas{
       <svg viewBox="0 0 24 24"><path d="M8 4l10 8-10 8z"/></svg>
     </button>
   </div>
-  <a class="skip" href="form.html" aria-label="跳过小游戏，直接创建玩家身份"><b>SKIP</b><i>跳过</i></a>
+  <a class="skip" href="story.html" aria-label="跳过小游戏，进入会场"><b>SKIP</b><i>跳过</i></a>
   <button class="pad__btn jump" id="bA" aria-label="跳"><b>JUMP</b></button>
   <p class="pad__hint">顶开两块金色问号砖 · 集齐两枚印记</p>
 </footer>
@@ -451,7 +451,7 @@ function update(){
   }
   if (phase === 'flash'){
     pt++;
-    if (pt === 92){ location.href = 'form.html'; }
+    if (pt === 92){ location.href = 'story.html'; }
     return;
   }
 

@@ -233,21 +233,28 @@ body{
 /* 三个环节 */
 .steps{margin-top:6px;display:flex;flex-direction:column;gap:8px}
 .step{
-  display:flex;align-items:baseline;gap:12px;
+  display:flex;align-items:flex-start;gap:12px;
   padding:11px 13px;
   border:1px solid rgba(199,155,110,.18);
   background:linear-gradient(168deg,rgba(255,255,255,.03),rgba(255,255,255,.006));
 }
 .step b{
+  flex:none;
+  padding-top:2px;
   font-family:var(--font-led);font-size:12px;font-weight:700;
-  letter-spacing:.08em;color:var(--gold-hi);
+  letter-spacing:.06em;color:var(--gold-hi);
+  white-space:nowrap;
   text-shadow:0 0 12px rgba(255,217,168,.4);
 }
 .step span{
-  font-size:12.5px;letter-spacing:.04em;
+  flex:1;min-width:0;
+  font-size:12.5px;line-height:1.5;letter-spacing:.03em;
   color:rgba(242,236,230,.7);
 }
-.step span i{font-style:normal;color:rgba(242,236,230,.3);margin-left:8px;font-size:11px}
+.step span i{
+  display:block;margin-top:3px;
+  font-style:normal;color:rgba(242,236,230,.38);font-size:11px;
+}
 
 /* ---------- 底部 CTA ---------- */
 .cta-zone{
@@ -257,25 +264,26 @@ body{
 }
 .cta{
   position:relative;
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  width:100%;height:56px;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  width:100%;min-height:64px;
+  padding:16px 20px;
   border:0;
-  clip-path:polygon(13px 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%,0 13px);
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
   background:linear-gradient(96deg,var(--gold-l) 0%,var(--gold) 44%,#9C7347 100%);
   color:#1A1024;
   font-family:var(--font-cn);
-  font-size:14.5px;font-weight:700;letter-spacing:.16em;
+  font-size:18px;font-weight:700;letter-spacing:.12em;
   text-decoration:none;
   -webkit-tap-highlight-color:transparent;
-  box-shadow:0 0 32px -8px rgba(199,155,110,.5);
+  box-shadow:0 0 36px -6px rgba(199,155,110,.65);
   transition:transform .16s;
 }
 .cta:active{transform:scale(.978)}
-.cta b{font-family:var(--font-led);font-size:8px;font-weight:700;letter-spacing:.2em;opacity:.66}
+.cta b{font-family:var(--font-led);font-size:10px;font-weight:700;letter-spacing:.18em;opacity:.7}
 .cta-zone p{
-  margin:12px 0 0;text-align:center;
-  font-family:var(--font-led);font-size:7px;letter-spacing:.26em;
-  color:rgba(242,236,230,.22);
+  margin:14px 0 0;text-align:center;
+  font-family:var(--font-cn);font-size:13px;letter-spacing:.06em;
+  color:rgba(242,236,230,.55);
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -295,7 +303,7 @@ body{
 
   <div class="brand">
     <i>∞</i>TRY AND ALL IS POSSIBLE<em>ORIGIN</em>
-    <a href="form.html" aria-label="返回">
+    <a href="game.html" aria-label="返回游戏">
       <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
     </a>
   </div>
@@ -312,33 +320,34 @@ body{
       <span class="sec__dot"></span>
       <p class="sec__k">01 · 新手村</p>
       <h2 class="sec__t">先认识脚下这块地图</h2>
-      <p>清澜山学校 2017 年建校，初期由清华大学附属中学负责教育教学管理运营，从幼儿园到高中全学段，现在是 <b>92 个班、2000 余名学生、400 余名教职员工</b>。</p>
-      <p>校训只有五个字：<em>尝试，一切可能</em>。中国根基、中西合璧、国际品质、清华特色——它给自己划了这四条边，然后在边里不停试探。</p>
-      <p>这不是它第一次开门。前三届创新教育论坛，先后迎来纽约科学院院长杜宁凯、清华大学的饶培伦、香港科技大学（广州）的熊辉、常驻联合国教科文组织的杨进、HTH 深度学习中心的 Mary Jones。今年是第四届。</p>
+      <p>清澜山学校成立于 2017 年，初期由清华大学附属中学负责教育教学管理运营，从幼儿园到高中全学段。现在有 <b>92 个班，在校生 2000 余人，教职员工 400 余人</b>。</p>
+      <p>办学使命是「培养根植于中国文化，学术积淀深厚，具有创新精神和突出特长的国际化杰出人才」。校训是 <em>尝试，一切可能</em>。沿着这句校训，学校培养学生的核心素养：身心健康、正直担当、追求卓越、探索创新、坚韧不拔、兼容并包。</p>
+      <p>办学特色是中国根基、中西合璧、国际品质、清华特色。在中英双语言、双文化的浸润和熏陶下，既夯实中文，又确保英文浸润习得；同时高度重视科技教育，培养学生的科技素养与创造力。</p>
+      <p>清澜山至今举办过三届创新教育论坛，先后邀请纽约科学院院长杜宁凯教授、清华大学饶培伦教授、香港科技大学（广州）协理副校长熊辉教授、中国常驻联合国教科文组织原大使衔代表杨进、美高科高深度学习中心主任 Mary Jones。今年是第四届。</p>
     </section>
 
     <section class="sec">
       <span class="sec__dot"></span>
       <p class="sec__k">02 · 世界设定</p>
       <h2 class="sec__t">为什么叫「无限游戏」</h2>
-      <p>AI 来了，每所学校都在重新回答「教育还能是什么样」。今年清澜山与蒲公英教育智库合作，成为第十三届中国教育创新年会「<b>场外深研</b>」的平行专场——年会的主题是「无限游戏」，副题「下一代学校」。</p>
+      <p>面对 AI 时代，每所学校都在重新思考教育的可能性。今年，清澜山与蒲公英教育智库合作，作为第十三届中国教育创新年会「<b>场外深研</b>」的平行专场，共同探索教育的无限可能。年会主题是「无限游戏」，副题是「下一代学校」。</p>
       <div class="quote">
         <p>有限的游戏以取胜为目的，无限的游戏以延续为目的；有限的玩家在边界之内游戏，无限的玩家不断与边界本身游戏。</p>
         <i>蒲公英教育智库 · 第十三届中国教育创新年会</i>
       </div>
-      <p>所以下一代学校，是「教会孩子用有限生命玩无限游戏的地方」——不拿一次分数定胜负，只看每个生命还能不能继续长。</p>
+      <p>在他们看来，下一代学校是「教会孩子用有限生命玩无限游戏的地方」，不以单一分数决定胜负，而以每一个生命的持续生长定义价值。</p>
       <p><b>清澜山愿意做这场无限游戏里的一处现场。</b></p>
     </section>
 
     <section class="sec">
       <span class="sec__dot"></span>
-      <p class="sec__k">03 · 今日任务</p>
-      <h2 class="sec__t">这一天的游戏进程</h2>
+      <p class="sec__k">03 · 研讨命题</p>
+      <h2 class="sec__t">今天要一起问的四件事</h2>
       <div class="steps">
-        <div class="step"><b>09:00</b><span>主旨分享<i>王殿军 · 熊璋 · 李文平</i></span></div>
-        <div class="step"><b>10:45</b><span>学生快闪<i>六人，每人三分钟</i></span></div>
-        <div class="step"><b>11:35</b><span>平行工作坊<i>两大场 + 九小场</i></span></div>
-        <div class="step"><b>12:35</b><span>校园参访<i>学生导览员带队</i></span></div>
+        <div class="step"><b>01</b><span>临界点之问<i>AI 时代学校转型的契机、卡点与系统准备</i></span></div>
+        <div class="step"><b>02</b><span>人的无限可能<i>「尝试，一切可能」校训之下，师生的可能性，以及制度、课程、空间如何支撑这种可能性</i></span></div>
+        <div class="step"><b>03</b><span>实践的力量<i>清华学术内涵与华为产业能力融合的优势、张力与冲突</i></span></div>
+        <div class="step"><b>04</b><span>文化与机制的力量<i>新学校文化与运行机制构建，正视试错与未竟之事</i></span></div>
       </div>
     </section>
 
@@ -347,7 +356,11 @@ body{
 </main>
 
 <div class="cta-zone">
-  <p>TSINGLAN × PGY · DONGGUAN</p>
+  <a class="cta" href="schedule.html">
+    <span>查看今日任务</span>
+    <b>SCHEDULE</b>
+  </a>
+  <p>时间、主旨在下一页</p>
 </div>
 
 <script>

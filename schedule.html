@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<meta name="theme-color" content="#04030A">
+<meta name="robots" content="noindex">
+<title>今日任务 · 无限可能的学校</title>
+<meta name="description" content="2026 年 12 月 5 日清澜山学校第四届创新教育论坛日程：主旨、学生快闪、工作坊与校园参访。">
+<style>
+@font-face{
+  font-family:"Orbitron";
+  src:url("assets/orbitron-500.woff2") format("woff2");
+  font-weight:400 600;font-display:swap;
+}
+@font-face{
+  font-family:"Orbitron";
+  src:url("assets/orbitron-700.woff2") format("woff2");
+  font-weight:700;font-display:swap;
+}
+@font-face{
+  font-family:"Orbitron";
+  src:url("assets/orbitron-900.woff2") format("woff2");
+  font-weight:800 900;font-display:swap;
+}
+
+:root{
+  --ink:#04030A;
+  --violet:#3B227B;
+  --gold:#C79B6E;
+  --gold-l:#F0D6B6;
+  --gold-hi:#FFD9A8;
+  --ice:#9FD3EC;
+  --paper:#F2ECE6;
+  --font-cn:"PingFang SC","Hiragino Sans GB","Heiti SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  --font-led:"Orbitron","SF Mono",Menlo,ui-monospace,monospace;
+  --pad:clamp(20px,6vw,34px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--ink);-webkit-text-size-adjust:100%}
+html,body{margin:0;padding:0}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--font-cn);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg__grad{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(70% 34% at 50% 0%, rgba(59,34,123,.4) 0%, rgba(59,34,123,0) 66%),
+    radial-gradient(50% 26% at 82% 88%, rgba(255,46,154,.07) 0%, rgba(255,46,154,0) 70%),
+    linear-gradient(180deg,#06040D 0%,#04030A 42%,#07050F 100%);
+}
+.floor{
+  position:fixed;left:0;right:0;bottom:0;height:30vh;z-index:0;
+  pointer-events:none;perspective:760px;perspective-origin:50% 0%;
+  -webkit-mask-image:linear-gradient(to top,#000 0%,#000 12%,rgba(0,0,0,.44) 42%,transparent 72%);
+  mask-image:linear-gradient(to top,#000 0%,#000 12%,rgba(0,0,0,.44) 42%,transparent 72%);
+}
+.floor__grid{
+  position:absolute;left:-70%;right:-70%;top:0;bottom:0;
+  transform-origin:50% 100%;transform:rotateX(68deg);opacity:.34;
+  background-image:
+    linear-gradient(rgba(159,211,236,.42) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(159,211,236,.28) 1px, transparent 1px);
+  background-size:96px 96px;
+}
+.scan{
+  position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.42;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.026) 0px,rgba(255,255,255,.026) 1px,transparent 1px,transparent 3px);
+  mix-blend-mode:overlay;
+}
+.vig{
+  position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(130% 90% at 50% 30%,transparent 52%,rgba(4,3,10,.7) 100%);
+}
+.wrap{
+  position:relative;z-index:5;
+  max-width:560px;margin:0 auto;
+  padding:calc(env(safe-area-inset-top,0px) + 20px) var(--pad) calc(env(safe-area-inset-bottom,0px) + 36px);
+}
+.brand{
+  position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;gap:9px;
+  padding:10px 0 12px;
+  font-family:var(--font-led);font-weight:700;
+  font-size:9px;letter-spacing:.12em;white-space:nowrap;
+  color:rgba(240,214,182,.6);
+  background:linear-gradient(180deg,rgba(4,3,10,.92) 60%,rgba(4,3,10,0));
+}
+.brand i{font-style:normal;font-size:15px;line-height:1;color:var(--gold-hi)}
+.brand em{margin-left:auto;font-style:normal;font-size:7px;letter-spacing:.12em;color:rgba(242,236,230,.26)}
+@media (max-width:300px){.brand em{display:none}}
+.brand a{
+  color:rgba(240,214,182,.6);text-decoration:none;
+  display:flex;align-items:center;
+  -webkit-tap-highlight-color:transparent;
+}
+.brand a svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.brand a:active{color:var(--gold-hi)}
+.head{padding:clamp(22px,6vh,48px) 0 8px}
+.head__k{
+  display:flex;align-items:center;gap:10px;
+  margin:0 0 14px;
+  font-family:var(--font-led);font-size:8.5px;letter-spacing:.4em;
+  color:rgba(159,211,236,.68);
+}
+.head__k::before{
+  content:"";width:26px;height:1px;flex:none;
+  background:linear-gradient(90deg,var(--ice),transparent);
+}
+.head__t{
+  margin:0;
+  font-size:clamp(27px,8vw,36px);
+  font-weight:700;line-height:1.32;letter-spacing:.02em;
+  background:linear-gradient(178deg,#FFF5E6 6%,var(--gold-l) 36%,var(--gold) 66%,#8C6742 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+.head__d{
+  margin:14px 0 0;
+  font-family:var(--font-led);font-size:9px;letter-spacing:.18em;
+  color:rgba(242,236,230,.3);
+}
+.flow{position:relative;margin-top:clamp(26px,6vh,44px)}
+.flow::before{
+  content:"";position:absolute;left:7px;top:6px;bottom:6px;width:1px;
+  background:linear-gradient(180deg,rgba(159,211,236,.5),rgba(199,155,110,.16));
+}
+.sec{position:relative;padding:0 0 clamp(34px,7vh,54px) 34px}
+.sec:last-child{padding-bottom:8px}
+.sec__dot{
+  position:absolute;left:0;top:5px;
+  width:15px;height:15px;border-radius:50%;
+  background:var(--ink);
+  border:1px solid rgba(159,211,236,.55);
+}
+.sec__dot::after{
+  content:"";position:absolute;left:50%;top:50%;
+  width:3px;height:3px;border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:var(--ice);
+}
+.sec__k{
+  margin:0 0 10px;
+  font-family:var(--font-led);font-size:8px;letter-spacing:.32em;
+  color:rgba(199,155,110,.72);
+}
+.sec__t{
+  margin:0 0 14px;
+  font-size:19px;font-weight:700;letter-spacing:.03em;
+  color:#FFF3E2;
+}
+.sec p{
+  margin:0 0 12px;
+  font-size:14.5px;line-height:1.85;
+  color:rgba(242,236,230,.62);
+}
+.steps{margin-top:6px;display:flex;flex-direction:column;gap:8px}
+.step{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:11px 13px;
+  border:1px solid rgba(199,155,110,.18);
+  background:linear-gradient(168deg,rgba(255,255,255,.03),rgba(255,255,255,.006));
+}
+.step b{
+  flex:none;padding-top:2px;
+  font-family:var(--font-led);font-size:12px;font-weight:700;
+  letter-spacing:.06em;color:var(--gold-hi);white-space:nowrap;
+}
+.step span{
+  flex:1;min-width:0;
+  font-size:13px;line-height:1.5;letter-spacing:.02em;
+  color:rgba(242,236,230,.78);
+}
+.step span i{
+  display:block;margin-top:3px;
+  font-style:normal;color:rgba(242,236,230,.4);font-size:11.5px;
+}
+/* ---------- 主旨可展开 ---------- */
+.step--talk{display:block;padding:0}
+.step--talk summary{
+  display:list-item;list-style:none;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.step--talk summary::-webkit-details-marker{display:none}
+.step--talk summary::marker{content:"";font-size:0}
+.step--talk:not([open]) > .bio{display:none}
+.talk{
+  display:flex;align-items:flex-start;gap:12px;
+  position:relative;
+  padding:11px 52px 11px 13px;
+}
+.talk::after{
+  content:"介绍";
+  position:absolute;right:12px;top:13px;
+  font-size:11px;letter-spacing:.12em;font-weight:600;
+  color:var(--gold-hi);
+}
+.step--talk[open]{border-color:rgba(199,155,110,.42)}
+.step--talk[open] .talk::after{content:"收起"}
+.step--talk summary:focus{outline:none}
+.step--talk summary:focus-visible .talk{outline:1px solid rgba(199,155,110,.55);outline-offset:-3px}
+.step--talk .bio{
+  margin:0 13px 12px;
+  padding-top:10px;
+  border-top:1px solid rgba(199,155,110,.16);
+  font-size:13px;line-height:1.75;
+  color:rgba(242,236,230,.62);
+}
+/* ---------- 底部去工作坊 ---------- */
+.cta-zone{
+  position:relative;z-index:5;
+  max-width:560px;margin:0 auto;
+  padding:4px var(--pad) calc(env(safe-area-inset-bottom,0px) + 30px);
+}
+.cta{
+  position:relative;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  width:100%;min-height:64px;
+  padding:16px 20px;
+  border:0;
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+  background:linear-gradient(96deg,var(--gold-l) 0%,var(--gold) 44%,#9C7347 100%);
+  color:#1A1024;
+  font-family:var(--font-cn);
+  font-size:18px;font-weight:700;letter-spacing:.12em;
+  text-decoration:none;
+  -webkit-tap-highlight-color:transparent;
+  box-shadow:0 0 36px -6px rgba(199,155,110,.65);
+  transition:transform .16s;
+}
+.cta:active{transform:scale(.978)}
+.cta b{font-family:var(--font-led);font-size:10px;font-weight:700;letter-spacing:.18em;opacity:.7}
+.cta-zone p{
+  margin:14px 0 0;text-align:center;
+  font-family:var(--font-cn);font-size:13px;letter-spacing:.06em;
+  color:rgba(242,236,230,.55);
+}
+</style>
+</head>
+<body>
+
+<div class="bg"><div class="bg__grad"></div></div>
+<div class="floor"><div class="floor__grid"></div></div>
+<div class="scan"></div>
+<div class="vig"></div>
+
+<main class="wrap">
+
+  <div class="brand">
+    <i>∞</i>TRY AND ALL IS POSSIBLE<em>TODAY</em>
+    <a href="story.html" aria-label="返回新手村">
+      <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+    </a>
+  </div>
+
+  <div class="head">
+    <p class="head__k">TODAY'S QUEST</p>
+    <h1 class="head__t">主线任务</h1>
+    <p class="head__d">2026.12.05 · 水木剧场 · 东莞</p>
+  </div>
+
+  <div class="flow">
+
+    <section class="sec">
+      <span class="sec__dot"></span>
+      <p class="sec__k">01 · 时间</p>
+      <h2 class="sec__t">从签到到午餐</h2>
+      <p>议程 09:00 开始。08:30–09:00 是签到、入场和自由交流。</p>
+      <div class="steps">
+        <div class="step"><b>08:30</b><span>签到入场<i>自由交流 · 至 09:00</i></span></div>
+        <details class="step step--talk" name="talk">
+          <summary><span class="talk"><b>09:00</b><span>主旨一 · 王殿军<i>学校变革的临界点</i></span></span></summary>
+          <p class="bio">原清华大学附属中学校长。从北大数学博士、清华教授转身执掌清华附中，以「当代教育名家」之姿推动综合素质评价与大学先修课程改革，成为中国基础教育变革的标志性人物。</p>
+        </details>
+        <details class="step step--talk" name="talk">
+          <summary><span class="talk"><b>09:35</b><span>主旨二 · 熊璋<i>技术浪潮下，学习的重构与边界再思考</i></span></span></summary>
+          <p class="bio">北京航空航天大学计算机学院教授。以国家科技进步一等奖的硬核科研底蕴，领衔研制中小学信息科技课程标准，成为中国人工智能教育顶层设计的掌舵者。</p>
+        </details>
+        <details class="step step--talk" name="talk">
+          <summary><span class="talk"><b>10:10</b><span>主旨三 · 李文平<i>清澜山模式：基因传承、规模化与破局</i></span></span></summary>
+          <p class="bio">清澜山学校校长。主导学校高速发展期，在办学推进、规模化发展与国际融合教育方面具有众多实践经验，以「中西合璧」的定力构筑中国根基，让国际教育真正扎根于本土文化土壤。</p>
+        </details>
+        <div class="step"><b>10:45</b><span>学生快闪<i>6 人，每人 3 分钟 · 我在无限可能的学校创造了哪些可能</i></span></div>
+        <div class="step"><b>11:05</b><span>全体合影<i>水木剧场</i></span></div>
+        <div class="step"><b>11:15</b><span>茶歇<i>11:35 前到达各自工作坊</i></span></div>
+        <div class="step"><b>11:35</b><span>平行工作坊<i>12 场 · 至 12:35</i></span></div>
+        <div class="step"><b>12:35</b><span>校园参访<i>水木剧场集合，学生导览员带队</i></span></div>
+        <div class="step"><b>13:05</b><span>午餐<i>可选</i></span></div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div class="cta-zone">
+  <a class="cta" href="workshops.html">
+    <span>查看十二场工作坊</span>
+    <b>WORKSHOPS</b>
+  </a>
+  <p>提前报名，报满即止</p>
+</div>
+
+<script>
+(function(){
+'use strict';
+/* 同时只展开一场。点下去的瞬间其他场先合上，这一场再由浏览器打开或收起 */
+var talks = document.querySelectorAll('.step--talk');
+talks.forEach(function(d){
+  d.querySelector('summary').addEventListener('click', function(){
+    if (d.open) return;
+    talks.forEach(function(o){ if (o !== d) o.open = false; });
+  });
+});
+})();
+</script>
+</body>
+</html>
