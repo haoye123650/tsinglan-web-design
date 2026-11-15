@@ -172,6 +172,12 @@ body{
   font-family:var(--font-led);font-size:12px;font-weight:700;
   letter-spacing:.06em;color:var(--gold-hi);white-space:nowrap;
 }
+.step b em{
+  display:block;margin-top:4px;
+  font-family:var(--font-cn);font-style:normal;font-weight:700;
+  font-size:11px;letter-spacing:.04em;line-height:1.35;
+  color:var(--gold-hi);white-space:normal;
+}
 .step span{
   flex:1;min-width:0;
   font-size:13px;line-height:1.5;letter-spacing:.02em;
@@ -209,8 +215,17 @@ body{
   margin:0 13px 12px;
   padding-top:10px;
   border-top:1px solid rgba(199,155,110,.16);
+}
+.step--talk .bio p{
+  margin:0;
   font-size:13px;line-height:1.75;
   color:rgba(242,236,230,.62);
+}
+.portrait{
+  width:50vw;max-width:100%;aspect-ratio:3/4;height:auto;
+  margin:0 auto 10px;
+  border:1px solid var(--gold-hi);
+  background:rgba(255,217,168,.05);
 }
 /* ---------- 底部去工作坊 ---------- */
 .cta-zone{
@@ -273,24 +288,24 @@ body{
       <h2 class="sec__t">从签到到午餐</h2>
       <p>议程 09:00 开始。08:30–09:00 是签到、入场和自由交流。</p>
       <div class="steps">
-        <div class="step"><b>08:30</b><span>签到入场<i>自由交流 · 至 09:00</i></span></div>
+        <div class="step"><b>08:30<em>入校签到</em></b><span>签到入场<i>自由交流 · 至 09:00</i></span></div>
         <details class="step step--talk" name="talk">
-          <summary><span class="talk"><b>09:00</b><span>主旨一 · 王殿军<i>学校变革的临界点</i></span></span></summary>
-          <p class="bio">原清华大学附属中学校长。从北大数学博士、清华教授转身执掌清华附中，以「当代教育名家」之姿推动综合素质评价与大学先修课程改革，成为中国基础教育变革的标志性人物。</p>
+          <summary><span class="talk"><b>09:00<em>水木剧场</em></b><span>主旨一 · 王殿军<i>学校变革的临界点</i></span></span></summary>
+          <div class="bio"><div class="portrait" role="img" aria-label="人物照留白"></div><p>原清华大学附属中学校长。从北大数学博士、清华教授转身执掌清华附中，以「当代教育名家」之姿推动综合素质评价与大学先修课程改革，成为中国基础教育变革的标志性人物。</p></div>
         </details>
         <details class="step step--talk" name="talk">
-          <summary><span class="talk"><b>09:35</b><span>主旨二 · 熊璋<i>技术浪潮下，学习的重构与边界再思考</i></span></span></summary>
-          <p class="bio">北京航空航天大学计算机学院教授。以国家科技进步一等奖的硬核科研底蕴，领衔研制中小学信息科技课程标准，成为中国人工智能教育顶层设计的掌舵者。</p>
+          <summary><span class="talk"><b>09:35<em>水木剧场</em></b><span>主旨二 · 熊璋<i>技术浪潮下，学习的重构与边界再思考</i></span></span></summary>
+          <div class="bio"><div class="portrait" role="img" aria-label="人物照留白"></div><p>北京航空航天大学计算机学院教授。以国家科技进步一等奖的硬核科研底蕴，领衔研制中小学信息科技课程标准，成为中国人工智能教育顶层设计的掌舵者。</p></div>
         </details>
         <details class="step step--talk" name="talk">
-          <summary><span class="talk"><b>10:10</b><span>主旨三 · 李文平<i>清澜山模式：基因传承、规模化与破局</i></span></span></summary>
-          <p class="bio">清澜山学校校长。主导学校高速发展期，在办学推进、规模化发展与国际融合教育方面具有众多实践经验，以「中西合璧」的定力构筑中国根基，让国际教育真正扎根于本土文化土壤。</p>
+          <summary><span class="talk"><b>10:10<em>水木剧场</em></b><span>主旨三 · 李文平<i>清澜山模式：基因传承、规模化与破局</i></span></span></summary>
+          <div class="bio"><div class="portrait" role="img" aria-label="人物照留白"></div><p>清澜山学校校长。主导学校高速发展期，在办学推进、规模化发展与国际融合教育方面具有众多实践经验，以「中西合璧」的定力构筑中国根基，让国际教育真正扎根于本土文化土壤。</p></div>
         </details>
-        <div class="step"><b>10:45</b><span>学生快闪<i>6 人，每人 3 分钟 · 我在无限可能的学校创造了哪些可能</i></span></div>
-        <div class="step"><b>11:05</b><span>全体合影<i>水木剧场</i></span></div>
+        <div class="step"><b>10:45<em>水木剧场</em></b><span>学生快闪<i>6 人，每人 3 分钟 · 我在无限可能的学校创造了哪些可能</i></span></div>
+        <div class="step"><b>11:05<em>水木剧场</em></b><span>全体合影<i>水木剧场</i></span></div>
         <div class="step"><b>11:15</b><span>茶歇<i>11:35 前到达各自工作坊</i></span></div>
         <div class="step"><b>11:35</b><span>平行工作坊<i>12 场 · 至 12:35</i></span></div>
-        <div class="step"><b>12:35</b><span>校园参访<i>水木剧场集合，学生导览员带队</i></span></div>
+        <div class="step"><b>12:35<em>水木剧场</em></b><span>校园参访<i>水木剧场集合，学生导览员带队</i></span></div>
         <div class="step"><b>13:05</b><span>午餐<i>可选</i></span></div>
       </div>
     </section>
