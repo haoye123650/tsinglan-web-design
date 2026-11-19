@@ -11,7 +11,7 @@
 /* ==========================================================
    版本 C · SCANNER（赛博/科幻向）
    底色 ink #04030A · 品牌紫 #3B227B · 金 #C79B6E · 冰蓝 #9FD3EC
-   结构：固定取景框 + 全息瞄准环 + 撕裂字标 + 切角街机键 + 数据读数
+   结构：固定取景框 + 全息瞄准环 + 霓虹灯管字标 + 切角街机键 + 数据读数
    无外部依赖；动效全部尊重 prefers-reduced-motion
    ========================================================== */
 
@@ -30,6 +30,12 @@
   font-family:"Orbitron";
   src:url("assets/orbitron-900.woff2") format("woff2");
   font-weight:800 900;font-display:block;
+}
+/* 阿里妈妈数黑体，可免费商用。只嵌入首页这七个字 */
+@font-face{
+  font-family:"ShuTitle";
+  src:url("assets/shuhei-title.woff2") format("woff2");
+  font-weight:700;font-display:block;
 }
 
 :root{
@@ -239,11 +245,15 @@ body{
 /* ---------- 顶栏 ---------- */
 /* 左上：两枚合作方 logo 左对齐上下叠放；右上：清澜山学校完整 lockup */
 .hud--top{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:clamp(12px,3vw,28px);
+  position:relative;
+  z-index:20;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:start;
+  gap:clamp(8px,2vw,16px);
 }
+.hud--top .brands{grid-column:1;justify-self:start}
+.hud--top .brands__logo--ts{grid-column:2;justify-self:end}
 .brands{
   display:flex;
   flex-direction:column;
@@ -270,7 +280,8 @@ body{
 
 /* ---------- 中央 ---------- */
 .core{
-  --tfs:clamp(3.4rem,19vw,11.5rem);
+  /* 七个方头字横排。手机上加大一档，仍按字宽留出左右边 */
+  --tfs:clamp(2rem,12.6vw,6.6rem);
   --lw:min(92vw,1040px);      /* 字标显示宽度：七字横排，比四字宽得多 */
   position:relative;
   display:flex;
@@ -335,128 +346,58 @@ body{
   text-shadow:0 0 18px rgba(159,211,236,.45);
 }
 
-/* 字标：改用定稿立体字的透明图，不再用多层文字叠出来 */
+/* 字标：方头灯管。白热芯 + 冰蓝管壁，粉红在左、冰蓝在右各偏一笔 */
 .title{
   position:relative;
   display:block;
-  margin:clamp(10px,2.2vw,22px) 0 0;   /* 与上方眉标拉开，别贴着 */
-  line-height:0;              /* 去掉图片底部的基线空隙 */
-  isolation:isolate;
+  margin:clamp(10px,2.2vw,22px) 0 0;
+  font-family:"ShuTitle","PingFang SC","Hiragino Sans GB","Heiti SC",sans-serif;
+  font-size:var(--tfs);
+  font-weight:700;
+  line-height:1;
+  letter-spacing:.04em;
+  white-space:nowrap;
+  text-rendering:geometricPrecision;
 }
-.title picture{display:block}
-.title__img{
-  display:block;
-  width:var(--lw);
-  height:auto;
-  /* 紫青定稿字压在金粉霓虹底上，补一层暖紫光晕做过渡 */
-  filter:
-    drop-shadow(0 0 clamp(12px,3vw,30px) rgba(255,111,181,.20))
-    drop-shadow(0 0 clamp(30px,8vw,80px) rgba(150,60,220,.26));
+.title span{display:block}
+.title__glow,
+.title__tube{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
   user-select:none;
-  -webkit-user-drag:none;
+}
+.title__glow{
+  z-index:0;
+  color:#FF6FB5;
+  filter:blur(.16em);
+  opacity:.7;
+  animation:neonBreath 3.6s ease-in-out infinite;
+}
+.title__tube{z-index:1;color:transparent;opacity:.9}
+.title__tube--pink{
+  -webkit-text-stroke:.045em #FF6FB5;
+  transform:translate(-.06em,0);
+}
+.title__tube--ice{
+  -webkit-text-stroke:.045em #9FD3EC;
+  transform:translate(.06em,0);
 }
 .title__base{
   position:relative;
-  z-index:1;
-  display:block;
-  /* 白热灯管芯：顶部纯白 → 中段暖金 → 底部回白，像夜里被点亮的气体管 */
-  background-image:
-    linear-gradient(104deg,transparent 40%,rgba(255,255,255,.9) 48%,rgba(255,255,255,.55) 52%,transparent 60%),
-    linear-gradient(180deg,
-      #FFFDF8 0%,#FFFFFF 9%,#FFF1DC 18%,#FFDDB6 27%,
-      #FFE9CB 36%,#FFF6E6 46%,#FFFDF6 56%,
-      #FFE8C8 68%,#F3C9A0 82%,#FFE3C2 92%,#FFF6E6 100%);
-  background-size:280% 100%, 100% 100%;
-  background-position:-160% 0, 0 0;
-  background-repeat:no-repeat, no-repeat;
-  animation:sweep 11s 2.4s cubic-bezier(.4,0,.5,1) infinite;
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  -webkit-text-stroke:.014em #FFE7C6;
+  z-index:2;
+  color:#F7FEFF;
+  -webkit-text-stroke:.028em #9FD3EC;
   paint-order:stroke fill;
-  text-rendering:geometricPrecision;
-  filter:drop-shadow(0 0 30px rgba(255,111,181,.22)) drop-shadow(0 2px 0 rgba(24,10,40,.85));
-}
-/* 霓虹灯管：一层柔光（bloom）+ 一层硬边描边（tube） */
-.title__glow{
-  position:absolute;
-  inset:0;
-  display:block;
-  z-index:-2;
-  color:var(--neon);
-  filter:blur(calc(var(--tfs) * .055));
-  opacity:.5;
-  pointer-events:none;
   text-shadow:
-    0 0 calc(var(--tfs) * .16) rgba(255,120,190,.85),
-    0 0 calc(var(--tfs) * .34) rgba(255,46,154,.60),
-    0 0 calc(var(--tfs) * .62) rgba(150,60,220,.42),
-    0 0 calc(var(--tfs) * 1.0) rgba(159,211,236,.22);
+    0 0 .06em #fff,
+    0 0 .18em #9FD3EC,
+    0 0 .42em #FF6FB5,
+    0 0 .7em rgba(255,46,154,.55);
 }
-.title__rim{
-  position:absolute;
-  inset:0;
-  display:block;
-  z-index:0;
-  color:transparent;
-  -webkit-text-stroke:clamp(2px, calc(var(--tfs) * .019), 4.2px) #150826;
-  pointer-events:none;
-  opacity:1;
-}
-/* 灯管外的一圈冷光，让霓虹“亮”而不只是“描边” */
-.title__rim::after{content:none}
-.title::after{
-  content:"";
-  position:absolute;
-  left:6%;right:6%;top:56%;height:34%;
-  z-index:-3;
-  background:radial-gradient(52% 54% at 50% 50%,
-    rgba(4,3,10,.62) 0%, rgba(4,3,10,.42) 46%, rgba(4,3,10,0) 78%);
-  filter:blur(30px);
-  pointer-events:none;
-}
-
-/* RGB 撕裂：三层，用 clip-path 切条 + 瞬移 */
-.title__g{
-  position:absolute;
-  inset:0;
-  display:block;
-  color:var(--violet-l);
-  opacity:0;
-  pointer-events:none;
-  mix-blend-mode:screen;
-  will-change:transform,clip-path,opacity;
-}
-.title__g--a{
-  color:#7C5CE0;
-  animation:glitchA 7s steps(1,end) infinite;
-}
-.title__g--b{
-  color:#5FC6EC;
-  animation:glitchB 7s steps(1,end) infinite;
-}
-@keyframes sweep{
-  0%,72%{background-position:-160% 0, 0 0}
-  100%{background-position:260% 0, 0 0}
-}
-@keyframes sweep{
-  0%,72%{background-position:-160% 0, 0 0}
-  100%{background-position:260% 0, 0 0}
-}
-@keyframes glitchA{
-  0%,88%,100%{opacity:0;transform:translate(0,0);clip-path:inset(0 0 100% 0)}
-  89%{opacity:.85;transform:translate(-4px,1px);clip-path:inset(11% 0 62% 0)}
-  90%{opacity:.85;transform:translate(5px,-2px);clip-path:inset(48% 0 28% 0)}
-  91%{opacity:.7;transform:translate(-3px,2px);clip-path:inset(72% 0 8% 0)}
-  92%{opacity:0;clip-path:inset(0 0 100% 0)}
-}
-@keyframes glitchB{
-  0%,88%,100%{opacity:0;transform:translate(0,0);clip-path:inset(0 0 100% 0)}
-  89%{opacity:.6;transform:translate(4px,-1px);clip-path:inset(30% 0 44% 0)}
-  90%{opacity:.6;transform:translate(-5px,2px);clip-path:inset(64% 0 16% 0)}
-  91%{opacity:.45;transform:translate(3px,1px);clip-path:inset(6% 0 78% 0)}
-  92%{opacity:0;clip-path:inset(0 0 100% 0)}
+@keyframes neonBreath{
+  0%,100%{opacity:.62}
+  50%{opacity:.95}
 }
 
 /* 字标下方的 slogan 线：这句是品牌主标语，给足分量，别读成技术标签 */
@@ -613,6 +554,29 @@ body{
   letter-spacing:.08em;
   color:rgba(199,155,110,.8);
 }
+.dock{
+  display:flex;
+  justify-content:center;
+  gap:22px;
+  border-top:1px solid rgba(255,217,168,.22);
+}
+.dock a{
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  padding:0 6px;
+  color:rgba(242,236,230,.78);
+  font-family:"PingFang SC","Hiragino Sans GB","Heiti SC","Microsoft YaHei",sans-serif;
+  font-size:14px;
+  font-weight:500;
+  letter-spacing:.04em;
+  line-height:1;
+  text-decoration:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.dock a:active{color:#FFD9A8}
+.dock a:focus{outline:none}
+.dock a:focus-visible{outline:1px solid rgba(255,217,168,.7);outline-offset:3px}
 
 /* ---------- 入场 ---------- */
 .in{opacity:0;transform:translateY(12px);animation:bootIn .9s cubic-bezier(.22,1,.36,1) forwards}
@@ -626,7 +590,7 @@ body{
 
 /* ---------- 桌面增强 ---------- */
 @media (min-width:900px){
-  .core{--tfs:clamp(7rem,12vw,13.5rem)}
+  .core{--tfs:clamp(4.2rem,9vw,8.2rem)}
   .play{min-height:68px;padding:0 62px}
   .play b{font-size:19px;letter-spacing:.4em;text-indent:.4em}
   .data{max-width:760px}
@@ -667,7 +631,7 @@ body{
   .spec{margin-top:11px}
   .title{margin-top:8px}
   .tip{margin-top:11px}
-  .core{--lw:min(80vw,860px)}
+  .core{--tfs:clamp(1.85rem,11.8vw,5.6rem);--lw:min(80vw,860px)}
   .data{padding-top:8px}
   /* 矮屏把合作方 lockup 整体收一档，别跟字标抢高度 */
   .brands{gap:6px}
@@ -682,9 +646,10 @@ body{
   .kicker{margin-bottom:7px}
 }
 @media (max-height:640px){
-  .core{--lw:min(74vw,760px)}
+  .core{--tfs:clamp(1.7rem,10.8vw,4.8rem);--lw:min(74vw,760px)}
   .play-wrap{margin-top:13px}
   .tip{margin-top:9px}
+  .hud--bottom{gap:4px}
 }
 
 /* ---------- 降低动效 ---------- */
@@ -695,7 +660,7 @@ body{
     transition-duration:.001ms !important;
   }
   .in{opacity:1;transform:none}
-  .title__g{display:none}
+  .title__glow{animation:none;opacity:.8}
   .scan::after{display:none}
   .gridfloor{animation:none}
 }
@@ -730,7 +695,7 @@ body{
 
 <main class="stage">
 
-  <header class="hud hud--top in in1">
+  <header class="hud hud--top">
     <div class="brands">
       <img class="brands__logo brands__logo--forum" src="assets/logo-forum-white.png"
            width="1600" height="459" alt="第四届清澜山学校创新教育论坛" draggable="false">
@@ -787,11 +752,10 @@ body{
     </p>
 
     <h1 class="title in in3">
-      <picture>
-        <source srcset="assets/logo-infinite-school.webp" type="image/webp">
-        <img class="title__img" src="assets/logo-infinite-school.png" width="1760" height="266"
-             alt="无限可能的学校" draggable="false">
-      </picture>
+      <span class="title__glow" aria-hidden="true">无限可能的学校</span>
+      <span class="title__tube title__tube--pink" aria-hidden="true">无限可能的学校</span>
+      <span class="title__tube title__tube--ice" aria-hidden="true">无限可能的学校</span>
+      <span class="title__base">无限可能的学校</span>
     </h1>
 
     <div class="spec in in4" aria-hidden="true">
@@ -823,6 +787,11 @@ body{
         <span class="data__v">12.05<small> SAT</small></span>
       </div>
     </div>
+    <nav class="dock" aria-label="目录">
+      <a href="story.html">背景</a>
+      <a href="schedule.html">日程</a>
+      <a href="workshops.html">工作坊</a>
+    </nav>
   </footer>
 
 </main>
