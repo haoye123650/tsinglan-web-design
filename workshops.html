@@ -181,6 +181,49 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 @media (forced-colors:active){
   .head__t{background:none;-webkit-text-fill-color:CanvasText;color:CanvasText}
   .card,.hold,.monitor,.chan a{border:1px solid ButtonText}
+  .toc__tab,.toc__panel{background:Canvas;color:CanvasText;border:1px solid CanvasText}
+}
+/* ---------- 右侧目录：收起只留把手，点箭头或向左滑打开 ---------- */
+.toc{
+  position:fixed;z-index:32;
+  top:calc(env(safe-area-inset-top,0px) + var(--bar) + 8px);
+  bottom:calc(120px + env(safe-area-inset-bottom,0px));
+  right:env(safe-area-inset-right,0px);
+  width:min(240px,calc(100% - 118px));
+  transform:translateX(calc(100% - 44px));
+  transition:transform .28s cubic-bezier(.22,1,.36,1);
+  pointer-events:none;
+}
+.toc.is-open{transform:none}
+.toc__tab{
+  pointer-events:auto;position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:44px;height:64px;display:flex;align-items:center;justify-content:center;
+  padding:0;border:1px solid rgba(199,155,110,.62);border-right:0;background:#04030A;color:var(--gold-l);
+  cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.toc__tab svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .28s cubic-bezier(.22,1,.36,1)}
+.toc.is-open .toc__tab svg{transform:scaleX(-1)}
+.toc__panel{
+  pointer-events:auto;position:absolute;left:44px;top:0;right:0;bottom:0;overflow:auto;
+  overscroll-behavior:contain;padding:14px 12px 12px 8px;background:#04030A;
+  border-left:1px solid rgba(199,155,110,.45);
+}
+.toc.is-open .toc__panel{box-shadow:-14px 0 24px rgba(4,3,10,.5)}
+.toc__k{margin:0 4px 8px;font-family:var(--font-led);font-size:9px;letter-spacing:.22em;color:rgba(159,211,236,.86)}
+.toc a{
+  display:flex;align-items:center;min-height:44px;padding:0 8px;
+  color:rgba(242,236,230,.88);text-decoration:none;font-size:15px;font-weight:700;
+  border-top:1px solid rgba(199,155,110,.16);
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.toc a[aria-current="page"]{color:var(--gold-hi);background:rgba(199,155,110,.1);box-shadow:inset 2px 0 0 var(--gold-hi)}
+.toc a.toc__sub{padding-left:18px;font-size:14px;font-weight:600;color:rgba(159,211,236,.92)}
+.toc__tab:focus-visible,.toc a:focus-visible{outline:2px solid var(--ice);outline-offset:2px}
+@media (min-width:900px){.toc{bottom:128px}}
+@media (min-width:1180px){.rail--r{right:62px}}
+@media (hover:hover) and (pointer:fine){
+  .toc a:hover{color:#fff}
+  .toc__tab:hover{color:var(--gold-hi)}
 }
 </style>
 </head>
@@ -255,6 +298,22 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   </div>
 </div>
 
+<div class="toc" id="toc">
+  <button type="button" class="toc__tab" aria-expanded="false" aria-controls="toc-panel" aria-label="打开目录">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-7 6 7 6"/></svg>
+  </button>
+  <nav class="toc__panel" id="toc-panel" aria-label="目录" inert>
+    <p class="toc__k">目录</p>
+    <a href="index.html">首页</a>
+    <a href="game.html">游戏</a>
+    <a href="story.html">背景</a>
+    <a href="schedule.html">日程</a>
+    <a href="workshops.html" aria-current="page">工作坊</a>
+    <a class="toc__sub" href="#rooms">01 · 提前报名</a>
+    <a class="toc__sub" href="#campus">整座学校</a>
+  </nav>
+</div>
+
 <script>
 (function(){
 'use strict';
@@ -275,6 +334,56 @@ cards.forEach(function(c){
 document.querySelectorAll('.hold').forEach(function(b){
   b.addEventListener('click', function(e){ e.preventDefault(); });
 });
+})();
+</script>
+<script>
+(function(){
+'use strict';
+/* 右侧目录：点箭头，或从右缘向左滑。收起时链接不进 Tab 序 */
+var root = document.getElementById('toc');
+var tab = root.querySelector('.toc__tab');
+var panel = document.getElementById('toc-panel');
+var open = false;
+var swallow = false;
+function setOpen(next){
+  open = next;
+  root.classList.toggle('is-open', open);
+  tab.setAttribute('aria-expanded', open ? 'true' : 'false');
+  tab.setAttribute('aria-label', open ? '收起目录' : '打开目录');
+  panel.inert = !open;
+}
+tab.addEventListener('click', function(){
+  if (swallow){ swallow = false; return; }
+  setOpen(!open);
+});
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape' && open){ setOpen(false); tab.focus(); }
+});
+panel.addEventListener('click', function(e){
+  var a = e.target.closest('a');
+  if (!a) return;
+  if ((a.getAttribute('href') || '').charAt(0) === '#') setOpen(false);
+});
+var sx = 0, sy = 0, armed = false, pid = null;
+document.addEventListener('pointerdown', function(e){
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
+  var near = e.clientX >= window.innerWidth - 56;
+  var inside = open && root.contains(e.target);
+  if (!near && !inside) return;
+  armed = true; pid = e.pointerId; sx = e.clientX; sy = e.clientY;
+});
+document.addEventListener('pointerup', function(e){
+  if (!armed || e.pointerId !== pid) return;
+  armed = false;
+  var dx = e.clientX - sx, dy = e.clientY - sy;
+  if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy)) return;
+  if (tab.contains(e.target)){
+    swallow = true;
+    setTimeout(function(){ swallow = false; }, 350);
+  }
+  setOpen(dx < 0);
+});
+document.addEventListener('pointercancel', function(){ armed = false; });
 })();
 </script>
 </body>
