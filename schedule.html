@@ -9,329 +9,307 @@
 <title>今日任务 · 无限可能的学校</title>
 <meta name="description" content="2026 年 12 月 5 日清澜山学校第四届创新教育论坛日程：主旨、学生快闪、工作坊与校园参访。">
 <style>
-@font-face{
-  font-family:"Orbitron";
-  src:url("assets/orbitron-500.woff2") format("woff2");
-  font-weight:400 600;font-display:swap;
-}
-@font-face{
-  font-family:"Orbitron";
-  src:url("assets/orbitron-700.woff2") format("woff2");
-  font-weight:700;font-display:swap;
-}
-@font-face{
-  font-family:"Orbitron";
-  src:url("assets/orbitron-900.woff2") format("woff2");
-  font-weight:800 900;font-display:swap;
-}
-
+/* ==========================================================
+   今日任务 · 时间轨，不是一叠相同的卡片
+   金砖出口去十二场。人物照没有就留成待补的框。
+   ========================================================== */
+@font-face{font-family:"Orbitron";src:url("assets/orbitron-500.woff2") format("woff2");font-weight:400 600;font-display:block}
+@font-face{font-family:"Orbitron";src:url("assets/orbitron-700.woff2") format("woff2");font-weight:700;font-display:block}
+@font-face{font-family:"Orbitron";src:url("assets/orbitron-900.woff2") format("woff2");font-weight:800 900;font-display:block}
 :root{
-  --ink:#04030A;
-  --violet:#3B227B;
-  --gold:#C79B6E;
-  --gold-l:#F0D6B6;
-  --gold-hi:#FFD9A8;
-  --ice:#9FD3EC;
-  --paper:#F2ECE6;
+  --ink:#04030A;--violet:#3B227B;--violet-l:#6B4EC4;
+  --gold:#C79B6E;--gold-l:#F0D6B6;--gold-hi:#FFD9A8;
+  --ice:#9FD3EC;--paper:#F2ECE6;--neon:#FF6FB5;
   --font-cn:"PingFang SC","Hiragino Sans GB","Heiti SC","Noto Sans SC","Microsoft YaHei",sans-serif;
   --font-led:"Orbitron","SF Mono",Menlo,ui-monospace,monospace;
-  --pad:clamp(20px,6vw,34px);
+  --pad:18px;--bar:52px;
 }
+@media (min-width:390px){:root{--pad:20px}}
+@media (min-width:768px){:root{--pad:28px}}
 *,*::before,*::after{box-sizing:border-box}
-html{background:var(--ink);-webkit-text-size-adjust:100%}
+html{background:var(--ink);color-scheme:dark;-webkit-text-size-adjust:100%;scroll-padding-top:68px;scroll-padding-bottom:150px;overscroll-behavior-x:none}
 html,body{margin:0;padding:0}
-body{
-  background:var(--ink);
-  color:var(--paper);
-  font-family:var(--font-cn);
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+body{background:var(--ink);color:var(--paper);font-family:var(--font-cn);-webkit-font-smoothing:antialiased;padding-bottom:calc(128px + env(safe-area-inset-bottom,0px))}
+::selection{background:rgba(199,155,110,.35);color:#fff}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(70% 28% at 50% 0%,rgba(59,34,123,.42),transparent 70%),#04030A}
+.floor{position:fixed;left:0;right:0;bottom:0;height:22vh;z-index:0;pointer-events:none;overflow:hidden;perspective:760px;perspective-origin:50% 0%;-webkit-mask-image:linear-gradient(to top,#000 0%,transparent 78%);mask-image:linear-gradient(to top,#000 0%,transparent 78%)}
+.floor i{position:absolute;left:-70%;right:-70%;top:0;bottom:0;transform-origin:50% 100%;transform:rotateX(68deg);opacity:.22;background-image:linear-gradient(rgba(159,211,236,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(159,211,236,.35) 1px,transparent 1px);background-size:96px 96px}
+.scan{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.2;background:repeating-linear-gradient(180deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px)}
+.frame{position:fixed;inset:0;z-index:4;pointer-events:none}
+.frame__line{position:absolute;inset:8px;border:1px solid rgba(199,155,110,.14)}
+.frame__c{position:absolute;width:14px;height:14px;border:1px solid rgba(199,155,110,.62)}
+.frame__c--tl{top:8px;left:8px;border-right:0;border-bottom:0}
+.frame__c--tr{top:8px;right:8px;border-left:0;border-bottom:0}
+.frame__c--bl{bottom:8px;left:8px;border-right:0;border-top:0}
+.frame__c--br{bottom:8px;right:8px;border-left:0;border-top:0}
+.rail{display:none}
+@media (min-width:1180px){
+  .rail{display:block;position:fixed;top:50%;z-index:4;font-family:var(--font-led);font-size:8px;letter-spacing:.28em;color:rgba(159,211,236,.38);white-space:nowrap;writing-mode:vertical-rl;transform:translateY(-50%);pointer-events:none}
+  .rail--l{left:14px}.rail--r{right:14px}
 }
-.bg{position:fixed;inset:0;z-index:0;pointer-events:none}
-.bg__grad{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(70% 34% at 50% 0%, rgba(59,34,123,.4) 0%, rgba(59,34,123,0) 66%),
-    radial-gradient(50% 26% at 82% 88%, rgba(255,46,154,.07) 0%, rgba(255,46,154,0) 70%),
-    linear-gradient(180deg,#06040D 0%,#04030A 42%,#07050F 100%);
-}
-.floor{
-  position:fixed;left:0;right:0;bottom:0;height:30vh;z-index:0;
-  pointer-events:none;perspective:760px;perspective-origin:50% 0%;
-  -webkit-mask-image:linear-gradient(to top,#000 0%,#000 12%,rgba(0,0,0,.44) 42%,transparent 72%);
-  mask-image:linear-gradient(to top,#000 0%,#000 12%,rgba(0,0,0,.44) 42%,transparent 72%);
-}
-.floor__grid{
-  position:absolute;left:-70%;right:-70%;top:0;bottom:0;
-  transform-origin:50% 100%;transform:rotateX(68deg);opacity:.34;
-  background-image:
-    linear-gradient(rgba(159,211,236,.42) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(159,211,236,.28) 1px, transparent 1px);
-  background-size:96px 96px;
-}
-.scan{
-  position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.42;
-  background:repeating-linear-gradient(180deg,rgba(255,255,255,.026) 0px,rgba(255,255,255,.026) 1px,transparent 1px,transparent 3px);
-  mix-blend-mode:overlay;
-}
-.vig{
-  position:fixed;inset:0;z-index:2;pointer-events:none;
-  background:radial-gradient(130% 90% at 50% 30%,transparent 52%,rgba(4,3,10,.7) 100%);
-}
-.wrap{
-  position:relative;z-index:5;
-  max-width:560px;margin:0 auto;
-  padding:calc(env(safe-area-inset-top,0px) + 20px) var(--pad) calc(env(safe-area-inset-bottom,0px) + 36px);
-}
+.wrap{position:relative;z-index:5;max-width:720px;margin:0 auto;padding:14px var(--pad) 0}
+.skip-link{position:absolute;left:12px;top:-60px;z-index:60;min-height:44px;padding:10px 14px;box-sizing:border-box;background:var(--gold-l);color:#1A1024;font-weight:700;text-decoration:none}
+.skip-link:focus{top:8px;outline:2px solid var(--ice);outline-offset:2px}
 .brand{
-  position:sticky;top:0;z-index:20;
-  display:flex;align-items:center;gap:9px;
-  padding:10px 0 12px;
-  font-family:var(--font-led);font-weight:700;
-  font-size:9px;letter-spacing:.12em;white-space:nowrap;
-  color:rgba(240,214,182,.6);
-  background:linear-gradient(180deg,rgba(4,3,10,.92) 60%,rgba(4,3,10,0));
+  --col:720px;
+  position:sticky;top:0;z-index:25;display:flex;align-items:center;gap:2px;
+  height:calc(env(safe-area-inset-top,0px) + var(--bar));box-sizing:border-box;
+  padding:env(safe-area-inset-top,0px) max(8px,calc((100% - var(--col)) / 2)) 0 max(var(--pad),calc((100% - var(--col)) / 2 + var(--pad)));
+  background:#04030A;border-bottom:1px solid rgba(199,155,110,.16);
 }
-.brand i{font-style:normal;font-size:15px;line-height:1;color:var(--gold-hi)}
-.brand em{margin-left:auto;font-style:normal;font-size:7px;letter-spacing:.12em;color:rgba(242,236,230,.26)}
-@media (max-width:300px){.brand em{display:none}}
-.brand a{
-  color:rgba(240,214,182,.6);text-decoration:none;
-  display:flex;align-items:center;
-  -webkit-tap-highlight-color:transparent;
+.brand__id{flex:1;min-width:0;display:flex;align-items:center;gap:8px;margin:0;font-family:var(--font-led);font-weight:700;font-size:9px;letter-spacing:.12em;white-space:nowrap;color:rgba(240,214,182,.78)}
+.brand__id i{font-style:normal;font-size:15px;line-height:1;color:var(--gold-hi);text-shadow:0 0 12px rgba(255,217,168,.45)}
+.brand__id em{margin-left:auto;font-style:normal;font-size:7px;letter-spacing:.12em;color:rgba(242,236,230,.5)}
+.back{flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:rgba(240,214,182,.86);text-decoration:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.back svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.back:focus-visible,.brick:focus-visible,.ev__go:focus-visible,summary:focus-visible{outline:2px solid var(--ice);outline-offset:3px}
+.back:active{color:var(--gold-hi)}
+@media (max-width:300px){.brand__id em{display:none}}
+@media (max-width:340px){.brand__id{letter-spacing:.08em}}
+.head{padding:18px 0 0}
+.head__k{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-family:var(--font-led);font-size:9px;letter-spacing:.22em;color:rgba(159,211,236,.86)}
+.head__k::before{content:"";width:22px;height:1px;flex:none;background:linear-gradient(90deg,var(--ice),transparent)}
+.head__t{margin:0;font-size:32px;font-weight:700;line-height:1.28;letter-spacing:.02em;white-space:nowrap;text-wrap:pretty;background:linear-gradient(178deg,#FFF5E6 6%,var(--gold-l) 40%,var(--gold) 72%,#8C6742 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gold-l)}
+.head__d{margin:12px 0 0;font-size:13px;letter-spacing:.04em;line-height:1.5;color:rgba(242,236,230,.78)}
+@media (max-width:360px){.head__t{font-size:28px}.head__k{letter-spacing:.14em}}
+.sec{margin-top:22px}
+.sec__k{margin:0 0 8px;font-family:var(--font-led),var(--font-cn);font-size:12px;letter-spacing:.14em;color:var(--gold-l)}
+.sec__t{margin:0 0 8px;font-size:22px;font-weight:700;line-height:1.35;text-wrap:pretty;color:#FFF6EA}
+.sec,.ev{scroll-margin-top:76px;scroll-margin-bottom:140px}
+.sec > p{margin:0 0 6px;font-size:16px;line-height:1.7;color:rgba(242,236,230,.9)}
+/* ---------- 时间轨 ---------- */
+.tl{position:relative;list-style:none;margin:16px 0 0;padding:0}
+.tl::before{content:"";position:absolute;left:80px;top:16px;bottom:16px;width:1px;background:linear-gradient(180deg,rgba(159,211,236,.7),rgba(199,155,110,.18))}
+.ev{position:relative;padding:12px 0;border-bottom:1px solid rgba(199,155,110,.14)}
+.ev::after{content:"";position:absolute;left:76px;top:20px;width:9px;height:9px;background:var(--ink);border:1px solid var(--ice);box-shadow:0 0 8px rgba(159,211,236,.4)}
+.sum,.ev__go{display:grid;grid-template-columns:72px minmax(0,1fr);gap:6px 18px;align-items:start;min-height:44px}
+.ev__go{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+time{font-family:var(--font-led);font-size:13px;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums;color:var(--gold-l);text-align:right;padding-top:2px}
+time span{display:block;margin-top:4px;font-family:var(--font-cn);font-size:12px;font-weight:600;letter-spacing:0;line-height:1.35;color:var(--ice)}
+.ev__main{min-width:0}
+.ev__main strong{display:block;font-size:16px;font-weight:700;line-height:1.4;color:#FFF6EA}
+.ev__main em{display:block;margin-top:3px;font-style:normal;font-size:14px;line-height:1.55;color:rgba(242,236,230,.84)}
+.ev__act{display:inline-block;margin-top:6px;font-size:14px;font-weight:700;line-height:1.4;color:var(--gold-l);text-decoration:underline;text-underline-offset:3px}
+summary{display:block;cursor:pointer;list-style:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+summary::-webkit-details-marker{display:none}
+summary::marker{content:"";font-size:0}
+.sum--talk{grid-template-columns:72px minmax(0,1fr) auto}
+.ev__more{grid-column:3;grid-row:1;align-self:center;min-height:44px;display:flex;align-items:center;padding:0 2px;font-size:14px;font-weight:700;color:var(--gold-l);white-space:nowrap}
+.talk[open] .o,.talk:not([open]) .c{display:none}
+.talk[open]{background:rgba(199,155,110,.06)}
+.bio{margin:8px 0 4px 90px}
+.bio__in{display:grid;grid-template-columns:64px minmax(0,1fr);gap:10px;align-items:start}
+.ph{height:84px;display:flex;align-items:flex-end;justify-content:center;padding:6px;border:1px solid rgba(199,155,110,.55);background-color:rgba(7,6,16,.8);background-image:linear-gradient(rgba(159,211,236,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(159,211,236,.2) 1px,transparent 1px);background-size:8px 8px}
+.ph span{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--gold-l)}
+.bio p{margin:0;font-size:14.5px;line-height:1.7;color:rgba(242,236,230,.88)}
+@media (max-width:420px){
+  .tl::before{left:68px}
+  .ev::after{left:64px}
+  .sum,.ev__go{grid-template-columns:60px minmax(0,1fr);gap:6px 14px}
+  .sum--talk{grid-template-columns:60px minmax(0,1fr)}
+  .ev__more{grid-column:2;grid-row:2;align-self:start;margin-top:4px}
+  .bio{margin-left:74px}
+  .bio__in{grid-template-columns:52px minmax(0,1fr)}
+  .ph{height:70px}
 }
-.brand a svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.brand a:active{color:var(--gold-hi)}
-.head{padding:clamp(22px,6vh,48px) 0 8px}
-.head__k{
-  display:flex;align-items:center;gap:10px;
-  margin:0 0 14px;
-  font-family:var(--font-led);font-size:8.5px;letter-spacing:.4em;
-  color:rgba(159,211,236,.68);
+@media (max-width:360px){
+  .bio__in{display:block}
+  .ph{width:64px;height:72px;margin:0 0 8px}
 }
-.head__k::before{
-  content:"";width:26px;height:1px;flex:none;
-  background:linear-gradient(90deg,var(--ice),transparent);
+/* ---------- 金砖 ---------- */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:0 var(--pad) calc(10px + env(safe-area-inset-bottom,0px));pointer-events:none;background:linear-gradient(180deg,rgba(4,3,10,0),#04030A 16px)}
+.dock__in{max-width:720px;margin:0 auto;pointer-events:auto;padding-top:8px;background:#04030A}
+.brick{
+  display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:52px;padding:0 14px;
+  text-decoration:none;color:#3A2508;font-family:var(--font-cn);font-size:16px;font-weight:700;letter-spacing:.06em;
+  background:linear-gradient(180deg,#E8BE4C,#C98F2B 62%,#A96F16);
+  clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px);
+  filter:drop-shadow(0 4px 0 #7A4E10);
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
-.head__t{
-  margin:0;
-  font-size:clamp(27px,8vw,36px);
-  font-weight:700;line-height:1.32;letter-spacing:.02em;
-  background:linear-gradient(178deg,#FFF5E6 6%,var(--gold-l) 36%,var(--gold) 66%,#8C6742 100%);
-  -webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;color:transparent;
+.brick b{font-family:var(--font-led);font-size:10px;font-weight:700;letter-spacing:.12em}
+.brick:active{transform:translateY(4px);filter:none}
+.dock p{margin:8px 0 0;text-align:center;font-size:13px;color:rgba(242,236,230,.72)}
+@media (max-width:360px){.brick{font-size:15px;letter-spacing:.02em;gap:8px}}
+@media (min-width:900px){
+  body{padding-bottom:0}
+  .dock{position:static;pointer-events:auto;background:none;padding:22px var(--pad) 36px}
+  .dock__in{background:none;padding-top:0}
+  .brick{max-width:440px;margin:0 auto}
 }
-.head__d{
-  margin:14px 0 0;
-  font-family:var(--font-led);font-size:9px;letter-spacing:.18em;
-  color:rgba(242,236,230,.3);
+@media (hover:hover) and (pointer:fine){
+  .brick:hover{filter:drop-shadow(0 4px 0 #7A4E10) brightness(1.05)}
+  .back:hover{color:var(--gold-hi)}
+  .ev__go:hover .ev__act{color:#fff}
 }
-.flow{position:relative;margin-top:clamp(26px,6vh,44px)}
-.flow::before{
-  content:"";position:absolute;left:7px;top:6px;bottom:6px;width:1px;
-  background:linear-gradient(180deg,rgba(159,211,236,.5),rgba(199,155,110,.16));
+@media (max-height:640px){.head{padding-top:10px}}
+.in{opacity:0;transform:translateY(12px);animation:bootIn .8s cubic-bezier(.22,1,.36,1) forwards}
+.in1{animation-delay:.08s}.in2{animation-delay:.16s}.in3{animation-delay:.26s}.in4{animation-delay:.38s}
+@keyframes bootIn{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .in{opacity:1;transform:none}
 }
-.sec{position:relative;padding:0 0 clamp(34px,7vh,54px) 34px}
-.sec:last-child{padding-bottom:8px}
-.sec__dot{
-  position:absolute;left:0;top:5px;
-  width:15px;height:15px;border-radius:50%;
-  background:var(--ink);
-  border:1px solid rgba(159,211,236,.55);
-}
-.sec__dot::after{
-  content:"";position:absolute;left:50%;top:50%;
-  width:3px;height:3px;border-radius:50%;
-  transform:translate(-50%,-50%);
-  background:var(--ice);
-}
-.sec__k{
-  margin:0 0 10px;
-  font-family:var(--font-led);font-size:8px;letter-spacing:.32em;
-  color:rgba(199,155,110,.72);
-}
-.sec__t{
-  margin:0 0 14px;
-  font-size:19px;font-weight:700;letter-spacing:.03em;
-  color:#FFF3E2;
-}
-.sec p{
-  margin:0 0 12px;
-  font-size:14.5px;line-height:1.85;
-  color:rgba(242,236,230,.62);
-}
-.steps{margin-top:6px;display:flex;flex-direction:column;gap:8px}
-.step{
-  display:flex;align-items:flex-start;gap:12px;
-  padding:11px 13px;
-  border:1px solid rgba(199,155,110,.18);
-  background:linear-gradient(168deg,rgba(255,255,255,.03),rgba(255,255,255,.006));
-}
-.step b{
-  flex:none;padding-top:2px;
-  font-family:var(--font-led);font-size:12px;font-weight:700;
-  letter-spacing:.06em;color:var(--gold-hi);white-space:nowrap;
-}
-.step b em{
-  display:block;margin-top:4px;
-  font-family:var(--font-cn);font-style:normal;font-weight:700;
-  font-size:11px;letter-spacing:.04em;line-height:1.35;
-  color:var(--gold-hi);white-space:normal;
-}
-.step span{
-  flex:1;min-width:0;
-  font-size:13px;line-height:1.5;letter-spacing:.02em;
-  color:rgba(242,236,230,.78);
-}
-.step span i{
-  display:block;margin-top:3px;
-  font-style:normal;color:rgba(242,236,230,.4);font-size:11.5px;
-}
-/* ---------- 主旨可展开 ---------- */
-.step--talk{display:block;padding:0}
-.step--talk summary{
-  display:list-item;list-style:none;cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-}
-.step--talk summary::-webkit-details-marker{display:none}
-.step--talk summary::marker{content:"";font-size:0}
-.step--talk:not([open]) > .bio{display:none}
-.talk{
-  display:flex;align-items:flex-start;gap:12px;
-  position:relative;
-  padding:11px 52px 11px 13px;
-}
-.talk::after{
-  content:"介绍";
-  position:absolute;right:12px;top:13px;
-  font-size:11px;letter-spacing:.12em;font-weight:600;
-  color:var(--gold-hi);
-}
-.step--talk[open]{border-color:rgba(199,155,110,.42)}
-.step--talk[open] .talk::after{content:"收起"}
-.step--talk summary:focus{outline:none}
-.step--talk summary:focus-visible .talk{outline:1px solid rgba(199,155,110,.55);outline-offset:-3px}
-.step--talk .bio{
-  margin:0 13px 12px;
-  padding-top:10px;
-  border-top:1px solid rgba(199,155,110,.16);
-}
-.step--talk .bio p{
-  margin:0;
-  font-size:13px;line-height:1.75;
-  color:rgba(242,236,230,.62);
-}
-.portrait{
-  width:50vw;max-width:100%;aspect-ratio:3/4;height:auto;
-  margin:0 auto 10px;
-  border:1px solid var(--gold-hi);
-  background:rgba(255,217,168,.05);
-}
-/* ---------- 底部去工作坊 ---------- */
-.cta-zone{
-  position:relative;z-index:5;
-  max-width:560px;margin:0 auto;
-  padding:4px var(--pad) calc(env(safe-area-inset-bottom,0px) + 30px);
-}
-.cta{
-  position:relative;
-  display:flex;align-items:center;justify-content:center;gap:12px;
-  width:100%;min-height:64px;
-  padding:16px 20px;
-  border:0;
-  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
-  background:linear-gradient(96deg,var(--gold-l) 0%,var(--gold) 44%,#9C7347 100%);
-  color:#1A1024;
-  font-family:var(--font-cn);
-  font-size:18px;font-weight:700;letter-spacing:.12em;
-  text-decoration:none;
-  -webkit-tap-highlight-color:transparent;
-  box-shadow:0 0 36px -6px rgba(199,155,110,.65);
-  transition:transform .16s;
-}
-.cta:active{transform:scale(.978)}
-.cta b{font-family:var(--font-led);font-size:10px;font-weight:700;letter-spacing:.18em;opacity:.7}
-.cta-zone p{
-  margin:14px 0 0;text-align:center;
-  font-family:var(--font-cn);font-size:13px;letter-spacing:.06em;
-  color:rgba(242,236,230,.55);
+@media (forced-colors:active){
+  .head__t{background:none;-webkit-text-fill-color:CanvasText;color:CanvasText}
+  .brick{background:ButtonFace;color:ButtonText;filter:none;border:1px solid ButtonText}
+  .ph{border:1px solid CanvasText}
 }
 </style>
 </head>
 <body>
 
-<div class="bg"><div class="bg__grad"></div></div>
-<div class="floor"><div class="floor__grid"></div></div>
-<div class="scan"></div>
-<div class="vig"></div>
+<div class="bg" aria-hidden="true"></div>
+<div class="floor" aria-hidden="true"><i></i></div>
+<div class="scan" aria-hidden="true"></div>
+<div class="frame" aria-hidden="true">
+  <span class="frame__line"></span>
+  <span class="frame__c frame__c--tl"></span>
+  <span class="frame__c frame__c--tr"></span>
+  <span class="frame__c frame__c--bl"></span>
+  <span class="frame__c frame__c--br"></span>
+</div>
+<span class="rail rail--l" aria-hidden="true">2026.12.05 · 水木剧场</span>
+<span class="rail rail--r" aria-hidden="true">TRY AND ALL IS POSSIBLE</span>
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="brand">
+  <p class="brand__id"><i aria-hidden="true">∞</i><span translate="no">TRY AND ALL IS POSSIBLE</span><em>TODAY</em></p>
+  <a class="back" href="story.html" aria-label="返回新手村"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+</header>
+<main class="wrap" id="main">
+  <header class="head">
+    <p class="head__k in in1">TODAY'S QUEST</p>
+    <h1 class="head__t in in2">主线任务</h1>
+    <p class="head__d in in3">2026.12.05 · 水木剧场 · 东莞</p>
+  </header>
 
-<main class="wrap">
-
-  <div class="brand">
-    <i>∞</i>TRY AND ALL IS POSSIBLE<em>TODAY</em>
-    <a href="story.html" aria-label="返回新手村">
-      <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
-    </a>
-  </div>
-
-  <div class="head">
-    <p class="head__k">TODAY'S QUEST</p>
-    <h1 class="head__t">主线任务</h1>
-    <p class="head__d">2026.12.05 · 水木剧场 · 东莞</p>
-  </div>
-
-  <div class="flow">
-
-    <section class="sec">
-      <span class="sec__dot"></span>
-      <p class="sec__k">01 · 时间</p>
-      <h2 class="sec__t">从签到到午餐</h2>
-      <p>议程 09:00 开始。08:30–09:00 是签到、入场和自由交流。</p>
-      <div class="steps">
-        <div class="step"><b>08:30<em>入校签到</em></b><span>签到入场<i>自由交流 · 至 09:00</i></span></div>
-        <details class="step step--talk" name="talk">
-          <summary><span class="talk"><b>09:00<em>水木剧场</em></b><span>主旨一 · 王殿军<i>学校变革的临界点</i></span></span></summary>
-          <div class="bio"><div class="portrait" role="img" aria-label="人物照留白"></div><p>原清华大学附属中学校长。从北大数学博士、清华教授转身执掌清华附中，以「当代教育名家」之姿推动综合素质评价与大学先修课程改革，成为中国基础教育变革的标志性人物。</p></div>
+  <section class="sec in in4">
+    <p class="sec__k">01 · 时间</p>
+    <h2 class="sec__t">从签到到午餐</h2>
+    <p>议程 09:00 开始。08:30–09:00 是签到、入场和自由交流。</p>
+    <ol class="tl">
+      <li class="ev">
+        <div class="sum">
+          <time datetime="2026-12-05T08:30">08:30<span>入校签到</span></time>
+          <span class="ev__main"><strong>签到入场</strong><em>自由交流 · 至 09:00</em></span>
+        </div>
+      </li>
+      <li class="ev">
+        <details class="talk" id="talk-wang" name="talk">
+          <summary>
+            <span class="sum sum--talk">
+              <time datetime="2026-12-05T09:00">09:00<span>水木剧场</span></time>
+              <span class="ev__main"><strong>主旨一 · 王殿军</strong><em>学校变革的临界点</em></span>
+              <span class="ev__more"><span class="o">介绍</span><span class="c">收起</span></span>
+            </span>
+          </summary>
+          <div class="bio">
+            <div class="bio__in">
+              <div class="ph" role="img" aria-label="人物照留白"><span>待补</span></div>
+              <p>原清华大学附属中学校长。从北大数学博士、清华教授转身执掌清华附中，以「当代教育名家」之姿推动综合素质评价与大学先修课程改革，成为中国基础教育变革的标志性人物。</p>
+            </div>
+          </div>
         </details>
-        <details class="step step--talk" name="talk">
-          <summary><span class="talk"><b>09:35<em>水木剧场</em></b><span>主旨二 · 熊璋<i>技术浪潮下，学习的重构与边界再思考</i></span></span></summary>
-          <div class="bio"><div class="portrait" role="img" aria-label="人物照留白"></div><p>北京航空航天大学计算机学院教授。以国家科技进步一等奖的硬核科研底蕴，领衔研制中小学信息科技课程标准，成为中国人工智能教育顶层设计的掌舵者。</p></div>
+      </li>
+      <li class="ev">
+        <details class="talk" id="talk-xiong" name="talk">
+          <summary>
+            <span class="sum sum--talk">
+              <time datetime="2026-12-05T09:35">09:35<span>水木剧场</span></time>
+              <span class="ev__main"><strong>主旨二 · 熊璋</strong><em>技术浪潮下，学习的重构与边界再思考</em></span>
+              <span class="ev__more"><span class="o">介绍</span><span class="c">收起</span></span>
+            </span>
+          </summary>
+          <div class="bio">
+            <div class="bio__in">
+              <div class="ph" role="img" aria-label="人物照留白"><span>待补</span></div>
+              <p>北京航空航天大学计算机学院教授。以国家科技进步一等奖的硬核科研底蕴，领衔研制中小学信息科技课程标准，成为中国人工智能教育顶层设计的掌舵者。</p>
+            </div>
+          </div>
         </details>
-        <details class="step step--talk" name="talk">
-          <summary><span class="talk"><b>10:10<em>水木剧场</em></b><span>主旨三 · 李文平<i>清澜山模式：基因传承、规模化与破局</i></span></span></summary>
-          <div class="bio"><div class="portrait" role="img" aria-label="人物照留白"></div><p>清澜山学校校长。主导学校高速发展期，在办学推进、规模化发展与国际融合教育方面具有众多实践经验，以「中西合璧」的定力构筑中国根基，让国际教育真正扎根于本土文化土壤。</p></div>
+      </li>
+      <li class="ev">
+        <details class="talk" id="talk-li" name="talk">
+          <summary>
+            <span class="sum sum--talk">
+              <time datetime="2026-12-05T10:10">10:10<span>水木剧场</span></time>
+              <span class="ev__main"><strong>主旨三 · 李文平</strong><em>清澜山模式：基因传承、规模化与破局</em></span>
+              <span class="ev__more"><span class="o">介绍</span><span class="c">收起</span></span>
+            </span>
+          </summary>
+          <div class="bio">
+            <div class="bio__in">
+              <div class="ph" role="img" aria-label="人物照留白"><span>待补</span></div>
+              <p>清澜山学校校长。主导学校高速发展期，在办学推进、规模化发展与国际融合教育方面具有众多实践经验，以「中西合璧」的定力构筑中国根基，让国际教育真正扎根于本土文化土壤。</p>
+            </div>
+          </div>
         </details>
-        <div class="step"><b>10:45<em>水木剧场</em></b><span>学生快闪<i>6 人，每人 3 分钟 · 我在无限可能的学校创造了哪些可能</i></span></div>
-        <div class="step"><b>11:05<em>水木剧场</em></b><span>全体合影<i>水木剧场</i></span></div>
-        <div class="step"><b>11:15</b><span>茶歇<i>11:35 前到达各自工作坊</i></span></div>
-        <div class="step"><b>11:35</b><span>平行工作坊<i>12 场 · 至 12:35</i></span></div>
-        <div class="step"><b>12:35<em>水木剧场</em></b><span>校园参访<i>水木剧场集合，学生导览员带队</i></span></div>
-        <div class="step"><b>13:05</b><span>午餐<i>可选</i></span></div>
-      </div>
-    </section>
-
-  </div>
+      </li>
+      <li class="ev">
+        <div class="sum">
+          <time datetime="2026-12-05T10:45">10:45<span>水木剧场</span></time>
+          <span class="ev__main"><strong>学生快闪</strong><em>6 人，每人 3 分钟 · 我在无限可能的学校创造了哪些可能</em></span>
+        </div>
+      </li>
+      <li class="ev">
+        <div class="sum">
+          <time datetime="2026-12-05T11:05">11:05<span>水木剧场</span></time>
+          <span class="ev__main"><strong>全体合影</strong><em>水木剧场</em></span>
+        </div>
+      </li>
+      <li class="ev">
+        <div class="sum">
+          <time datetime="2026-12-05T11:15">11:15</time>
+          <span class="ev__main"><strong>茶歇</strong><em>11:35 前到达各自工作坊</em></span>
+        </div>
+      </li>
+      <li class="ev" id="to-rooms">
+        <a class="ev__go" href="workshops.html">
+          <time datetime="2026-12-05T11:35">11:35</time>
+          <span class="ev__main"><strong>平行工作坊</strong><em>12 场 · 至 12:35</em><span class="ev__act">查看十二场工作坊</span></span>
+        </a>
+      </li>
+      <li class="ev">
+        <div class="sum">
+          <time datetime="2026-12-05T12:35">12:35<span>水木剧场</span></time>
+          <span class="ev__main"><strong>校园参访</strong><em>水木剧场集合，学生导览员带队</em></span>
+        </div>
+      </li>
+      <li class="ev">
+        <div class="sum">
+          <time datetime="2026-12-05T13:05">13:05</time>
+          <span class="ev__main"><strong>午餐</strong><em>可选</em></span>
+        </div>
+      </li>
+    </ol>
+  </section>
 </main>
 
-<div class="cta-zone">
-  <a class="cta" href="workshops.html">
-    <span>查看十二场工作坊</span>
-    <b>WORKSHOPS</b>
-  </a>
-  <p>提前报名，报满即止</p>
+<div class="dock">
+  <div class="dock__in">
+    <a class="brick" href="workshops.html"><span>查看十二场工作坊</span><b>WORKSHOPS</b></a>
+    <p>提前报名，报满即止</p>
+  </div>
 </div>
 
 <script>
 (function(){
 'use strict';
-/* 同时只展开一场。点下去的瞬间其他场先合上，这一场再由浏览器打开或收起 */
-var talks = document.querySelectorAll('.step--talk');
+/* 同时只展开一场。点开这一场时，其余先合上 */
+var talks = document.querySelectorAll('.talk');
 talks.forEach(function(d){
   d.querySelector('summary').addEventListener('click', function(){
-    if (d.open) return;
-    talks.forEach(function(o){ if (o !== d) o.open = false; });
+    var opening = !d.open;
+    if (opening) talks.forEach(function(o){ if (o !== d) o.open = false; });
+    if (history.replaceState) history.replaceState(null, '', opening ? '#' + d.id : location.pathname);
   });
 });
+var id = location.hash.slice(1);
+if (!id) return;
+var node = document.getElementById(id);
+if (node && node.classList.contains('talk')){
+  talks.forEach(function(o){ o.open = o === node; });
+}
 })();
 </script>
 </body>
