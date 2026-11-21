@@ -536,7 +536,8 @@ body{
   letter-spacing:.08em;
   color:rgba(199,155,110,.8);
 }
-/* 快捷通道：切角金键是主铭牌。字右侧的实心箭头指向三条目录；目录共用一道金边，不填底，也不做成第二块金键。 */
+/* 快捷通道：切角金键是主铭牌。字右侧的实心箭头指向一条金线路径；
+   背景—日程、日程—工作坊用横杠连起来，不套外框，也不做成下划线导航。 */
 .gate{
   --key-h:30px;
   display:flex;
@@ -545,8 +546,8 @@ body{
   justify-content:center;
   width:100%;
   min-width:0;
-  gap:clamp(12px,2.8vw,22px);
-  padding:8px 8px 2px;
+  gap:clamp(10px,2.4vw,18px);
+  padding:8px 4px 2px;
 }
 .gate__tag{
   position:relative;
@@ -559,17 +560,19 @@ body{
   align-items:center;
   gap:6px;
   min-height:var(--key-h);
-  padding:0 12px 0 13px;
+  padding:0 11px 0 12px;
   color:#150C06;
   font-family:"PingFang SC","Hiragino Sans GB","Heiti SC","Microsoft YaHei",sans-serif;
   font-size:12px;
   font-weight:700;
-  letter-spacing:.12em;
+  letter-spacing:.1em;
   line-height:1;
   white-space:nowrap;
-  background:linear-gradient(178deg,#FFF1DC 0%,#F0D6B6 38%,#C79B6E 100%);
-  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+  background:linear-gradient(178deg,#FFF1DC 0%,var(--gold-l) 38%,var(--gold) 100%);
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  transition:transform .08s linear;
 }
+.gate__tag:active .gate__key{transform:translateY(4px)}
 .gate__ico{width:16px;height:16px;flex:none;display:block;color:#150C06}
 .gate__tag::before,
 .gate__tag::after{
@@ -582,26 +585,14 @@ body{
 .gate__tag::before{left:-7px;top:-7px;border-right:0;border-bottom:0}
 .gate__tag::after{right:-7px;bottom:-7px;border-left:0;border-top:0}
 .dock{
-  position:relative;
   display:flex;
   flex-flow:row nowrap;
   align-items:center;
   justify-content:center;
   width:auto;
   min-width:0;
-  gap:clamp(10px,3.2vw,22px);
-  padding:0 11px;
-}
-/* 一道金边，框住三条目录。高度跟金键走，点击区仍是 44px，框本身不填色。 */
-.dock::before{
-  content:"";
-  position:absolute;
-  left:0;right:0;top:50%;
-  height:var(--key-h);
-  transform:translateY(-50%);
-  border:1px solid var(--gold-l);
-  background:none;
-  pointer-events:none;
+  gap:0;
+  padding:0;
 }
 .dock a{
   position:relative;
@@ -609,7 +600,7 @@ body{
   align-items:center;
   flex:none;
   min-height:44px;
-  padding:0 4px;
+  padding:0 2px;
   color:rgba(242,236,230,.92);
   font-family:"PingFang SC","Hiragino Sans GB","Heiti SC","Microsoft YaHei",sans-serif;
   font-size:14px;
@@ -621,12 +612,37 @@ body{
   touch-action:manipulation;
   -webkit-tap-highlight-color:transparent;
 }
-.dock a:active{color:#FFD9A8}
+.dock__bar{
+  flex:none;
+  width:clamp(16px,4.5vw,28px);
+  height:2px;
+  margin-inline:clamp(5px,1.3vw,10px);
+  background:linear-gradient(90deg,rgba(199,155,110,.28),var(--gold) 22%,var(--gold-l) 50%,var(--gold) 78%,rgba(199,155,110,.28));
+  opacity:.72;
+  transform:scaleY(1);
+  transform-origin:center;
+  pointer-events:none;
+  transition:opacity .14s linear, transform .14s linear;
+}
+.dock a:active{color:#FFD9A8;text-shadow:0 0 10px rgba(255,217,168,.45)}
 .dock a:focus{outline:none}
 .dock a:focus-visible{outline:1px solid rgba(255,217,168,.85);outline-offset:3px}
-.dock:focus-within::before{border-color:#FFD9A8}
+.dock a:active + .dock__bar,
+.dock__bar:has(+ a:active),
+.dock a:focus-visible + .dock__bar,
+.dock__bar:has(+ a:focus-visible){
+  opacity:1;
+  transform:scaleY(2);
+  background:linear-gradient(90deg,var(--gold),var(--gold-l) 50%,var(--gold));
+}
 @media (hover:hover) and (pointer:fine){
-  .dock a:hover{color:#FFD9A8}
+  .dock a:hover{color:#FFD9A8;text-shadow:0 0 10px rgba(255,217,168,.45)}
+  .dock a:hover + .dock__bar,
+  .dock__bar:has(+ a:hover){
+    opacity:1;
+    transform:scaleY(2);
+    background:linear-gradient(90deg,var(--gold),var(--gold-l) 50%,var(--gold));
+  }
 }
 
 /* ---------- 入场 ---------- */
@@ -674,9 +690,10 @@ body{
 @media (max-width:380px){
   .tip{font-size:8px;letter-spacing:.1em}
   .spec{letter-spacing:.14em}
-  .gate{--key-h:28px;gap:12px;padding:6px 2px 1px}
-  .gate__key{padding:0 9px 0 10px;font-size:11px;letter-spacing:.06em;gap:5px}
-  .dock{gap:7px;padding:0 7px}
+  .gate{--key-h:28px;gap:8px;padding:6px 0 1px}
+  .gate__key{padding:0 8px 0 9px;font-size:11px;letter-spacing:.04em;gap:4px}
+  .gate__ico{width:15px;height:15px}
+  .dock__bar{width:12px;margin-inline:3px}
   .dock a{font-size:13px;padding:0 1px}
 }
 @media (max-height:680px){
@@ -702,9 +719,10 @@ body{
   .play-wrap{margin-top:13px}
   .tip{margin-top:9px}
   .hud--bottom{gap:4px}
-  .gate{--key-h:28px;gap:12px;padding:6px 2px 0}
-  .gate__key{padding:0 9px 0 10px;font-size:11px;letter-spacing:.06em;gap:5px}
-  .dock{gap:7px;padding:0 7px}
+  .gate{--key-h:28px;gap:8px;padding:6px 0 0}
+  .gate__key{padding:0 8px 0 9px;font-size:11px;letter-spacing:.04em;gap:4px}
+  .gate__ico{width:15px;height:15px}
+  .dock__bar{width:12px;margin-inline:3px}
   .dock a{font-size:13px;padding:0 1px}
 }
 
@@ -849,7 +867,9 @@ body{
       </p>
       <nav class="dock" aria-labelledby="gate-label">
         <a href="story.html">背景</a>
+        <span class="dock__bar" aria-hidden="true"></span>
         <a href="schedule.html">日程</a>
+        <span class="dock__bar" aria-hidden="true"></span>
         <a href="workshops.html">工作坊</a>
       </nav>
     </div>
