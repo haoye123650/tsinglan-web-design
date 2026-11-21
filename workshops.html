@@ -145,11 +145,21 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .card__top .card__end{display:flex;align-items:center;gap:8px}
 .card__name{font-size:16px;font-weight:700;line-height:1.45;text-wrap:pretty;color:#FFF6EA}
 .card__who{font-size:14px;line-height:1.4;color:var(--gold-l)}
+/* 高度由脚本按「卡顶到报名条」来写。刚进页是说明下面的空档；点数字、数字条贴顶之后，空档变高，卡片才占满。 */
 @media (max-width:899px){
-  .card{height:calc(100svh - 61px - 78px);min-height:280px}
+  .card{height:var(--card-h, auto);min-height:0}
 }
-@media (max-height:700px) and (max-width:899px){
-  .card{height:calc(100svh - 53px - 74px)}
+@media (max-width:340px) and (max-height:580px){
+  :root{--bar:44px}
+  .wrap{padding-top:6px}
+  .head{padding-top:2px}
+  .head__k{margin-bottom:2px}
+  .head__t{font-size:24px;line-height:1.15}
+  .lock{margin-top:2px;font-size:22px}
+  .sec{margin-top:2px}
+  .sec__k{margin:4px 0 2px}
+  .sec__t{font-size:18px;margin-bottom:2px}
+  .rule,.pending{font-size:13px;line-height:1.35;margin-bottom:4px}
 }
 @media (min-width:900px){
   .card{flex-basis:calc(100% - 180px);height:auto;min-height:400px}
@@ -448,6 +458,31 @@ function scrollDeckTo(i, smooth){
   deck.scrollTo({left: deckLeftFor(i), behavior: smooth ? motion() : 'auto'});
 }
 
+function stageHeight(){
+  var chanH = chan.getBoundingClientRect().height;
+  var dockTop = document.querySelector('.dock').getBoundingClientRect().top;
+  return Math.floor(window.innerHeight - chanH - (window.innerHeight - dockTop) - 10);
+}
+function fitCards(){
+  if (window.innerWidth >= 900){
+    document.documentElement.style.removeProperty('--card-h');
+    return;
+  }
+  var h;
+  if (chan.getBoundingClientRect().top <= 1){
+    h = stageHeight();
+  } else {
+    var dockTop = document.querySelector('.dock').getBoundingClientRect().top;
+    var cardTop = cards[0].getBoundingClientRect().top;
+    h = Math.floor(dockTop - cardTop - 10);
+  }
+  if (h < 96) h = 96;
+  document.documentElement.style.setProperty('--card-h', h + 'px');
+}
+window.addEventListener('resize', fitCards);
+window.addEventListener('scrollend', fitCards);
+fitCards();
+
 function scrollPageToStage(){
   if (window.innerWidth >= 900){
     var top = deck.getBoundingClientRect().top;
@@ -467,6 +502,7 @@ links.forEach(function(a, i){
     setCurrent(i, true);
     centerLink(i, true);
     scrollDeckTo(i, true);
+    if (window.innerWidth < 900) document.documentElement.style.setProperty('--card-h', stageHeight() + 'px');
     scrollPageToStage();
     if (history.replaceState) history.replaceState(null, '', a.getAttribute('href'));
   });
