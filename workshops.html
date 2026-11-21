@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<meta name="theme-color" content="#04030A">
+<meta name="theme-color" content="#48322C">
 <meta name="robots" content="noindex">
 <title>十二场工作坊 · 无限可能的学校</title>
 <meta name="description" content="2026 年 12 月 5 日 11:35–12:35 的十二场平行工作坊。提前报名，报满即止。地点和名额之后补充。">
@@ -12,7 +12,7 @@
 /* ==========================================================
    十二场 · 同时段对照，不是一条任务清单
    可以先点一场，选中只留在这台手机上。
-   地点、名额、报名、校园模型都还没接上，按钮照实说。
+   地点、名额、报名都还没接上，按钮照实说。
    ========================================================== */
 @font-face{font-family:"Orbitron";src:url("assets/orbitron-500.woff2") format("woff2");font-weight:400 600;font-display:block}
 @font-face{font-family:"Orbitron";src:url("assets/orbitron-700.woff2") format("woff2");font-weight:700;font-display:block}
@@ -28,11 +28,16 @@
 @media (min-width:390px){:root{--pad:20px}}
 @media (min-width:768px){:root{--pad:28px}}
 *,*::before,*::after{box-sizing:border-box}
-html{background:var(--ink);color-scheme:dark;-webkit-text-size-adjust:100%;scroll-padding-top:118px;scroll-padding-bottom:160px;overscroll-behavior-x:none}
+html{background:#201614;color-scheme:dark;-webkit-text-size-adjust:100%;scroll-padding-top:118px;scroll-padding-bottom:160px;overscroll-behavior-x:none}
 html,body{margin:0;padding:0}
-body{background:var(--ink);color:var(--paper);font-family:var(--font-cn);-webkit-font-smoothing:antialiased;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+body{background:#201614;color:var(--paper);font-family:var(--font-cn);-webkit-font-smoothing:antialiased;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 ::selection{background:rgba(199,155,110,.35);color:#fff}
-.bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(70% 28% at 50% 0%,rgba(59,34,123,.42),transparent 70%),#04030A}
+/* 底：陶土为主，紫灰与金只在两侧。和背景页、日程同一套深浅。 */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(92% 46% at 8% -10%, rgba(215,149,128,.20), transparent 62%),
+  radial-gradient(70% 38% at 108% 8%, rgba(162,156,178,.14), transparent 60%),
+  radial-gradient(78% 42% at 70% 108%, rgba(208,172,104,.12), transparent 58%),
+  linear-gradient(180deg, #48322C 0%, #3A2824 48%, #201614 100%)}
 .floor{position:fixed;left:0;right:0;bottom:0;height:22vh;z-index:0;pointer-events:none;overflow:hidden;perspective:760px;perspective-origin:50% 0%;-webkit-mask-image:linear-gradient(to top,#000 0%,transparent 78%);mask-image:linear-gradient(to top,#000 0%,transparent 78%)}
 .floor i{position:absolute;left:-70%;right:-70%;top:0;bottom:0;transform-origin:50% 100%;transform:rotateX(68deg);opacity:.22;background-image:linear-gradient(rgba(159,211,236,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(159,211,236,.35) 1px,transparent 1px);background-size:96px 96px}
 .scan{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.2;background:repeating-linear-gradient(180deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px)}
@@ -57,17 +62,15 @@ body{background:var(--ink);color:var(--paper);font-family:var(--font-cn);-webkit
   position:sticky;top:0;z-index:25;display:flex;align-items:center;gap:2px;
   height:calc(env(safe-area-inset-top,0px) + var(--bar));box-sizing:border-box;
   padding:env(safe-area-inset-top,0px) max(8px,calc((100% - var(--col)) / 2)) 0 max(var(--pad),calc((100% - var(--col)) / 2 + var(--pad)));
-  background:#04030A;border-bottom:1px solid rgba(199,155,110,.16);
+  background:#48322C;border-bottom:1px solid rgba(199,155,110,.16);
 }
 @media (min-width:800px){.brand{--col:980px}}
 .brand__id{flex:1;min-width:0;display:flex;align-items:center;gap:8px;margin:0;font-family:var(--font-led);font-weight:700;font-size:9px;letter-spacing:.12em;white-space:nowrap;color:rgba(240,214,182,.78)}
 .brand__id i{font-style:normal;font-size:15px;line-height:1;color:var(--gold-hi);text-shadow:0 0 12px rgba(255,217,168,.45)}
-.brand__id em{margin-left:auto;font-style:normal;font-size:7px;letter-spacing:.12em;color:rgba(242,236,230,.5)}
 .back{flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:rgba(240,214,182,.86);text-decoration:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .back svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .back:focus-visible,.chan a:focus-visible,.hold:focus-visible{outline:2px solid var(--ice);outline-offset:3px}
 .back:active{color:var(--gold-hi)}
-@media (max-width:300px){.brand__id em{display:none}}
 @media (max-width:340px){.brand__id{letter-spacing:.08em}}
 .head{padding:16px 0 0}
 .head__k{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-family:var(--font-led);font-size:9px;letter-spacing:.22em;color:rgba(159,211,236,.86)}
@@ -82,14 +85,14 @@ body{background:var(--ink);color:var(--paper);font-family:var(--font-cn);-webkit
 .rule{margin:0 0 8px;font-size:15px;line-height:1.7;color:rgba(242,236,230,.9)}
 .pending{margin:0 0 12px;font-size:14px;line-height:1.6;color:var(--gold-l)}
 .sec__t{text-wrap:pretty}
-#rooms,#campus,.card{scroll-margin-top:124px;scroll-margin-bottom:110px}
+#rooms,.card{scroll-margin-top:124px;scroll-margin-bottom:110px}
 fieldset{border:0;margin:0;padding:0;min-width:0}
 /* ---------- 场次跳转：自己横滑，不撑开页面 ---------- */
 .chan{
   position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--bar));z-index:24;
   display:flex;gap:6px;overflow-x:auto;overscroll-behavior-x:contain;
   margin:0 calc(var(--pad) * -1);padding:8px var(--pad) 8px;
-  background:#04030A;border-bottom:1px solid rgba(199,155,110,.16);
+  background:#48322C;border-bottom:1px solid rgba(199,155,110,.16);
   scrollbar-color:rgba(199,155,110,.45) transparent;
 }
 @media (max-width:720px){
@@ -118,36 +121,21 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .card__flag{display:none;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--gold-hi)}
 .card.is-on .card__flag,.card:has(input:checked) .card__flag{display:inline}
 .card__sq{width:14px;height:14px;border:1px solid rgba(240,214,182,.8);flex:none}
-.card.is-on .card__sq,.card:has(input:checked) .card__sq{background:var(--gold-l);box-shadow:inset 0 0 0 3px #04030A}
+.card.is-on .card__sq,.card:has(input:checked) .card__sq{background:var(--gold-l);box-shadow:inset 0 0 0 3px #201614}
 .card__top .card__end{display:flex;align-items:center;gap:8px}
 .card__name{font-size:16px;font-weight:700;line-height:1.45;text-wrap:pretty;color:#FFF6EA}
 .card__who{font-size:14px;line-height:1.4;color:var(--gold-l)}
 .card__meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:auto;padding-top:4px;font-size:13px;color:rgba(159,211,236,.92)}
 .card__meta b{margin-left:6px;font-weight:700;color:rgba(242,236,230,.92)}
-/* ---------- 校园：空位做完，模型不假装能开 ---------- */
-.campus{margin-top:28px;padding-top:8px}
-.monitor{
-  position:relative;height:148px;margin:0 0 14px;display:flex;align-items:center;justify-content:center;
-  border:1px solid rgba(199,155,110,.45);background-color:#07060f;
-  background-image:linear-gradient(rgba(159,211,236,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(159,211,236,.18) 1px,transparent 1px);
-  background-size:22px 22px;
-}
-.monitor i{position:absolute;width:12px;height:12px;border:1px solid rgba(240,214,182,.85)}
-.monitor i:nth-child(1){top:6px;left:6px;border-right:0;border-bottom:0}
-.monitor i:nth-child(2){top:6px;right:6px;border-left:0;border-bottom:0}
-.monitor i:nth-child(3){bottom:6px;left:6px;border-right:0;border-top:0}
-.monitor i:nth-child(4){bottom:6px;right:6px;border-left:0;border-top:0}
-.monitor b{position:relative;z-index:1;padding:6px 10px;background:rgba(4,3,10,.78);font-size:13px;font-weight:700;letter-spacing:.16em;color:var(--gold-l)}
-.campus p{margin:0 0 8px;font-size:15px;line-height:1.7;color:rgba(242,236,230,.9)}
 /* ---------- 底栏：未接通，不是金砖 ---------- */
-.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:0 var(--pad) calc(10px + env(safe-area-inset-bottom,0px));pointer-events:none;background:linear-gradient(180deg,rgba(4,3,10,0),#04030A 14px)}
-.dock__in{max-width:720px;margin:0 auto;pointer-events:auto;padding-top:8px;background:#04030A}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:0 var(--pad) calc(10px + env(safe-area-inset-bottom,0px));pointer-events:none;background:linear-gradient(180deg,rgba(32,22,20,0),#201614 14px)}
+.dock__in{max-width:720px;margin:0 auto;pointer-events:auto;padding-top:8px;background:#201614}
 @media (min-width:800px){.dock__in{max-width:980px}}
 @media (min-width:900px){
   body{padding-bottom:0}
   .dock{position:static;pointer-events:auto;background:none;padding:22px var(--pad) 36px}
   .dock__in{background:none;padding-top:0}
-  .dock .hold,.campus .hold{max-width:440px}
+  .dock .hold{max-width:440px}
 }
 @media (hover:hover) and (pointer:fine){
   .back:hover{color:var(--gold-hi)}
@@ -165,12 +153,11 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 }
 .hold{
   display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;padding:0 14px;
-  border:1px solid rgba(199,155,110,.6);background:rgba(4,3,10,.86);color:var(--gold-l);
+  border:1px solid rgba(199,155,110,.6);background:rgba(32,22,20,.9);color:var(--gold-l);
   font-family:var(--font-cn);font-size:15px;font-weight:700;letter-spacing:.06em;
   cursor:not-allowed;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
 .hold:disabled,.hold[aria-disabled="true"]{color:var(--gold-l);opacity:1}
-.campus .hold{margin-top:8px}
 .in{opacity:0;transform:translateY(12px);animation:bootIn .8s cubic-bezier(.22,1,.36,1) forwards}
 .in1{animation-delay:.08s}.in2{animation-delay:.16s}.in3{animation-delay:.26s}.in4{animation-delay:.36s}
 @keyframes bootIn{to{opacity:1;transform:none}}
@@ -180,7 +167,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 }
 @media (forced-colors:active){
   .head__t{background:none;-webkit-text-fill-color:CanvasText;color:CanvasText}
-  .card,.hold,.monitor,.chan a{border:1px solid ButtonText}
+  .card,.hold,.chan a{border:1px solid ButtonText}
   .toc__tab,.toc__panel{background:Canvas;color:CanvasText;border:1px solid CanvasText}
 }
 /* ---------- 右侧目录：收起只留把手，点箭头或向左滑打开 ---------- */
@@ -198,14 +185,14 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .toc__tab{
   pointer-events:auto;position:absolute;left:0;top:50%;transform:translateY(-50%);
   width:44px;height:64px;display:flex;align-items:center;justify-content:center;
-  padding:0;border:1px solid rgba(199,155,110,.62);border-right:0;background:#04030A;color:var(--gold-l);
+  padding:0;border:1px solid rgba(199,155,110,.62);border-right:0;background:#3A2824;color:var(--gold-l);
   cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
 .toc__tab svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .28s cubic-bezier(.22,1,.36,1)}
 .toc.is-open .toc__tab svg{transform:scaleX(-1)}
 .toc__panel{
   pointer-events:auto;position:absolute;left:44px;top:0;right:0;bottom:0;overflow:auto;
-  overscroll-behavior:contain;padding:14px 12px 12px 8px;background:#04030A;
+  overscroll-behavior:contain;padding:14px 12px 12px 8px;background:#3A2824;
   border-left:1px solid rgba(199,155,110,.45);
 }
 .toc.is-open .toc__panel{box-shadow:-14px 0 24px rgba(4,3,10,.5)}
@@ -243,7 +230,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 <span class="rail rail--r" aria-hidden="true">TRY AND ALL IS POSSIBLE</span>
 <a class="skip-link" href="#main">跳到正文</a>
 <header class="brand">
-  <p class="brand__id"><i aria-hidden="true">∞</i><span translate="no">TRY AND ALL IS POSSIBLE</span><em>ROOMS</em></p>
+  <p class="brand__id"><i aria-hidden="true">∞</i><span translate="no">TRY AND ALL IS POSSIBLE</span></p>
   <a class="back" href="schedule.html" aria-label="返回主线任务"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
 </header>
 <main class="wrap" id="main">
@@ -280,16 +267,6 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
       </div>
     </fieldset>
   </section>
-
-  <section class="campus" id="campus" aria-labelledby="campus-title">
-    <h2 class="sec__t" id="campus-title">整座学校</h2>
-    <div class="monitor" aria-hidden="true"><i></i><i></i><i></i><i></i><b>房间未标注</b></div>
-    <div id="campus-note">
-      <p>房间还没标在上面。</p>
-      <p>地点标好之前，这一页不打开模型。</p>
-    </div>
-    <button type="button" class="hold" aria-disabled="true" aria-describedby="campus-note">模型还没接上</button>
-  </section>
 </main>
 
 <div class="dock">
@@ -310,7 +287,6 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
     <a href="schedule.html">日程</a>
     <a href="workshops.html" aria-current="page">工作坊</a>
     <a class="toc__sub" href="#rooms">01 · 提前报名</a>
-    <a class="toc__sub" href="#campus">整座学校</a>
   </nav>
 </div>
 

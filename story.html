@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<meta name="theme-color" content="#04030A">
+<meta name="theme-color" content="#3A3548">
 <meta name="robots" content="noindex">
 <title>新手村介绍 · 无限可能的学校</title>
 <meta name="description" content="New Players Starter Guide — 第一次来清澜山的人，先读这一页。第十三届中国教育创新年会（场外深研）暨清澜山学校第四届创新教育论坛，2026 年 12 月 5 日。">
@@ -28,18 +28,21 @@
 @media (min-width:390px){:root{--pad:20px}}
 @media (min-width:768px){:root{--pad:28px}}
 *,*::before,*::after{box-sizing:border-box}
-html{background:var(--ink);color-scheme:dark;-webkit-text-size-adjust:100%;scroll-padding-top:68px;scroll-padding-bottom:140px;overscroll-behavior-x:none}
+html{background:#1C1A24;color-scheme:dark;-webkit-text-size-adjust:100%;scroll-padding-top:68px;scroll-padding-bottom:140px;overscroll-behavior-x:none}
 html,body{margin:0;padding:0}
 body{
-  background:var(--ink);color:var(--paper);font-family:var(--font-cn);
+  background:#1C1A24;color:var(--paper);font-family:var(--font-cn);
   -webkit-font-smoothing:antialiased;
   padding-bottom:calc(128px + env(safe-area-inset-bottom,0px));
 }
 ::selection{background:rgba(199,155,110,.35);color:#fff}
 /* ---------- 背景与取景框 ---------- */
+/* 底：紫灰为主，陶土与金只在两侧轻轻染一下。同日程、工作坊是一家，这一页更冷。 */
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:
-  radial-gradient(70% 28% at 50% 0%,rgba(59,34,123,.42),transparent 70%),
-  #04030A}
+  radial-gradient(92% 46% at 8% -10%, rgba(162,156,178,.20), transparent 62%),
+  radial-gradient(70% 38% at 108% 8%, rgba(215,149,128,.12), transparent 60%),
+  radial-gradient(78% 42% at 70% 108%, rgba(208,172,104,.12), transparent 58%),
+  linear-gradient(180deg, #3A3548 0%, #302B40 48%, #1C1A24 100%)}
 .floor{position:fixed;left:0;right:0;bottom:0;height:22vh;z-index:0;pointer-events:none;overflow:hidden;perspective:760px;perspective-origin:50% 0%;-webkit-mask-image:linear-gradient(to top,#000 0%,transparent 78%);mask-image:linear-gradient(to top,#000 0%,transparent 78%)}
 .floor i{position:absolute;left:-70%;right:-70%;top:0;bottom:0;transform-origin:50% 100%;transform:rotateX(68deg);opacity:.22;background-image:linear-gradient(rgba(159,211,236,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(159,211,236,.35) 1px,transparent 1px);background-size:96px 96px}
 .scan{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.2;background:repeating-linear-gradient(180deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px)}
@@ -66,17 +69,15 @@ body{
   position:sticky;top:0;z-index:25;display:flex;align-items:center;gap:2px;
   height:calc(env(safe-area-inset-top,0px) + var(--bar));box-sizing:border-box;
   padding:env(safe-area-inset-top,0px) max(8px,calc((100% - var(--col)) / 2)) 0 max(var(--pad),calc((100% - var(--col)) / 2 + var(--pad)));
-  background:#04030A;border-bottom:1px solid rgba(199,155,110,.16);
+  background:#3A3548;border-bottom:1px solid rgba(199,155,110,.16);
 }
 @media (min-width:960px){.brand{--col:980px}}
 .brand__id{flex:1;min-width:0;display:flex;align-items:center;gap:8px;margin:0;font-family:var(--font-led);font-weight:700;font-size:9px;letter-spacing:.12em;white-space:nowrap;color:rgba(240,214,182,.78)}
 .brand__id i{font-style:normal;font-size:15px;line-height:1;color:var(--gold-hi);text-shadow:0 0 12px rgba(255,217,168,.45)}
-.brand__id em{margin-left:auto;font-style:normal;font-size:7px;letter-spacing:.12em;color:rgba(242,236,230,.5)}
 .back{flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:rgba(240,214,182,.86);text-decoration:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .back svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .back:focus-visible,.brick:focus-visible{outline:2px solid var(--ice);outline-offset:3px}
 .back:active{color:var(--gold-hi)}
-@media (max-width:300px){.brand__id em{display:none}}
 @media (max-width:340px){.brand__id{letter-spacing:.08em}}
 /* ---------- 章头 ---------- */
 .head{padding:18px 0 0}
@@ -115,8 +116,8 @@ body{
   .sheet__side{position:sticky;top:72px;max-height:calc(100dvh - 96px);overflow:auto;padding-left:8px}
 }
 /* ---------- 金砖：8px 切角，按下沉 4px ---------- */
-.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:0 var(--pad) calc(10px + env(safe-area-inset-bottom,0px));pointer-events:none;background:linear-gradient(180deg,rgba(4,3,10,0),#04030A 16px)}
-.dock__in{max-width:720px;margin:0 auto;pointer-events:auto;padding-top:8px;background:#04030A}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:0 var(--pad) calc(10px + env(safe-area-inset-bottom,0px));pointer-events:none;background:linear-gradient(180deg,rgba(28,26,36,0),#1C1A24 16px)}
+.dock__in{max-width:720px;margin:0 auto;pointer-events:auto;padding-top:8px;background:#1C1A24}
 @media (min-width:960px){.dock__in{max-width:980px}}
 .brick{
   display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:52px;padding:0 16px;
@@ -172,14 +173,14 @@ body{
 .toc__tab{
   pointer-events:auto;position:absolute;left:0;top:50%;transform:translateY(-50%);
   width:44px;height:64px;display:flex;align-items:center;justify-content:center;
-  padding:0;border:1px solid rgba(199,155,110,.62);border-right:0;background:#04030A;color:var(--gold-l);
+  padding:0;border:1px solid rgba(199,155,110,.62);border-right:0;background:#302B40;color:var(--gold-l);
   cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
 .toc__tab svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .28s cubic-bezier(.22,1,.36,1)}
 .toc.is-open .toc__tab svg{transform:scaleX(-1)}
 .toc__panel{
   pointer-events:auto;position:absolute;left:44px;top:0;right:0;bottom:0;overflow:auto;
-  overscroll-behavior:contain;padding:14px 12px 12px 8px;background:#04030A;
+  overscroll-behavior:contain;padding:14px 12px 12px 8px;background:#302B40;
   border-left:1px solid rgba(199,155,110,.45);
 }
 .toc.is-open .toc__panel{box-shadow:-14px 0 24px rgba(4,3,10,.5)}
@@ -217,7 +218,7 @@ body{
 <span class="rail rail--r" aria-hidden="true">TRY AND ALL IS POSSIBLE</span>
 <a class="skip-link" href="#main">跳到正文</a>
 <header class="brand">
-  <p class="brand__id"><i aria-hidden="true">∞</i><span translate="no">TRY AND ALL IS POSSIBLE</span><em>ORIGIN</em></p>
+  <p class="brand__id"><i aria-hidden="true">∞</i><span translate="no">TRY AND ALL IS POSSIBLE</span></p>
   <a class="back" href="game.html" aria-label="返回游戏"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
 </header>
 <main class="wrap" id="main">
@@ -235,13 +236,13 @@ body{
         <p>清澜山学校成立于 2017 年，初期由清华大学附属中学负责教育教学管理运营，从幼儿园到高中全学段。现在有 <b>92 个班，在校生 2000 余人，教职员工 400 余人</b>。</p>
         <p>办学使命是「培养根植于中国文化，学术积淀深厚，具有创新精神和突出特长的国际化杰出人才」。校训是 <em>尝试，一切可能</em>。沿着这句校训，学校培养学生的核心素养：身心健康、正直担当、追求卓越、探索创新、坚韧不拔、兼容并包。</p>
         <p>办学特色是中国根基、中西合璧、国际品质、清华特色。在中英双语言、双文化的浸润和熏陶下，既夯实中文，又确保英文浸润习得；同时高度重视科技教育，培养学生的科技素养与创造力。</p>
-        <p>清澜山至今举办过三届创新教育论坛，先后邀请纽约科学院院长杜宁凯教授、清华大学饶培伦教授、香港科技大学（广州）协理副校长熊辉教授、中国常驻联合国教科文组织原大使衔代表杨进、美高科高深度学习中心主任 Mary Jones。今年是第四届。</p>
+        <p>清澜山至今举办过三届创新教育论坛，先后邀请纽约科学院院长杜宁凯教授、清华大学饶培伦教授、香港科技大学（广州）协理副校长熊辉教授、中国常驻联合国教科文组织原大使衔代表杨进、美高科高深度学习中心主任 Mary Jones。欢迎莅临第四届创新教育论坛的现场。</p>
       </section>
 
       <section class="sec" id="origin">
         <p class="sec__k">02 · 世界设定</p>
         <h2 class="sec__t">为什么叫「无限游戏」</h2>
-        <p>面对 AI 时代，每所学校都在重新思考教育的可能性。今年，清澜山与蒲公英教育智库合作，作为第十三届中国教育创新年会「<b>场外深研</b>」的平行专场，共同探索教育的无限可能。年会主题是「无限游戏」，副题是「下一代学校」。</p>
+        <p>面对 AI 时代，每所学校都在重新思考教育的可能性。今年，清澜山与蒲公英教育智库合作，作为第十三届中国教育创新年会「<b>场外深研</b>」的平行专场，共同探索教育的无限可能。年会主题：「无限游戏-下一代学校」</p>
         <blockquote class="quote">
           <span class="quote__c quote__c--tl" aria-hidden="true"></span>
           <span class="quote__c quote__c--tr" aria-hidden="true"></span>
@@ -251,18 +252,17 @@ body{
           <i>蒲公英教育智库 · 第十三届中国教育创新年会</i>
         </blockquote>
         <p>在他们看来，下一代学校是「教会孩子用有限生命玩无限游戏的地方」，不以单一分数决定胜负，而以每一个生命的持续生长定义价值。</p>
-        <p><b>清澜山愿意做这场无限游戏里的一处现场。</b></p>
+        <p><b>清澜山将是这场无限游戏里的一处现场。</b></p>
       </section>
     </div>
 
-    <aside class="sheet__side" id="asks">
-      <p class="sec__k">03 · 研讨命题</p>
-      <h2 class="sec__t">今天要一起问的四件事</h2>
+    <aside class="sheet__side" id="asks" aria-labelledby="asks-k">
+      <p class="sec__k" id="asks-k">03 · 研讨命题</p>
       <ol class="quests">
         <li><b>01</b><span><strong>临界点之问</strong><i>AI 时代学校转型的契机、卡点与系统准备</i></span></li>
         <li><b>02</b><span><strong>人的无限可能</strong><i>「尝试，一切可能」校训之下，师生的可能性，以及制度、课程、空间如何支撑这种可能性</i></span></li>
         <li><b>03</b><span><strong>实践的力量</strong><i>清华学术内涵与华为产业能力融合的优势、张力与冲突</i></span></li>
-        <li><b>04</b><span><strong>文化与机制的力量</strong><i>新学校文化与运行机制构建，正视试错与未竟之事</i></span></li>
+        <li><b>04</b><span><strong>文化与机制的力量</strong><i>学校文化与运行机制构建，正视试错与未竟之事</i></span></li>
       </ol>
     </aside>
   </div>
