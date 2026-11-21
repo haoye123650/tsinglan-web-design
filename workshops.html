@@ -28,7 +28,7 @@
 @media (min-width:390px){:root{--pad:20px}}
 @media (min-width:768px){:root{--pad:28px}}
 *,*::before,*::after{box-sizing:border-box}
-html{background:#201614;color-scheme:dark;-webkit-text-size-adjust:100%;scroll-padding-top:118px;scroll-padding-bottom:160px;overscroll-behavior-x:none}
+html{background:#201614;color-scheme:dark;-webkit-text-size-adjust:100%;scroll-padding-top:72px;scroll-padding-bottom:160px;overscroll-behavior-x:none}
 html,body{margin:0;padding:0}
 body{background:#201614;color:var(--paper);font-family:var(--font-cn);-webkit-font-smoothing:antialiased;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 ::selection{background:rgba(199,155,110,.35);color:#fff}
@@ -72,6 +72,10 @@ body{background:#201614;color:var(--paper);font-family:var(--font-cn);-webkit-fo
 .back:focus-visible,.chan a:focus-visible,.hold:focus-visible{outline:2px solid var(--ice);outline-offset:3px}
 .back:active{color:var(--gold-hi)}
 @media (max-width:340px){.brand__id{letter-spacing:.08em}}
+/* 手机上顶栏跟着页走。点某一场之后，说明和顶栏滚出视口，数字条才能贴在屏幕顶。 */
+@media (max-width:899px){
+  .brand{position:relative;top:auto}
+}
 .head{padding:16px 0 0}
 .head__k{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-family:var(--font-led);font-size:9px;letter-spacing:.22em;color:rgba(159,211,236,.86)}
 .head__k::before{content:"";width:22px;height:1px;flex:none;background:linear-gradient(90deg,var(--ice),transparent)}
@@ -85,7 +89,8 @@ body{background:#201614;color:var(--paper);font-family:var(--font-cn);-webkit-fo
 .rule{margin:0 0 8px;font-size:15px;line-height:1.7;color:rgba(242,236,230,.9)}
 .pending{margin:0 0 12px;font-size:14px;line-height:1.6;color:var(--gold-l)}
 .sec__t{text-wrap:pretty}
-#rooms,.card{scroll-margin-top:124px;scroll-margin-bottom:110px}
+#rooms{scroll-margin-top:12px;scroll-margin-bottom:110px}
+.card{scroll-margin-top:72px;scroll-margin-bottom:110px}
 fieldset{border:0;margin:0;padding:0;min-width:0}
 /* ---------- 场次跳转：自己横滑，不撑开页面 ---------- */
 .chan{
@@ -104,16 +109,31 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   color:var(--gold-l);border:1px solid rgba(199,155,110,.4);-webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
 .chan a:active{background:rgba(199,155,110,.16)}
-/* ---------- 十二场对照 ---------- */
-.board{display:grid;gap:10px}
-@media (min-width:800px){.board{grid-template-columns:1fr 1fr;gap:12px}}
+.chan a[aria-current="true"]{border-color:var(--gold-l);background:rgba(199,155,110,.22);color:var(--gold-hi)}
+@media (max-width:899px){.chan{top:0}}
+/* ---------- 十二场：一条跟手的卡片轨，不是轮播点 ---------- */
+.deck{
+  display:flex;align-items:stretch;gap:10px;
+  margin:0;padding:2px 0 4px;
+  overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  scroll-padding-inline-start:0;
+  overscroll-behavior-x:contain;
+  scrollbar-width:none;
+  touch-action:manipulation;
+  -webkit-user-select:none;user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.deck::-webkit-scrollbar{display:none;height:0}
+.deck::after{content:"";flex:0 0 72px;scroll-snap-align:none}
+.card{flex:0 0 calc(100% - 52px);scroll-snap-align:start;scroll-snap-stop:normal}
 .card{
   position:relative;z-index:0;display:flex;flex-direction:column;gap:8px;min-width:0;min-height:44px;
   padding:13px 13px 12px;border:1px solid rgba(199,155,110,.3);
   background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.012));
   cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
-.card input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.card input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;pointer-events:none}
 .card:focus-within{outline:2px solid var(--ice);outline-offset:2px}
 .card.is-on,.card:has(input:checked){border-color:rgba(240,214,182,.9);background:linear-gradient(180deg,rgba(199,155,110,.16),rgba(199,155,110,.04))}
 .card__top{display:flex;align-items:center;justify-content:space-between;gap:8px}
@@ -125,6 +145,25 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .card__top .card__end{display:flex;align-items:center;gap:8px}
 .card__name{font-size:16px;font-weight:700;line-height:1.45;text-wrap:pretty;color:#FFF6EA}
 .card__who{font-size:14px;line-height:1.4;color:var(--gold-l)}
+/* 高度由脚本按「卡顶到报名条」来写。刚进页是说明下面的空档；点数字、数字条贴顶之后，空档变高，卡片才占满。 */
+@media (max-width:899px){
+  .card{height:var(--card-h, auto);min-height:0}
+}
+@media (max-width:340px) and (max-height:580px){
+  :root{--bar:44px}
+  .wrap{padding-top:6px}
+  .head{padding-top:2px}
+  .head__k{margin-bottom:2px}
+  .head__t{font-size:24px;line-height:1.15}
+  .lock{margin-top:2px;font-size:22px}
+  .sec{margin-top:2px}
+  .sec__k{margin:4px 0 2px}
+  .sec__t{font-size:18px;margin-bottom:2px}
+  .rule,.pending{font-size:13px;line-height:1.35;margin-bottom:4px}
+}
+@media (min-width:900px){
+  .card{flex-basis:calc(100% - 180px);height:auto;min-height:400px}
+}
 .card__meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:auto;padding-top:4px;font-size:13px;color:rgba(159,211,236,.92)}
 .card__meta b{margin-left:6px;font-weight:700;color:rgba(242,236,230,.92)}
 /* ---------- 底栏：未接通，不是金砖 ---------- */
@@ -251,7 +290,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
         <a href="#w05">05</a><a href="#w06">06</a><a href="#w07">07</a><a href="#w08">08</a>
         <a href="#w09">09</a><a href="#w10">10</a><a href="#w11">11</a><a href="#w12">12</a>
       </nav>
-      <div class="board">
+      <div class="deck" id="deck" aria-label="十二场工作坊，左右滑动换场">
         <label class="card" id="w01"><input type="radio" name="workshop" autocomplete="off" value="01"><span class="card__top"><b>01</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__name">拒绝「伪装变革」：AI 时代重构真实学习设计的实操路径</span><span class="card__who">黎蒙</span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
         <label class="card" id="w02"><input type="radio" name="workshop" autocomplete="off" value="02"><span class="card__top"><b>02</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__name">当 AI 比我们会讲道理：国际化学校的德育，如何从「管住人」走向「长出判断」</span><span class="card__who">林静姿</span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
         <label class="card" id="w03"><input type="radio" name="workshop" autocomplete="off" value="03"><span class="card__top"><b>03</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__name">破解学习迷宫：AI 驱动下的个性化学习空间与路线设计</span><span class="card__who">孙成伟</span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
@@ -343,6 +382,7 @@ panel.addEventListener('click', function(e){
 var sx = 0, sy = 0, armed = false, pid = null;
 document.addEventListener('pointerdown', function(e){
   if (e.pointerType === 'mouse' && e.button !== 0) return;
+  if (e.target.closest && e.target.closest('.deck, .chan')) return;
   var near = e.clientX >= window.innerWidth - 56;
   var inside = open && root.contains(e.target);
   if (!near && !inside) return;
@@ -360,6 +400,142 @@ document.addEventListener('pointerup', function(e){
   setOpen(dx < 0);
 });
 document.addEventListener('pointercancel', function(){ armed = false; });
+})();
+</script>
+<script>
+(function(){
+'use strict';
+/* 数字条和卡片是两条独立的横滑。点数字才跳场，并让说明滚出视口。 */
+var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var deck = document.getElementById('deck');
+var chan = document.querySelector('.chan');
+if (!deck || !chan) return;
+var links = Array.prototype.slice.call(chan.querySelectorAll('a'));
+var cards = Array.prototype.slice.call(deck.querySelectorAll('.card'));
+var current = -1;
+var raf = 0;
+
+function motion(){ return reduce ? 'auto' : 'smooth'; }
+
+function indexFromScroll(){
+  var edge = deck.getBoundingClientRect().left;
+  var best = 0, bestD = Infinity;
+  for (var i = 0; i < cards.length; i++){
+    var d = Math.abs(cards[i].getBoundingClientRect().left - edge);
+    if (d < bestD){ bestD = d; best = i; }
+  }
+  return best;
+}
+
+function centerLink(i, smooth){
+  var a = links[i];
+  if (!a) return;
+  var c = chan.getBoundingClientRect();
+  var r = a.getBoundingClientRect();
+  var delta = (r.left + r.width / 2) - (c.left + c.width / 2);
+  if (Math.abs(delta) < 2) return;
+  chan.scrollTo({left: chan.scrollLeft + delta, behavior: smooth ? motion() : 'auto'});
+}
+
+function setCurrent(i, reveal){
+  if (i < 0 || i >= links.length || i === current) {
+    if (reveal && i === current) centerLink(i, false);
+    return;
+  }
+  current = i;
+  for (var n = 0; n < links.length; n++){
+    if (n === i) links[n].setAttribute('aria-current', 'true');
+    else links[n].removeAttribute('aria-current');
+  }
+  if (reveal) centerLink(i, false);
+}
+
+function deckLeftFor(i){
+  return cards[i].offsetLeft - cards[0].offsetLeft;
+}
+
+function scrollDeckTo(i, smooth){
+  deck.scrollTo({left: deckLeftFor(i), behavior: smooth ? motion() : 'auto'});
+}
+
+function stageHeight(){
+  var chanH = chan.getBoundingClientRect().height;
+  var dockTop = document.querySelector('.dock').getBoundingClientRect().top;
+  return Math.floor(window.innerHeight - chanH - (window.innerHeight - dockTop) - 10);
+}
+function fitCards(){
+  if (window.innerWidth >= 900){
+    document.documentElement.style.removeProperty('--card-h');
+    return;
+  }
+  var h;
+  if (chan.getBoundingClientRect().top <= 1){
+    h = stageHeight();
+  } else {
+    var dockTop = document.querySelector('.dock').getBoundingClientRect().top;
+    var cardTop = cards[0].getBoundingClientRect().top;
+    h = Math.floor(dockTop - cardTop - 10);
+  }
+  if (h < 96) h = 96;
+  document.documentElement.style.setProperty('--card-h', h + 'px');
+}
+window.addEventListener('resize', fitCards);
+window.addEventListener('scrollend', fitCards);
+fitCards();
+
+function scrollPageToStage(){
+  if (window.innerWidth >= 900){
+    var top = deck.getBoundingClientRect().top;
+    if (top < 72 || deck.getBoundingClientRect().bottom > window.innerHeight - 24){
+      window.scrollTo({top: deck.getBoundingClientRect().top + window.scrollY - 76, behavior: motion()});
+    }
+    return;
+  }
+  var y = chan.getBoundingClientRect().top + window.scrollY;
+  window.scrollTo({top: y, behavior: motion()});
+}
+
+links.forEach(function(a, i){
+  a.addEventListener('click', function(e){
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    setCurrent(i, true);
+    centerLink(i, true);
+    scrollDeckTo(i, true);
+    if (window.innerWidth < 900) document.documentElement.style.setProperty('--card-h', stageHeight() + 'px');
+    scrollPageToStage();
+    if (history.replaceState) history.replaceState(null, '', a.getAttribute('href'));
+  });
+});
+
+deck.addEventListener('scroll', function(){
+  if (raf) return;
+  raf = requestAnimationFrame(function(){
+    raf = 0;
+    setCurrent(indexFromScroll(), true);
+  });
+}, {passive:true});
+
+deck.addEventListener('scrollend', function(){
+  var i = indexFromScroll();
+  setCurrent(i, true);
+  if (history.replaceState) history.replaceState(null, '', links[i].getAttribute('href'));
+});
+
+cards.forEach(function(c, i){
+  c.querySelector('input').addEventListener('change', function(){
+    if (!this.checked) return;
+    setCurrent(i, true);
+    if (Math.abs(deck.scrollLeft - deckLeftFor(i)) > 4) scrollDeckTo(i, true);
+  });
+});
+
+var hashed = links.findIndex(function(a){ return a.getAttribute('href') === location.hash; });
+setCurrent(hashed >= 0 ? hashed : 0, hashed >= 0);
+if (hashed >= 0){
+  scrollDeckTo(hashed, false);
+  scrollPageToStage();
+}
 })();
 </script>
 </body>
