@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<meta name="theme-color" content="#04030A">
+<meta name="theme-color" content="#443826">
 <meta name="robots" content="noindex">
 <title>今日任务 · 无限可能的学校</title>
 <meta name="description" content="2026 年 12 月 5 日清澜山学校第四届创新教育论坛日程：主旨、学生快闪、工作坊与校园参访。">
@@ -27,11 +27,16 @@
 @media (min-width:390px){:root{--pad:20px}}
 @media (min-width:768px){:root{--pad:28px}}
 *,*::before,*::after{box-sizing:border-box}
-html{background:var(--ink);color-scheme:dark;-webkit-text-size-adjust:100%;scroll-padding-top:68px;scroll-padding-bottom:150px;overscroll-behavior-x:none}
+html{background:#1E1812;color-scheme:dark;-webkit-text-size-adjust:100%;scroll-padding-top:68px;scroll-padding-bottom:150px;overscroll-behavior-x:none}
 html,body{margin:0;padding:0}
-body{background:var(--ink);color:var(--paper);font-family:var(--font-cn);-webkit-font-smoothing:antialiased;padding-bottom:calc(128px + env(safe-area-inset-bottom,0px))}
+body{background:#1E1812;color:var(--paper);font-family:var(--font-cn);-webkit-font-smoothing:antialiased;padding-bottom:calc(128px + env(safe-area-inset-bottom,0px))}
 ::selection{background:rgba(199,155,110,.35);color:#fff}
-.bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(70% 28% at 50% 0%,rgba(59,34,123,.42),transparent 70%),#04030A}
+/* 底：金为主，紫灰与陶土只在两侧。和背景页、工作坊同一套深浅。 */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(92% 46% at 8% -10%, rgba(208,172,104,.20), transparent 62%),
+  radial-gradient(70% 38% at 108% 8%, rgba(162,156,178,.14), transparent 60%),
+  radial-gradient(78% 42% at 70% 108%, rgba(215,149,128,.12), transparent 58%),
+  linear-gradient(180deg, #443826 0%, #382E20 48%, #1E1812 100%)}
 .floor{position:fixed;left:0;right:0;bottom:0;height:22vh;z-index:0;pointer-events:none;overflow:hidden;perspective:760px;perspective-origin:50% 0%;-webkit-mask-image:linear-gradient(to top,#000 0%,transparent 78%);mask-image:linear-gradient(to top,#000 0%,transparent 78%)}
 .floor i{position:absolute;left:-70%;right:-70%;top:0;bottom:0;transform-origin:50% 100%;transform:rotateX(68deg);opacity:.22;background-image:linear-gradient(rgba(159,211,236,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(159,211,236,.35) 1px,transparent 1px);background-size:96px 96px}
 .scan{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.2;background:repeating-linear-gradient(180deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px)}
@@ -55,16 +60,14 @@ body{background:var(--ink);color:var(--paper);font-family:var(--font-cn);-webkit
   position:sticky;top:0;z-index:25;display:flex;align-items:center;gap:2px;
   height:calc(env(safe-area-inset-top,0px) + var(--bar));box-sizing:border-box;
   padding:env(safe-area-inset-top,0px) max(8px,calc((100% - var(--col)) / 2)) 0 max(var(--pad),calc((100% - var(--col)) / 2 + var(--pad)));
-  background:#04030A;border-bottom:1px solid rgba(199,155,110,.16);
+  background:#443826;border-bottom:1px solid rgba(199,155,110,.16);
 }
 .brand__id{flex:1;min-width:0;display:flex;align-items:center;gap:8px;margin:0;font-family:var(--font-led);font-weight:700;font-size:9px;letter-spacing:.12em;white-space:nowrap;color:rgba(240,214,182,.78)}
 .brand__id i{font-style:normal;font-size:15px;line-height:1;color:var(--gold-hi);text-shadow:0 0 12px rgba(255,217,168,.45)}
-.brand__id em{margin-left:auto;font-style:normal;font-size:7px;letter-spacing:.12em;color:rgba(242,236,230,.5)}
 .back{flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:rgba(240,214,182,.86);text-decoration:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .back svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .back:focus-visible,.brick:focus-visible,.ev__go:focus-visible,summary:focus-visible{outline:2px solid var(--ice);outline-offset:3px}
 .back:active{color:var(--gold-hi)}
-@media (max-width:300px){.brand__id em{display:none}}
 @media (max-width:340px){.brand__id{letter-spacing:.08em}}
 .head{padding:18px 0 0}
 .head__k{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-family:var(--font-led);font-size:9px;letter-spacing:.22em;color:rgba(159,211,236,.86)}
@@ -81,8 +84,11 @@ body{background:var(--ink);color:var(--paper);font-family:var(--font-cn);-webkit
 .tl{position:relative;list-style:none;margin:16px 0 0;padding:0}
 .tl::before{content:"";position:absolute;left:80px;top:16px;bottom:16px;width:1px;background:linear-gradient(180deg,rgba(159,211,236,.7),rgba(199,155,110,.18))}
 .ev{position:relative;padding:12px 0;border-bottom:1px solid rgba(199,155,110,.14)}
-.ev::after{content:"";position:absolute;left:76px;top:20px;width:9px;height:9px;background:var(--ink);border:1px solid var(--ice);box-shadow:0 0 8px rgba(159,211,236,.4)}
-.sum,.ev__go{display:grid;grid-template-columns:72px minmax(0,1fr);gap:6px 18px;align-items:start;min-height:44px}
+.ev::after{content:"";position:absolute;left:76px;top:20px;width:9px;height:9px;background:#1E1812;border:1px solid var(--ice);box-shadow:0 0 8px rgba(159,211,236,.4)}
+.sum,.ev__go,.step{display:grid;grid-template-columns:72px minmax(0,1fr);gap:6px 18px;align-items:start;min-height:44px}
+.step b{font-family:var(--font-led);font-size:13px;font-weight:700;font-style:normal;line-height:1.2;font-variant-numeric:tabular-nums;color:var(--gold-l);text-align:right;padding-top:2px}
+.step em{display:block;margin-top:4px;font-family:var(--font-cn);font-size:12px;font-weight:600;font-style:normal;letter-spacing:0;line-height:1.35;color:var(--ice)}
+.step>span{min-width:0;font-size:16px;font-weight:700;line-height:1.4;color:#FFF6EA}
 .ev__go{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 time{font-family:var(--font-led);font-size:13px;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums;color:var(--gold-l);text-align:right;padding-top:2px}
 time span{display:block;margin-top:4px;font-family:var(--font-cn);font-size:12px;font-weight:600;letter-spacing:0;line-height:1.35;color:var(--ice)}
@@ -100,13 +106,13 @@ summary::marker{content:"";font-size:0}
 /* 人物位跟简介同一行，高度找平。窄屏不再把格子缩回小方块。 */
 .bio{margin:8px 0 4px 90px;scroll-margin-bottom:168px}
 .bio__in{display:grid;grid-template-columns:128px minmax(0,1fr);gap:12px;align-items:stretch}
-.ph{min-height:168px;display:flex;align-items:center;justify-content:center;padding:8px;border:1px solid rgba(199,155,110,.55);background-color:rgba(7,6,16,.8);background-image:linear-gradient(rgba(159,211,236,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(159,211,236,.22) 1px,transparent 1px);background-size:8px 8px}
+.ph{min-height:168px;display:flex;align-items:center;justify-content:center;padding:8px;border:1px solid rgba(199,155,110,.55);background-color:rgba(30,24,18,.88);background-image:linear-gradient(rgba(159,211,236,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(159,211,236,.22) 1px,transparent 1px);background-size:8px 8px}
 .ph span{font-size:14px;font-weight:700;letter-spacing:.14em;color:var(--gold-l)}
 .bio p{margin:0;font-size:14.5px;line-height:1.7;color:rgba(242,236,230,.88)}
 @media (max-width:420px){
   .tl::before{left:68px}
   .ev::after{left:64px}
-  .sum,.ev__go{grid-template-columns:60px minmax(0,1fr);gap:6px 14px}
+  .sum,.ev__go,.step{grid-template-columns:60px minmax(0,1fr);gap:6px 14px}
   .sum--talk{grid-template-columns:60px minmax(0,1fr)}
   .ev__more{grid-column:2;grid-row:2;align-self:start;margin-top:4px}
   .bio{margin-left:74px}
@@ -119,8 +125,8 @@ summary::marker{content:"";font-size:0}
   .ph{width:100%;height:168px;min-height:168px}
 }
 /* ---------- 金砖 ---------- */
-.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:0 var(--pad) calc(10px + env(safe-area-inset-bottom,0px));pointer-events:none;background:linear-gradient(180deg,rgba(4,3,10,0),#04030A 16px)}
-.dock__in{max-width:720px;margin:0 auto;pointer-events:auto;padding-top:8px;background:#04030A}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:0 var(--pad) calc(10px + env(safe-area-inset-bottom,0px));pointer-events:none;background:linear-gradient(180deg,rgba(30,24,18,0),#1E1812 16px)}
+.dock__in{max-width:720px;margin:0 auto;pointer-events:auto;padding-top:8px;background:#1E1812}
 .brick{
   display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:52px;padding:0 14px;
   text-decoration:none;color:#3A2508;font-family:var(--font-cn);font-size:16px;font-weight:700;letter-spacing:.06em;
@@ -173,14 +179,14 @@ summary::marker{content:"";font-size:0}
 .toc__tab{
   pointer-events:auto;position:absolute;left:0;top:50%;transform:translateY(-50%);
   width:44px;height:64px;display:flex;align-items:center;justify-content:center;
-  padding:0;border:1px solid rgba(199,155,110,.62);border-right:0;background:#04030A;color:var(--gold-l);
+  padding:0;border:1px solid rgba(199,155,110,.62);border-right:0;background:#382E20;color:var(--gold-l);
   cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
 .toc__tab svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .28s cubic-bezier(.22,1,.36,1)}
 .toc.is-open .toc__tab svg{transform:scaleX(-1)}
 .toc__panel{
   pointer-events:auto;position:absolute;left:44px;top:0;right:0;bottom:0;overflow:auto;
-  overscroll-behavior:contain;padding:14px 12px 12px 8px;background:#04030A;
+  overscroll-behavior:contain;padding:14px 12px 12px 8px;background:#382E20;
   border-left:1px solid rgba(199,155,110,.45);
 }
 .toc.is-open .toc__panel{box-shadow:-14px 0 24px rgba(4,3,10,.5)}
@@ -218,7 +224,7 @@ summary::marker{content:"";font-size:0}
 <span class="rail rail--r" aria-hidden="true">TRY AND ALL IS POSSIBLE</span>
 <a class="skip-link" href="#main">跳到正文</a>
 <header class="brand">
-  <p class="brand__id"><i aria-hidden="true">∞</i><span translate="no">TRY AND ALL IS POSSIBLE</span><em>TODAY</em></p>
+  <p class="brand__id"><i aria-hidden="true">∞</i><span translate="no">TRY AND ALL IS POSSIBLE</span></p>
   <a class="back" href="story.html" aria-label="返回新手村"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
 </header>
 <main class="wrap" id="main">
@@ -229,9 +235,8 @@ summary::marker{content:"";font-size:0}
   </header>
 
   <section class="sec in in4">
-    <p class="sec__k">01 · 时间</p>
+    <p class="sec__k">01 · 日程</p>
     <h2 class="sec__t">从签到到午餐</h2>
-    <p>议程 09:00 开始。08:30–09:00 是签到、入场和自由交流。</p>
     <ol class="tl">
       <li class="ev">
         <div class="sum">
@@ -293,7 +298,7 @@ summary::marker{content:"";font-size:0}
       <li class="ev">
         <div class="sum">
           <time datetime="2026-12-05T10:45">10:45<span>水木剧场</span></time>
-          <span class="ev__main"><strong>学生快闪</strong><em>6 人，每人 3 分钟 · 我在无限可能的学校创造了哪些可能</em></span>
+          <span class="ev__main"><strong>学生快闪</strong><em>我在无限可能的学校创造了哪些可能</em></span>
         </div>
       </li>
       <li class="ev">
@@ -317,14 +322,11 @@ summary::marker{content:"";font-size:0}
       <li class="ev">
         <div class="sum">
           <time datetime="2026-12-05T12:35">12:35<span>水木剧场</span></time>
-          <span class="ev__main"><strong>校园参访</strong><em>水木剧场集合，学生导览员带队</em></span>
+          <span class="ev__main"><strong>校园参访</strong><em>水木剧场门口 寻牌集合</em></span>
         </div>
       </li>
       <li class="ev">
-        <div class="sum">
-          <time datetime="2026-12-05T13:05">13:05</time>
-          <span class="ev__main"><strong>午餐</strong><em>可选</em></span>
-        </div>
+        <div class="step"><b>13:05<em>和园</em></b><span>午餐</span></div>
       </li>
     </ol>
   </section>
