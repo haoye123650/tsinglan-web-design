@@ -76,8 +76,7 @@ body{background:#1E1812;color:var(--paper);font-family:var(--font-cn);-webkit-fo
 .head__d{margin:12px 0 0;font-size:13px;letter-spacing:.04em;line-height:1.5;color:rgba(242,236,230,.78)}
 @media (max-width:360px){.head__t{font-size:28px}.head__k{letter-spacing:.14em}}
 .sec{margin-top:22px}
-.sec__k{margin:0 0 8px;font-family:var(--font-led),var(--font-cn);font-size:12px;letter-spacing:.14em;color:var(--gold-l)}
-.sec__t{margin:0 0 8px;font-size:22px;font-weight:700;line-height:1.35;text-wrap:pretty;color:#FFF6EA}
+.sec > .sec__k{margin:0 0 10px;font-family:var(--font-led),var(--font-cn);font-size:18px;letter-spacing:.12em;line-height:1.35;color:var(--gold-l)}
 .sec,.ev{scroll-margin-top:76px;scroll-margin-bottom:140px}
 .sec > p{margin:0 0 6px;font-size:16px;line-height:1.7;color:rgba(242,236,230,.9)}
 /* ---------- 时间轨 ---------- */
@@ -86,15 +85,15 @@ body{background:#1E1812;color:var(--paper);font-family:var(--font-cn);-webkit-fo
 .ev{position:relative;padding:12px 0;border-bottom:1px solid rgba(199,155,110,.14)}
 .ev::after{content:"";position:absolute;left:76px;top:20px;width:9px;height:9px;background:#1E1812;border:1px solid var(--ice);box-shadow:0 0 8px rgba(159,211,236,.4)}
 .sum,.ev__go,.step{display:grid;grid-template-columns:72px minmax(0,1fr);gap:6px 18px;align-items:start;min-height:44px}
-.step b{font-family:var(--font-led);font-size:13px;font-weight:700;font-style:normal;line-height:1.2;font-variant-numeric:tabular-nums;color:var(--gold-l);text-align:right;padding-top:2px}
-.step em{display:block;margin-top:4px;font-family:var(--font-cn);font-size:12px;font-weight:600;font-style:normal;letter-spacing:0;line-height:1.35;color:var(--ice)}
-.step>span{min-width:0;font-size:16px;font-weight:700;line-height:1.4;color:#FFF6EA}
+.step b{font-family:var(--font-led);font-size:15px;font-weight:700;font-style:normal;line-height:1.2;font-variant-numeric:tabular-nums;color:var(--gold-l);text-align:right;padding-top:2px}
+.step em{display:block;margin-top:4px;font-family:var(--font-cn);font-size:14px;font-weight:600;font-style:normal;letter-spacing:0;line-height:1.35;color:var(--ice)}
+.step>span{min-width:0;font-size:18px;font-weight:700;line-height:1.4;color:#FFF6EA}
 .ev__go{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-time{font-family:var(--font-led);font-size:13px;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums;color:var(--gold-l);text-align:right;padding-top:2px}
-time span{display:block;margin-top:4px;font-family:var(--font-cn);font-size:12px;font-weight:600;letter-spacing:0;line-height:1.35;color:var(--ice)}
+time{font-family:var(--font-led);font-size:15px;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums;color:var(--gold-l);text-align:right;padding-top:2px}
+time span{display:block;margin-top:4px;font-family:var(--font-cn);font-size:14px;font-weight:600;letter-spacing:0;line-height:1.35;color:var(--ice)}
 .ev__main{min-width:0}
-.ev__main strong{display:block;font-size:16px;font-weight:700;line-height:1.4;color:#FFF6EA}
-.ev__main em{display:block;margin-top:3px;font-style:normal;font-size:14px;line-height:1.55;color:rgba(242,236,230,.84)}
+.ev__main strong{display:block;font-size:18px;font-weight:700;line-height:1.4;color:#FFF6EA}
+.ev__main em{display:block;margin-top:3px;font-style:normal;font-size:15px;line-height:1.55;color:rgba(242,236,230,.84)}
 .ev__act{display:inline-block;margin-top:6px;font-size:14px;font-weight:700;line-height:1.4;color:var(--gold-l);text-decoration:underline;text-underline-offset:3px}
 summary{display:block;cursor:pointer;list-style:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 summary::-webkit-details-marker{display:none}
@@ -236,7 +235,6 @@ summary::marker{content:"";font-size:0}
 
   <section class="sec in in4">
     <p class="sec__k">01 · 日程</p>
-    <h2 class="sec__t">从签到到午餐</h2>
     <ol class="tl">
       <li class="ev">
         <div class="sum">

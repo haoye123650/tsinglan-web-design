@@ -536,15 +536,16 @@ body{
   letter-spacing:.08em;
   color:rgba(199,155,110,.8);
 }
-/* 快捷通道：PLAY 的小号切角金键。问号砖跟在字后面，和三条通道同一行，仍是一块铭牌，不是第四个文字链接。 */
+/* 快捷通道：切角金键是主铭牌。字右侧的实心箭头指向三条目录；目录共用一道金边，不填底，也不做成第二块金键。 */
 .gate{
+  --key-h:30px;
   display:flex;
   flex-flow:row nowrap;
   align-items:center;
   justify-content:center;
   width:100%;
   min-width:0;
-  gap:clamp(10px,2.8vw,20px);
+  gap:clamp(12px,2.8vw,22px);
   padding:8px 8px 2px;
 }
 .gate__tag{
@@ -557,7 +558,7 @@ body{
   display:inline-flex;
   align-items:center;
   gap:6px;
-  min-height:30px;
+  min-height:var(--key-h);
   padding:0 12px 0 13px;
   color:#150C06;
   font-family:"PingFang SC","Hiragino Sans GB","Heiti SC","Microsoft YaHei",sans-serif;
@@ -569,7 +570,7 @@ body{
   background:linear-gradient(178deg,#FFF1DC 0%,#F0D6B6 38%,#C79B6E 100%);
   clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
 }
-.gate__ico{width:16px;height:16px;flex:none;display:block}
+.gate__ico{width:16px;height:16px;flex:none;display:block;color:#150C06}
 .gate__tag::before,
 .gate__tag::after{
   content:"";
@@ -581,20 +582,35 @@ body{
 .gate__tag::before{left:-7px;top:-7px;border-right:0;border-bottom:0}
 .gate__tag::after{right:-7px;bottom:-7px;border-left:0;border-top:0}
 .dock{
+  position:relative;
   display:flex;
   flex-flow:row nowrap;
+  align-items:center;
   justify-content:center;
   width:auto;
   min-width:0;
   gap:clamp(10px,3.2vw,22px);
+  padding:0 11px;
+}
+/* 一道金边，框住三条目录。高度跟金键走，点击区仍是 44px，框本身不填色。 */
+.dock::before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:50%;
+  height:var(--key-h);
+  transform:translateY(-50%);
+  border:1px solid var(--gold-l);
+  background:none;
+  pointer-events:none;
 }
 .dock a{
+  position:relative;
   display:inline-flex;
   align-items:center;
   flex:none;
   min-height:44px;
   padding:0 4px;
-  color:rgba(242,236,230,.78);
+  color:rgba(242,236,230,.92);
   font-family:"PingFang SC","Hiragino Sans GB","Heiti SC","Microsoft YaHei",sans-serif;
   font-size:14px;
   font-weight:500;
@@ -602,11 +618,16 @@ body{
   line-height:1;
   white-space:nowrap;
   text-decoration:none;
+  touch-action:manipulation;
   -webkit-tap-highlight-color:transparent;
 }
 .dock a:active{color:#FFD9A8}
 .dock a:focus{outline:none}
-.dock a:focus-visible{outline:1px solid rgba(255,217,168,.7);outline-offset:3px}
+.dock a:focus-visible{outline:1px solid rgba(255,217,168,.85);outline-offset:3px}
+.dock:focus-within::before{border-color:#FFD9A8}
+@media (hover:hover) and (pointer:fine){
+  .dock a:hover{color:#FFD9A8}
+}
 
 /* ---------- 入场 ---------- */
 .in{opacity:0;transform:translateY(12px);animation:bootIn .9s cubic-bezier(.22,1,.36,1) forwards}
@@ -653,11 +674,10 @@ body{
 @media (max-width:380px){
   .tip{font-size:8px;letter-spacing:.1em}
   .spec{letter-spacing:.14em}
-  .gate{gap:6px;padding:6px 4px 1px}
-  .gate__key{min-height:28px;padding:0 10px 0 11px;font-size:11px;letter-spacing:.08em;gap:4px}
-  .gate__ico{width:14px;height:14px}
-  .dock{gap:8px}
-  .dock a{font-size:13px;padding:0 2px}
+  .gate{--key-h:28px;gap:12px;padding:6px 2px 1px}
+  .gate__key{padding:0 9px 0 10px;font-size:11px;letter-spacing:.06em;gap:5px}
+  .dock{gap:7px;padding:0 7px}
+  .dock a{font-size:13px;padding:0 1px}
 }
 @media (max-height:680px){
   .play-wrap{margin-top:16px}
@@ -682,10 +702,9 @@ body{
   .play-wrap{margin-top:13px}
   .tip{margin-top:9px}
   .hud--bottom{gap:4px}
-  .gate{gap:6px;padding:6px 2px 0}
-  .gate__key{min-height:26px;padding:0 9px 0 10px;font-size:11px;letter-spacing:.06em;gap:4px}
-  .gate__ico{width:13px;height:13px}
-  .dock{gap:6px}
+  .gate{--key-h:28px;gap:12px;padding:6px 2px 0}
+  .gate__key{padding:0 9px 0 10px;font-size:11px;letter-spacing:.06em;gap:5px}
+  .dock{gap:7px;padding:0 7px}
   .dock a{font-size:13px;padding:0 1px}
 }
 
@@ -824,8 +843,7 @@ body{
         <span class="gate__key">
           <span>快捷通道</span>
           <svg class="gate__ico" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-            <path fill="#3A2508" fill-rule="evenodd" d="M1 1h14v14H1V1zm2 2h10v10H3V3z"/>
-            <path fill="#3A2508" d="M6 4h4v1H6zm3 1h1v1H9zM7 6h3v1H7zM7 7h1v2H7zm0 3h2v2H7z"/>
+            <path fill="currentColor" d="M.8 5.7h6.3V2.35L15.15 8 7.1 13.65V10.3H.8z"/>
           </svg>
         </span>
       </p>
