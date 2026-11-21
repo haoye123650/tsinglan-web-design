@@ -327,24 +327,6 @@ body{
 .ret__spin--fast{animation:spin 11s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* 眉标 */
-.kicker{
-  margin:0 0 clamp(14px,3.4vw,22px);
-  font-family:var(--font-mono);
-  font-size:clamp(12px,3.4vw,16px);
-  font-weight:600;
-  line-height:1.85;
-  letter-spacing:.12em;
-  color:rgba(240,214,182,.94);
-  text-shadow:0 0 18px rgba(199,155,110,.38),0 1px 0 rgba(4,3,10,.8);
-  text-transform:uppercase;
-}
-.kicker span{display:block;white-space:nowrap}
-.kicker em{
-  font-style:normal;
-  color:rgba(159,211,236,.95);
-  text-shadow:0 0 18px rgba(159,211,236,.45);
-}
 
 /* 字标：方头灯管。白热芯 + 冰蓝管壁，粉红在左、冰蓝在右各偏一笔 */
 .title{
@@ -554,33 +536,36 @@ body{
   letter-spacing:.08em;
   color:rgba(199,155,110,.8);
 }
-/* 快捷通道：PLAY 的小号切角金键，问号砖是这一关的游戏件。坐在三条通道前面，不抢 PLAY。 */
+/* 快捷通道：PLAY 的小号切角金键。问号砖跟在字后面，和三条通道同一行，仍是一块铭牌，不是第四个文字链接。 */
 .gate{
   display:flex;
-  flex-direction:column;
-  align-items:stretch;
+  flex-flow:row nowrap;
+  align-items:center;
+  justify-content:center;
   width:100%;
   min-width:0;
-  gap:2px;
+  gap:clamp(10px,2.8vw,20px);
+  padding:8px 8px 2px;
 }
 .gate__tag{
   position:relative;
-  align-self:center;
-  margin:1px 0 3px;
+  flex:none;
+  margin:0;
   filter:drop-shadow(0 0 12px rgba(199,155,110,.28));
 }
 .gate__key{
   display:inline-flex;
   align-items:center;
-  gap:7px;
+  gap:6px;
   min-height:30px;
-  padding:0 12px 0 8px;
+  padding:0 12px 0 13px;
   color:#150C06;
   font-family:"PingFang SC","Hiragino Sans GB","Heiti SC","Microsoft YaHei",sans-serif;
   font-size:12px;
   font-weight:700;
-  letter-spacing:.14em;
+  letter-spacing:.12em;
   line-height:1;
+  white-space:nowrap;
   background:linear-gradient(178deg,#FFF1DC 0%,#F0D6B6 38%,#C79B6E 100%);
   clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
 }
@@ -597,22 +582,25 @@ body{
 .gate__tag::after{right:-7px;bottom:-7px;border-left:0;border-top:0}
 .dock{
   display:flex;
+  flex-flow:row nowrap;
   justify-content:center;
-  width:100%;
-  gap:22px;
-  border-top:1px solid rgba(255,217,168,.22);
+  width:auto;
+  min-width:0;
+  gap:clamp(10px,3.2vw,22px);
 }
 .dock a{
   display:inline-flex;
   align-items:center;
+  flex:none;
   min-height:44px;
-  padding:0 6px;
+  padding:0 4px;
   color:rgba(242,236,230,.78);
   font-family:"PingFang SC","Hiragino Sans GB","Heiti SC","Microsoft YaHei",sans-serif;
   font-size:14px;
   font-weight:500;
   letter-spacing:.04em;
   line-height:1;
+  white-space:nowrap;
   text-decoration:none;
   -webkit-tap-highlight-color:transparent;
 }
@@ -623,7 +611,6 @@ body{
 /* ---------- 入场 ---------- */
 .in{opacity:0;transform:translateY(12px);animation:bootIn .9s cubic-bezier(.22,1,.36,1) forwards}
 .in1{animation-delay:.10s}
-.in2{animation-delay:.20s}
 .in3{animation-delay:.30s}
 .in4{animation-delay:.42s}
 .in5{animation-delay:.54s}
@@ -666,9 +653,13 @@ body{
 @media (max-width:380px){
   .tip{font-size:8px;letter-spacing:.1em}
   .spec{letter-spacing:.14em}
+  .gate{gap:6px;padding:6px 4px 1px}
+  .gate__key{min-height:28px;padding:0 10px 0 11px;font-size:11px;letter-spacing:.08em;gap:4px}
+  .gate__ico{width:14px;height:14px}
+  .dock{gap:8px}
+  .dock a{font-size:13px;padding:0 2px}
 }
 @media (max-height:680px){
-  .kicker{margin-bottom:9px;line-height:1.55;font-size:clamp(11px,3vw,13px)}
   .play-wrap{margin-top:16px}
   .spec{margin-top:11px}
   .title{margin-top:8px}
@@ -685,15 +676,17 @@ body{
 @media (max-height:760px){
   .play{min-height:56px}
   .play b{font-size:15px}
-  .kicker{margin-bottom:7px}
 }
 @media (max-height:640px){
   .core{--tfs:clamp(1.7rem,10.8vw,4.8rem);--lw:min(74vw,760px)}
   .play-wrap{margin-top:13px}
   .tip{margin-top:9px}
   .hud--bottom{gap:4px}
-  .gate__key{min-height:26px;padding:0 10px 0 7px;font-size:11px}
-  .gate__tag{margin:0}
+  .gate{gap:6px;padding:6px 2px 0}
+  .gate__key{min-height:26px;padding:0 9px 0 10px;font-size:11px;letter-spacing:.06em;gap:4px}
+  .gate__ico{width:13px;height:13px}
+  .dock{gap:6px}
+  .dock a{font-size:13px;padding:0 1px}
 }
 
 /* ---------- 降低动效 ---------- */
@@ -790,11 +783,6 @@ body{
       <circle cx="300" cy="300" r="3.2" stroke="rgba(159,211,236,.8)"/>
     </svg>
 
-    <p class="kicker in in2">
-      <span>第 13 届中国教育创新年会 <em>//</em> 场外深研</span>
-      <span>清澜山学校第四届创新教育论坛</span>
-    </p>
-
     <h1 class="title in in3">
       <span class="title__glow" aria-hidden="true">无限可能的学校</span>
       <span class="title__tube title__tube--pink" aria-hidden="true">无限可能的学校</span>
@@ -834,11 +822,11 @@ body{
     <div class="gate">
       <p class="gate__tag" id="gate-label">
         <span class="gate__key">
+          <span>快捷通道</span>
           <svg class="gate__ico" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
             <path fill="#3A2508" fill-rule="evenodd" d="M1 1h14v14H1V1zm2 2h10v10H3V3z"/>
             <path fill="#3A2508" d="M6 4h4v1H6zm3 1h1v1H9zM7 6h3v1H7zM7 7h1v2H7zm0 3h2v2H7z"/>
           </svg>
-          <span>快捷通道</span>
         </span>
       </p>
       <nav class="dock" aria-labelledby="gate-label">
