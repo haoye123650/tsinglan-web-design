@@ -536,7 +536,7 @@ body{
   letter-spacing:.08em;
   color:rgba(199,155,110,.8);
 }
-/* 快捷通道：PLAY 的小号切角金键。问号砖跟在字后面，和三条通道同一行，仍是一块铭牌，不是第四个文字链接。 */
+/* 快捷通道：PLAY 的小号切角金键。像素手食指向右，跟在字后面，和三条通道同一行。仍是一块铭牌，不是第四个文字链接。 */
 .gate{
   display:flex;
   flex-flow:row nowrap;
@@ -569,7 +569,7 @@ body{
   background:linear-gradient(178deg,#FFF1DC 0%,#F0D6B6 38%,#C79B6E 100%);
   clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
 }
-.gate__ico{width:16px;height:16px;flex:none;display:block}
+.gate__ico{width:18px;height:18px;flex:none;display:block;shape-rendering:crispEdges}
 .gate__tag::before,
 .gate__tag::after{
   content:"";
@@ -655,7 +655,7 @@ body{
   .spec{letter-spacing:.14em}
   .gate{gap:6px;padding:6px 4px 1px}
   .gate__key{min-height:28px;padding:0 10px 0 11px;font-size:11px;letter-spacing:.08em;gap:4px}
-  .gate__ico{width:14px;height:14px}
+  .gate__ico{width:16px;height:16px}
   .dock{gap:8px}
   .dock a{font-size:13px;padding:0 2px}
 }
@@ -684,7 +684,7 @@ body{
   .hud--bottom{gap:4px}
   .gate{gap:6px;padding:6px 2px 0}
   .gate__key{min-height:26px;padding:0 9px 0 10px;font-size:11px;letter-spacing:.06em;gap:4px}
-  .gate__ico{width:13px;height:13px}
+  .gate__ico{width:15px;height:15px}
   .dock{gap:6px}
   .dock a{font-size:13px;padding:0 1px}
 }
@@ -824,8 +824,7 @@ body{
         <span class="gate__key">
           <span>快捷通道</span>
           <svg class="gate__ico" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-            <path fill="#3A2508" fill-rule="evenodd" d="M1 1h14v14H1V1zm2 2h10v10H3V3z"/>
-            <path fill="#3A2508" d="M6 4h4v1H6zm3 1h1v1H9zM7 6h3v1H7zM7 7h1v2H7zm0 3h2v2H7z"/>
+            <path fill="#3A2508" d="M4 3h8v1H4zM4 4h10v1H4zM4 5h10v1H4zM4 6h10v1H4zM2 7h6v1H2zM1 8h8v1H1zM1 9h7v1H1zM2 10h6v1H2zM3 11h6v1H3zM4 12h5v1H4z"/>
           </svg>
         </span>
       </p>
