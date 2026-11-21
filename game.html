@@ -431,32 +431,10 @@ var IMG = {};
 var W = 320, H = 216;
 var GROUND_Y = 186;              /* 地面顶部 */
 
-/* ============ 马里奥像素图（12×16）============ */
-/* . 空  R 红帽衣  S 皮肤  B 背带裤  D 深色  Y 纽扣 */
-var MARIO = [
-  '....RRRR....',
-  '...RRRRRRR..',
-  '...DDDSSDS..',
-  '..DSDSSSDSS.',
-  '..DSDDSSSDSS',
-  '..DDSSSSDDD.',
-  '....SSSSS...',
-  '...RBRRBR...',
-  '..RRBRRBRR..',
-  '.SSRBBBBRSS.',
-  '.SSBBYBBBSS.',
-  '.SSBBBBBBSS.',
-  '...BBB.BBB..',
-  '..DDD...DDD.',
-  '.DDDD...DDDD',
-  '.DDD.....DDD'
-];
-var MPX = 3;                     /* 像素块尺寸 */
-var MW = 12*MPX, MH = 16*MPX;    /* 36×48 */
-var MC = {
-  R:'#E8484C', S:'#FFCFA3', B:'#4A6FB5',
-  D:'#3A2418', Y:'#FFD75E'
-};
+/* 海龙：用户给的像素 icon。灰底已抠掉，缩成 41×61，矛留在图里。 */
+var dragonImg = new Image();
+dragonImg.src = 'assets/sea-dragon.png';
+var MW = 41, MH = 61;
 
 /* ============ 问号像素图（5×7）============ */
 var QMARK = ['.###.','#...#','....#','...#.','..#..','.....','..#..'];
@@ -552,7 +530,7 @@ function update(){
     return;
   }
 
-  /* --- 马里奥 --- */
+  /* --- 海龙 --- */
   var ax = 0;
   if (keys.L) ax -= 1;
   if (keys.R) ax += 1;
@@ -775,8 +753,8 @@ function draw(){
     ctx.fillRect(p.x, p.y, 2, 2);
   });
 
-  /* 马里奥 */
-  drawMario();
+  /* 海龙 */
+  drawDragon();
 }
 
 function drawBrick(x, y, gold, used){
@@ -837,11 +815,10 @@ function drawLogo(l){
   ctx.restore();
 }
 
-function drawMario(){
+function drawDragon(){
   var flip = mario.face < 0;
   var sq = mario.squash > 0 ? mario.squash : 0;
   var h = MH - Math.round(sq*6);
-  var w = MW + Math.round(sq*4);
   var px = mario.x, py = mario.y + (MH - h);
 
   ctx.save();
@@ -850,15 +827,8 @@ function drawMario(){
     ctx.scale(-1, 1);
     px = 0;
   }
-  /* 像素逐块绘制（翻转坐标处理） */
-  for (var r=0;r<MARIO.length;r++){
-    for (var c=0;c<12;c++){
-      var ch = MARIO[r][c];
-      if (ch === '.') continue;
-      ctx.fillStyle = MC[ch];
-      var sx = px + c*MPX;
-      ctx.fillRect(sx, py + Math.round(r*(h/16)), MPX, Math.ceil(h/16));
-    }
+  if (dragonImg.complete && dragonImg.naturalWidth){
+    ctx.drawImage(dragonImg, px, py, MW, h);
   }
   ctx.restore();
 }
