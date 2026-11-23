@@ -110,31 +110,56 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .chan a:active{background:rgba(199,155,110,.16)}
 .chan a[aria-current="true"]{border-color:var(--gold-l);background:rgba(199,155,110,.22);color:#3E280C}
 @media (max-width:899px){.chan{top:0}}
-/* ---------- 十二场：一条跟手的卡片轨，不是轮播点 ---------- */
+/* ---------- 十二场：封面流。中间最大，两侧透视立起，像在翻专辑 ---------- */
 .deck{
-  display:flex;align-items:stretch;gap:10px;
-  margin:0;padding:2px 0 4px;
+  display:flex;align-items:stretch;
+  margin:0;padding:6px 0 16px;
   overflow-x:auto;overflow-y:hidden;
   scroll-snap-type:x mandatory;
-  scroll-padding-inline-start:0;
+  scroll-padding-inline:0;
   overscroll-behavior-x:contain;
   scrollbar-width:none;
   touch-action:manipulation;
+  /* 透视写在每张卡的 transform 里。滚动容器的 overflow 会把祖先 perspective 压平。 */
   -webkit-user-select:none;user-select:none;
   -webkit-tap-highlight-color:transparent;
 }
 .deck::-webkit-scrollbar{display:none;height:0}
-.deck::after{content:"";flex:0 0 72px;scroll-snap-align:none}
-.card{flex:0 0 calc(100% - 52px);scroll-snap-align:start;scroll-snap-stop:normal}
 .card{
-  position:relative;z-index:0;display:flex;flex-direction:column;gap:8px;min-width:0;min-height:44px;
-  padding:13px 13px 12px;border:1px solid rgba(4,3,10,.78);
-  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.012));
+  flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:normal;
+  position:relative;z-index:0;display:flex;justify-content:center;align-items:stretch;
+  min-width:0;min-height:44px;padding:2px 0 8px;
+  background:transparent;border:0;box-shadow:none;
   cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
+.card__face{
+  width:min(80%,460px);min-width:0;height:100%;
+  display:flex;flex-direction:column;gap:8px;
+  padding:16px 16px 14px;border-radius:30px;
+  border:1px solid rgba(92,44,32,.16);
+  background:linear-gradient(180deg,#FFF9F5 0%,#FFF1E8 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 10px 22px rgba(112,44,32,.16),
+    0 26px 46px rgba(78,28,20,.14);
+  transform:perspective(760px) translate3d(var(--tx,0px),0,var(--tz,0px)) rotateY(var(--ry,0deg)) scale(var(--sc,1));
+  transform-origin:center center;
+  position:relative;
+}
+.card__face::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:#6A3428;opacity:var(--veil,0);
+}
 .card input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;pointer-events:none}
-.card:focus-within{outline:2px solid var(--ice);outline-offset:2px}
-.card.is-on,.card:has(input:checked){border-color:var(--ink);background:linear-gradient(180deg,rgba(199,155,110,.16),rgba(199,155,110,.04))}
+.card:focus-within .card__face{outline:2px solid var(--ice);outline-offset:3px}
+.card.is-on .card__face,.card:has(input:checked) .card__face{
+  border-color:#3E280C;
+  background:linear-gradient(180deg,#FFF8F2 0%,#F8E6D8 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.92),
+    0 12px 26px rgba(112,44,32,.2),
+    0 30px 52px rgba(78,28,20,.18);
+}
 .card__top{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .card__top b{font-family:var(--font-led);font-size:15px;font-weight:700;letter-spacing:.06em;color:#3E280C}
 .card__flag{display:none;font-size:12px;font-weight:700;letter-spacing:.08em;color:#3E280C}
@@ -152,7 +177,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   scrollbar-width:thin;scrollbar-color:rgba(199,155,110,.45) transparent;
 }
 @media (max-width:899px){
-  .deck{padding:2px 0 0}
+  .deck{padding:4px 0 12px}
   .card{height:var(--card-h,auto);min-height:0}
   .card__meta{margin-top:0}
 }
@@ -169,7 +194,8 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   .rule,.pending{font-size:13px;line-height:1.35;margin-bottom:4px}
 }
 @media (min-width:900px){
-  .card{flex-basis:calc(100% - 180px);height:auto;min-height:400px}
+  .card{height:auto;min-height:460px}
+  .card__face{min-height:420px}
 }
 .card__meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:auto;padding-top:4px;font-size:13px;color:#0A303C}
 .card__meta b{margin-left:6px;font-weight:700;color:var(--ink)}
@@ -185,7 +211,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 }
 @media (hover:hover) and (pointer:fine){
   .toc-btn:hover{color:var(--ink)}
-  .card:hover{border-color:var(--ink)}
+  .card:hover .card__face{border-color:#3E280C}
   .chan a:hover{border-color:var(--gold-l);color:#3E280C}
 }
 @media (max-height:700px){
@@ -213,7 +239,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 }
 @media (forced-colors:active){
   .head__t{background:none;-webkit-text-fill-color:CanvasText;color:CanvasText}
-  .card,.hold,.chan a{border:1px solid ButtonText}
+  .card__face,.hold,.chan a{border:1px solid ButtonText}
   .toc-btn,.toc__panel{background:Canvas;color:CanvasText;border:1px solid CanvasText}
 }
 /* ---------- 右侧目录：右上角「目录」打开。收起时整段移出，不留把手。 ---------- */
@@ -288,18 +314,18 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
         <a href="#w09">09</a><a href="#w10">10</a><a href="#w11">11</a><a href="#w12">12</a>
       </nav>
       <div class="deck" id="deck" aria-label="十二场工作坊，左右滑动换场">
-        <label class="card" id="w01"><input type="radio" name="workshop" autocomplete="off" value="01"><span class="card__top"><b>01</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">拒绝「伪装变革」：AI 时代重构真实学习设计的实操路径</span><span class="card__who">黎蒙</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w02"><input type="radio" name="workshop" autocomplete="off" value="02"><span class="card__top"><b>02</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当 AI 比我们会讲道理：国际化学校的德育，如何从「管住人」走向「长出判断」</span><span class="card__who">林静姿</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w03"><input type="radio" name="workshop" autocomplete="off" value="03"><span class="card__top"><b>03</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">破解学习迷宫：AI 驱动下的个性化学习空间与路线设计</span><span class="card__who">孙成伟</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w04"><input type="radio" name="workshop" autocomplete="off" value="04"><span class="card__top"><b>04</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">让数据「开口说话」：AI 驱动下的教务管理转型</span><span class="card__who">祁镇华 · 向晶</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w05"><input type="radio" name="workshop" autocomplete="off" value="05"><span class="card__top"><b>05</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当作业可以一键生成：我们如何重塑「真学习」评估</span><span class="card__who">Roselyn · 郭嘉</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w06"><input type="radio" name="workshop" autocomplete="off" value="06"><span class="card__top"><b>06</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">破局「课表难题」：如何系统化打造「每天一节」的硬核体育课程</span><span class="card__who">莫启源 · 阎泽雄</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w07"><input type="radio" name="workshop" autocomplete="off" value="07"><span class="card__top"><b>07</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当画笔遇上代码：CG Lab 如何把艺术、工程与设计锻造成跨学科课程</span><span class="card__who">张赞</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w08"><input type="radio" name="workshop" autocomplete="off" value="08"><span class="card__top"><b>08</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">学生的主体性与能动性，如何从「发现问题」走向「回应真实世界」</span><span class="card__who">谈昕然 · Ryan Wong</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w09"><input type="radio" name="workshop" autocomplete="off" value="09"><span class="card__top"><b>09</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">先照顾好人，再谈成绩：一套 SEL 教材与课程</span><span class="card__who">王珊 · 王艺桐 · 魏荣</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w10"><input type="radio" name="workshop" autocomplete="off" value="10"><span class="card__top"><b>10</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">最后一年，交出你自己的作品：小学、初中的毕业项目</span><span class="card__who">魏方 · 郭航</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w11"><input type="radio" name="workshop" autocomplete="off" value="11"><span class="card__top"><b>11</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">从读到写，从课本到舞台：语文组的十二年</span><span class="card__who">白文婷</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w12"><input type="radio" name="workshop" autocomplete="off" value="12"><span class="card__top"><b>12</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">把「创新基因」做成可复制的模板：初中科学差异化跨学科 PBL</span><span class="card__who">柏苇</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
+        <label class="card" id="w01"><input type="radio" name="workshop" autocomplete="off" value="01"><span class="card__face"><span class="card__top"><b>01</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">拒绝「伪装变革」：AI 时代重构真实学习设计的实操路径</span><span class="card__who">黎蒙</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w02"><input type="radio" name="workshop" autocomplete="off" value="02"><span class="card__face"><span class="card__top"><b>02</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当 AI 比我们会讲道理：国际化学校的德育，如何从「管住人」走向「长出判断」</span><span class="card__who">林静姿</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w03"><input type="radio" name="workshop" autocomplete="off" value="03"><span class="card__face"><span class="card__top"><b>03</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">破解学习迷宫：AI 驱动下的个性化学习空间与路线设计</span><span class="card__who">孙成伟</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w04"><input type="radio" name="workshop" autocomplete="off" value="04"><span class="card__face"><span class="card__top"><b>04</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">让数据「开口说话」：AI 驱动下的教务管理转型</span><span class="card__who">祁镇华 · 向晶</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w05"><input type="radio" name="workshop" autocomplete="off" value="05"><span class="card__face"><span class="card__top"><b>05</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当作业可以一键生成：我们如何重塑「真学习」评估</span><span class="card__who">Roselyn · 郭嘉</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w06"><input type="radio" name="workshop" autocomplete="off" value="06"><span class="card__face"><span class="card__top"><b>06</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">破局「课表难题」：如何系统化打造「每天一节」的硬核体育课程</span><span class="card__who">莫启源 · 阎泽雄</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w07"><input type="radio" name="workshop" autocomplete="off" value="07"><span class="card__face"><span class="card__top"><b>07</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当画笔遇上代码：CG Lab 如何把艺术、工程与设计锻造成跨学科课程</span><span class="card__who">张赞</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w08"><input type="radio" name="workshop" autocomplete="off" value="08"><span class="card__face"><span class="card__top"><b>08</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">学生的主体性与能动性，如何从「发现问题」走向「回应真实世界」</span><span class="card__who">谈昕然 · Ryan Wong</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w09"><input type="radio" name="workshop" autocomplete="off" value="09"><span class="card__face"><span class="card__top"><b>09</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">先照顾好人，再谈成绩：一套 SEL 教材与课程</span><span class="card__who">王珊 · 王艺桐 · 魏荣</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w10"><input type="radio" name="workshop" autocomplete="off" value="10"><span class="card__face"><span class="card__top"><b>10</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">最后一年，交出你自己的作品：小学、初中的毕业项目</span><span class="card__who">魏方 · 郭航</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w11"><input type="radio" name="workshop" autocomplete="off" value="11"><span class="card__face"><span class="card__top"><b>11</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">从读到写，从课本到舞台：语文组的十二年</span><span class="card__who">白文婷</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w12"><input type="radio" name="workshop" autocomplete="off" value="12"><span class="card__face"><span class="card__top"><b>12</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">把「创新基因」做成可复制的模板：初中科学差异化跨学科 PBL</span><span class="card__who">柏苇</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
       </div>
     </fieldset>
   </section>
@@ -400,13 +426,64 @@ var raf = 0;
 function motion(){ return reduce ? 'auto' : 'smooth'; }
 
 function indexFromScroll(){
-  var edge = deck.getBoundingClientRect().left;
+  var mid = deck.scrollLeft + deck.clientWidth / 2;
   var best = 0, bestD = Infinity;
   for (var i = 0; i < cards.length; i++){
-    var d = Math.abs(cards[i].getBoundingClientRect().left - edge);
+    var c = cards[i].offsetLeft + cards[i].offsetWidth / 2;
+    var d = Math.abs(c - mid);
     if (d < bestD){ bestD = d; best = i; }
   }
   return best;
+}
+
+/* 封面流：滚动位置直接驱动旋转和远近，不另加过渡，手指到哪封面跟到哪。 */
+function placeCover(){
+  var viewW = deck.clientWidth;
+  if (!viewW) return;
+  if (deck._slotW !== viewW) {
+    deck._slotW = viewW;
+    for (var s = 0; s < cards.length; s++) cards[s].style.flexBasis = viewW + 'px';
+  }
+  var scroll = deck.scrollLeft;
+  var peek = Math.max(44, Math.min(64, viewW * 0.15));
+  var reads = [];
+  for (var i = 0; i < cards.length; i++){
+    var slot = cards[i].offsetWidth;
+    var face = cards[i].querySelector('.card__face');
+    var faceW = face ? face.offsetWidth : slot;
+    var natural = cards[i].offsetLeft + slot / 2 - scroll;
+    reads.push({i:i, face:face, faceW:faceW, natural:natural, t:(natural - viewW / 2) / viewW});
+  }
+  for (var k = 0; k < reads.length; k++){
+    var m = reads[k];
+    if (!m.face) continue;
+    var t = m.t;
+    var a = Math.abs(t);
+    var s = t < 0 ? -1 : 1;
+    /* 停稳时正对观众。只有正在翻的那一张和紧邻的一张被拉进画面。 */
+    var settled = a < 0.08;
+    var scale = settled ? 1 : 1 - Math.min(a, 1) * 0.11;
+    if (scale < 0.82) scale = 0.82;
+    var tx = 0;
+    if (!settled && a < 1.4) {
+      var half = m.faceW * scale / 2;
+      var along = Math.min(a, 1);
+      var rest = viewW / 2 - peek + half;
+      var target = viewW / 2 + s * along * rest;
+      var pull = a <= 1 ? 1 : Math.max(0, 1 - (a - 1) / 0.4);
+      tx = (target - m.natural) * pull;
+    }
+    var spin = reduce ? 14 : 40;
+    var ry = settled ? 0 : s * Math.min(a, 1) * spin;
+    var tz = (settled ? 1 : 1 - Math.min(a, 1)) * (reduce ? 0 : 36);
+    var veil = settled ? 0 : Math.min(0.14, Math.max(0, a - 0.12) * 0.12);
+    m.face.style.setProperty('--tx', tx.toFixed(2) + 'px');
+    m.face.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+    m.face.style.setProperty('--tz', tz.toFixed(1) + 'px');
+    m.face.style.setProperty('--sc', scale.toFixed(3));
+    m.face.style.setProperty('--veil', veil.toFixed(3));
+    cards[m.i].style.zIndex = String(80 - Math.round(Math.min(a, 4) * 14));
+  }
 }
 
 function centerLink(i, smooth){
@@ -455,8 +532,9 @@ function fitCards(){
   if (h < 160) h = 160;
   document.documentElement.style.setProperty('--card-h', h + 'px');
 }
-window.addEventListener('resize', fitCards);
+window.addEventListener('resize', function(){ fitCards(); placeCover(); });
 fitCards();
+placeCover();
 
 function scrollPageToStage(){
   if (window.innerWidth >= 900){
@@ -486,11 +564,13 @@ deck.addEventListener('scroll', function(){
   if (raf) return;
   raf = requestAnimationFrame(function(){
     raf = 0;
+    placeCover();
     setCurrent(indexFromScroll(), true);
   });
 }, {passive:true});
 
 deck.addEventListener('scrollend', function(){
+  placeCover();
   var i = indexFromScroll();
   setCurrent(i, true);
   if (history.replaceState) history.replaceState(null, '', links[i].getAttribute('href'));
@@ -510,6 +590,7 @@ if (hashed >= 0){
   scrollDeckTo(hashed, false);
   scrollPageToStage();
 }
+placeCover();
 })();
 </script>
 </body>
