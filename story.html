@@ -31,7 +31,7 @@
 html{background:#3B374C;color-scheme:dark;-webkit-text-size-adjust:100%;scroll-padding-top:68px;scroll-padding-bottom:140px;overscroll-behavior-x:none}
 html,body{margin:0;padding:0}
 body{
-  background:#3B374C;color:#F4EFE8;font-family:var(--font-cn);
+  background:#3B374C;color:#FFD9A8;font-family:var(--font-cn);
   -webkit-font-smoothing:antialiased;
   padding-bottom:calc(128px + env(safe-area-inset-bottom,0px));
 }
@@ -71,11 +71,11 @@ body{
   background:#655D7E;border-bottom:1px solid rgba(199,155,110,.28);
 }
 @media (min-width:960px){.brand{--col:980px}}
-.brand__id{flex:1;min-width:0;display:flex;align-items:center;gap:8px;margin:0;font-family:var(--font-led);font-weight:700;font-size:9px;letter-spacing:.12em;white-space:nowrap;color:rgba(246,226,196,.86)}
+.brand__id{flex:1;min-width:0;display:flex;align-items:center;gap:8px;margin:0;font-family:var(--font-led);font-weight:700;font-size:9px;letter-spacing:.12em;white-space:nowrap;color:rgba(255,217,168,.86)}
 .brand__id i{font-style:normal;font-size:15px;line-height:1;color:#FFE8C4;text-shadow:0 0 12px rgba(255,217,168,.35)}
 .toc-btn{
   flex:none;box-sizing:border-box;min-width:44px;height:44px;margin:0;padding:0 6px;
-  border:0;background:transparent;color:rgba(246,226,196,.92);
+  border:0;background:transparent;color:rgba(255,217,168,.92);
   font-family:var(--font-cn);font-size:15px;font-weight:700;letter-spacing:.08em;line-height:1;
   white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
@@ -86,18 +86,18 @@ body{
 .head{padding:18px 0 0}
 .head__k{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-family:var(--font-led);font-size:9px;letter-spacing:.22em;color:#C9E8F6}
 .head__k::before{content:"";width:22px;height:1px;flex:none;background:linear-gradient(90deg,var(--ice),transparent)}
-.head__t{margin:0;font-size:32px;font-weight:700;line-height:1.28;letter-spacing:.02em;text-wrap:pretty;background:linear-gradient(178deg,#FFF6EA 6%,#F8E7C8 42%,#F6E2C4 74%,#F3D7AE 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#F6E2C4}
+.head__t{margin:0;font-size:32px;font-weight:700;line-height:1.28;letter-spacing:.02em;text-wrap:pretty;background:linear-gradient(178deg,#FFF1D6 4%,#FFE0B0 36%,#FFD9A8 68%,#F0D6B6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#FFD9A8}
 .head__t span{white-space:nowrap}
-.head__d{margin:12px 0 0;font-size:13px;letter-spacing:.04em;line-height:1.5;color:rgba(244,239,232,.86)}
+.head__d{margin:12px 0 0;font-size:13px;letter-spacing:.04em;line-height:1.5;color:rgba(255,217,168,.86)}
 @media (max-width:360px){.head__t{font-size:28px}.head__k{letter-spacing:.12em}}
 /* ---------- 正文 ---------- */
 .sheet{margin-top:26px}
 .sec{padding:0 0 28px}
-.sec__k{margin:0 0 8px;font-family:var(--font-led),var(--font-cn);font-size:12px;letter-spacing:.14em;color:#F6E2C4}
-.sec__t{margin:0 0 12px;font-size:22px;font-weight:700;line-height:1.35;letter-spacing:.03em;text-wrap:pretty;color:#FFF6EA}
+.sec__k{margin:0 0 8px;font-family:var(--font-led),var(--font-cn);font-size:12px;letter-spacing:.14em;color:#FFD9A8}
+.sec__t{margin:0 0 12px;font-size:22px;font-weight:700;line-height:1.35;letter-spacing:.03em;text-wrap:pretty;color:#FFE0B0}
 #map,#origin,#asks,.sec{scroll-margin-top:76px;scroll-margin-bottom:140px}
-.sec p,.rule{margin:0 0 14px;max-width:34em;font-size:16px;line-height:1.85;color:#F4EFE8}
-.sec p b{font-weight:700;color:#F6E2C4}
+.sec p,.rule{margin:0 0 14px;max-width:34em;font-size:16px;line-height:1.85;color:#FFD9A8}
+.sec p b{font-weight:700;color:#FFD9A8}
 .sec p em{font-style:normal;color:#C9E8F6}
 /* 引文是这一页唯一的霓虹 */
 .quote{position:relative;margin:8px 0 18px;max-width:34em;padding:18px 16px 14px;background:linear-gradient(180deg,rgba(255,111,181,.12),rgba(255,111,181,0) 78%)}
@@ -111,9 +111,9 @@ body{
 /* 四问：宽屏钉在右侧，窄屏落在文后 */
 .quests{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
 .quests li{display:grid;grid-template-columns:40px minmax(0,1fr);gap:8px;padding:12px 0;border-top:1px solid rgba(199,155,110,.22)}
-.quests b{font-family:var(--font-led);font-size:13px;font-weight:700;color:#F6E2C4;padding-top:2px}
-.quests strong{display:block;font-size:16px;line-height:1.4;color:#FFF6EA;margin-bottom:4px}
-.quests span i{display:block;font-style:normal;font-size:14px;line-height:1.6;color:rgba(244,239,232,.88)}
+.quests b{font-family:var(--font-led);font-size:13px;font-weight:700;color:#FFD9A8;padding-top:2px}
+.quests strong{display:block;font-size:16px;line-height:1.4;color:#FFE0B0;margin-bottom:4px}
+.quests span i{display:block;font-style:normal;font-size:14px;line-height:1.6;color:rgba(255,217,168,.88)}
 @media (min-width:960px){
   .sheet{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:36px;align-items:start}
   .sheet__side{position:sticky;top:72px;max-height:calc(100dvh - 96px);overflow:auto;padding-left:8px}
@@ -133,7 +133,7 @@ body{
 .brick span{line-height:1.2}
 .brick b{font-family:var(--font-led);font-size:10px;font-weight:700;letter-spacing:.14em}
 .brick:active{transform:translateY(4px);filter:none}
-.dock p{margin:8px 0 0;text-align:center;font-size:13px;letter-spacing:.04em;color:rgba(244,239,232,.82)}
+.dock p{margin:8px 0 0;text-align:center;font-size:13px;letter-spacing:.04em;color:rgba(255,217,168,.82)}
 @media (max-width:360px){.brick{font-size:15px;letter-spacing:.04em;gap:8px}}
 @media (min-width:900px){
   body{padding-bottom:0}
@@ -182,7 +182,7 @@ body{
 .toc__k{margin:0 4px 8px;font-family:var(--font-led);font-size:9px;letter-spacing:.22em;color:#C9E8F6}
 .toc a{
   display:flex;align-items:center;min-height:44px;padding:0 8px;
-  color:#F4EFE8;text-decoration:none;font-size:15px;font-weight:700;
+  color:#FFD9A8;text-decoration:none;font-size:15px;font-weight:700;
   border-top:1px solid rgba(199,155,110,.16);
   -webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
@@ -191,7 +191,7 @@ body{
 .toc a:focus-visible{outline:2px solid var(--ice);outline-offset:2px}
 @media (min-width:900px){.toc{bottom:128px}}
 @media (hover:hover) and (pointer:fine){
-  .toc a:hover{color:#FFF6EA}
+  .toc a:hover{color:#FFE0B0}
 }
 </style>
 </head>
