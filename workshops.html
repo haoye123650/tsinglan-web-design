@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<meta name="theme-color" content="#48322C">
+<meta name="theme-color" content="#7F584D">
 <meta name="robots" content="noindex">
 <title>十二场工作坊 · 无限可能的学校</title>
 <meta name="description" content="2026 年 12 月 5 日 11:35–12:35 的十二场平行工作坊。提前报名，报满即止。地点和名额之后补充。">
@@ -28,16 +28,15 @@
 @media (min-width:390px){:root{--pad:20px}}
 @media (min-width:768px){:root{--pad:28px}}
 *,*::before,*::after{box-sizing:border-box}
-html{background:#201614;color-scheme:dark;-webkit-text-size-adjust:100%;scroll-padding-top:72px;scroll-padding-bottom:160px;overscroll-behavior-x:none}
+html{background:#4B342F;color-scheme:dark;-webkit-text-size-adjust:100%;scroll-padding-top:72px;scroll-padding-bottom:160px;overscroll-behavior-x:none}
 html,body{margin:0;padding:0}
-body{background:#201614;color:var(--paper);font-family:var(--font-cn);-webkit-font-smoothing:antialiased;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+body{background:#4B342F;color:#FFD9A8;font-family:var(--font-cn);-webkit-font-smoothing:antialiased;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 ::selection{background:rgba(199,155,110,.35);color:#fff}
-/* 底：陶土为主，紫灰与金只在两侧。和背景页、日程同一套深浅。 */
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:
-  radial-gradient(92% 46% at 8% -10%, rgba(215,149,128,.20), transparent 62%),
-  radial-gradient(70% 38% at 108% 8%, rgba(162,156,178,.14), transparent 60%),
-  radial-gradient(78% 42% at 70% 108%, rgba(208,172,104,.12), transparent 58%),
-  linear-gradient(180deg, #48322C 0%, #3A2824 48%, #201614 100%)}
+  radial-gradient(92% 46% at 8% -10%, rgba(215,149,128,.24), transparent 62%),
+  radial-gradient(70% 38% at 108% 8%, rgba(162,156,178,.16), transparent 60%),
+  radial-gradient(78% 42% at 70% 108%, rgba(208,172,104,.14), transparent 58%),
+  linear-gradient(180deg, #7F584D 0%, #684840 48%, #4B342F 100%)}
 .floor{position:fixed;left:0;right:0;bottom:0;height:22vh;z-index:0;pointer-events:none;overflow:hidden;perspective:760px;perspective-origin:50% 0%;-webkit-mask-image:linear-gradient(to top,#000 0%,transparent 78%);mask-image:linear-gradient(to top,#000 0%,transparent 78%)}
 .floor i{position:absolute;left:-70%;right:-70%;top:0;bottom:0;transform-origin:50% 100%;transform:rotateX(68deg);opacity:.22;background-image:linear-gradient(rgba(159,211,236,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(159,211,236,.35) 1px,transparent 1px);background-size:96px 96px}
 .scan{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.2;background:repeating-linear-gradient(180deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px)}
@@ -50,7 +49,7 @@ body{background:#201614;color:var(--paper);font-family:var(--font-cn);-webkit-fo
 .frame__c--br{bottom:8px;right:8px;border-left:0;border-top:0}
 .rail{display:none}
 @media (min-width:1180px){
-  .rail{display:block;position:fixed;top:50%;z-index:4;font-family:var(--font-led);font-size:8px;letter-spacing:.28em;color:rgba(159,211,236,.38);white-space:nowrap;writing-mode:vertical-rl;transform:translateY(-50%);pointer-events:none}
+  .rail{display:block;position:fixed;top:50%;z-index:4;font-family:var(--font-led);font-size:8px;letter-spacing:.28em;color:rgba(201,232,246,.55);white-space:nowrap;writing-mode:vertical-rl;transform:translateY(-50%);pointer-events:none}
   .rail--l{left:14px}.rail--r{right:14px}
 }
 .wrap{position:relative;z-index:5;max-width:720px;margin:0 auto;padding:14px var(--pad) 0}
@@ -62,36 +61,36 @@ body{background:#201614;color:var(--paper);font-family:var(--font-cn);-webkit-fo
   position:sticky;top:0;z-index:25;display:flex;align-items:center;gap:2px;
   height:calc(env(safe-area-inset-top,0px) + var(--bar));box-sizing:border-box;
   padding:env(safe-area-inset-top,0px) max(8px,calc((100% - var(--col)) / 2)) 0 max(var(--pad),calc((100% - var(--col)) / 2 + var(--pad)));
-  background:#48322C;border-bottom:1px solid rgba(199,155,110,.16);
+  background:#7F584D;border-bottom:1px solid rgba(255,217,168,.22);
 }
 @media (min-width:800px){.brand{--col:980px}}
-.brand__id{flex:1;min-width:0;display:flex;align-items:center;gap:8px;margin:0;font-family:var(--font-led);font-weight:700;font-size:9px;letter-spacing:.12em;white-space:nowrap;color:rgba(240,214,182,.78)}
-.brand__id i{font-style:normal;font-size:15px;line-height:1;color:var(--gold-hi);text-shadow:0 0 12px rgba(255,217,168,.45)}
+.brand__id{flex:1;min-width:0;display:flex;align-items:center;gap:8px;margin:0;font-family:var(--font-led);font-weight:700;font-size:9px;letter-spacing:.12em;white-space:nowrap;color:rgba(255,217,168,.86)}
+.brand__id i{font-style:normal;font-size:15px;line-height:1;color:#FFE8C4;text-shadow:0 0 12px rgba(255,217,168,.35)}
 .toc-btn{
   flex:none;box-sizing:border-box;min-width:44px;height:44px;margin:0;padding:0 6px;
-  border:0;background:transparent;color:rgba(240,214,182,.92);
+  border:0;background:transparent;color:rgba(255,217,168,.92);
   font-family:var(--font-cn);font-size:15px;font-weight:700;letter-spacing:.08em;line-height:1;
   white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
 .toc-btn:focus-visible,.chan a:focus-visible,.hold:focus-visible{outline:2px solid var(--ice);outline-offset:3px}
-.toc-btn:active,.toc-btn[aria-expanded="true"]{color:var(--gold-hi)}
+.toc-btn:active,.toc-btn[aria-expanded="true"]{color:#FFE8C4}
 @media (max-width:340px){.brand__id{letter-spacing:.08em}}
 /* 手机上顶栏跟着页走。点某一场之后，说明和顶栏滚出视口，数字条才能贴在屏幕顶。 */
 @media (max-width:899px){
   .brand{position:relative;top:auto}
 }
 .head{padding:16px 0 0}
-.head__k{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-family:var(--font-led);font-size:9px;letter-spacing:.22em;color:rgba(159,211,236,.86)}
+.head__k{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-family:var(--font-led);font-size:9px;letter-spacing:.22em;color:#C9E8F6}
 .head__k::before{content:"";width:22px;height:1px;flex:none;background:linear-gradient(90deg,var(--ice),transparent)}
-.head__t{margin:0;font-size:32px;font-weight:700;line-height:1.25;letter-spacing:.02em;white-space:nowrap;text-wrap:pretty;background:linear-gradient(178deg,#FFF5E6 6%,var(--gold-l) 40%,var(--gold) 72%,#8C6742 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gold-l)}
-.lock{display:flex;align-items:baseline;gap:8px;margin:12px 0 0;font-family:var(--font-led);font-weight:700;font-size:32px;letter-spacing:.04em;font-variant-numeric:tabular-nums;color:var(--gold-l);line-height:1}
-.lock span{font-family:var(--font-cn);font-size:14px;font-weight:600;letter-spacing:.08em;color:rgba(159,211,236,.9)}
+.head__t{margin:0;font-size:32px;font-weight:700;line-height:1.25;letter-spacing:.02em;white-space:nowrap;text-wrap:pretty;background:linear-gradient(178deg,#FFF1D6 4%,#FFE0B0 36%,#FFD9A8 68%,#F0D6B6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#FFD9A8}
+.lock{display:flex;align-items:baseline;gap:8px;margin:12px 0 0;font-family:var(--font-led);font-weight:700;font-size:32px;letter-spacing:.04em;font-variant-numeric:tabular-nums;color:#FFD9A8;line-height:1}
+.lock span{font-family:var(--font-cn);font-size:14px;font-weight:600;letter-spacing:.08em;color:#C9E8F6}
 @media (max-width:360px){.head__t{font-size:28px}.lock{font-size:26px}.head__k{letter-spacing:.12em}}
 .sec{margin-top:8px}
-.sec__k{margin:14px 0 8px;font-family:var(--font-led),var(--font-cn);font-size:12px;letter-spacing:.14em;color:var(--gold-l)}
-.sec__t{margin:0 0 8px;font-size:22px;font-weight:700;line-height:1.35;color:#FFF6EA}
-.rule{margin:0 0 8px;font-size:15px;line-height:1.7;color:rgba(242,236,230,.9)}
-.pending{margin:0 0 12px;font-size:14px;line-height:1.6;color:var(--gold-l)}
+.sec__k{margin:14px 0 8px;font-family:var(--font-led),var(--font-cn);font-size:12px;letter-spacing:.14em;color:#FFD9A8}
+.sec__t{margin:0 0 8px;font-size:22px;font-weight:700;line-height:1.35;color:#FFE0B0}
+.rule{margin:0 0 8px;font-size:15px;line-height:1.7;color:#FFD9A8}
+.pending{margin:0 0 12px;font-size:14px;line-height:1.6;color:rgba(255,217,168,.88)}
 .sec__t{text-wrap:pretty}
 #rooms{scroll-margin-top:12px;scroll-margin-bottom:110px}
 .card{scroll-margin-top:72px;scroll-margin-bottom:110px}
@@ -101,7 +100,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--bar));z-index:24;
   display:flex;gap:6px;overflow-x:auto;overscroll-behavior-x:contain;
   margin:0 calc(var(--pad) * -1);padding:8px var(--pad) 8px;
-  background:#48322C;border-bottom:1px solid rgba(199,155,110,.16);
+  background:#7F584D;border-bottom:1px solid rgba(255,217,168,.22);
   scrollbar-color:rgba(199,155,110,.45) transparent;
 }
 @media (max-width:720px){
@@ -110,45 +109,71 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .chan a{
   flex:none;min-width:44px;height:44px;display:flex;align-items:center;justify-content:center;
   font-family:var(--font-led);font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;
-  color:var(--gold-l);border:1px solid rgba(199,155,110,.4);-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  color:#FFD9A8;border:1px solid rgba(255,217,168,.4);-webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
 .chan a:active{background:rgba(199,155,110,.16)}
-.chan a[aria-current="true"]{border-color:var(--gold-l);background:rgba(199,155,110,.22);color:var(--gold-hi)}
+.chan a[aria-current="true"]{border-color:#FFD9A8;background:rgba(255,217,168,.18);color:#FFE0B0}
 @media (max-width:899px){.chan{top:0}}
-/* ---------- 十二场：一条跟手的卡片轨，不是轮播点 ---------- */
+/* ---------- 十二场：封面流。中间最大，两侧透视立起，像在翻专辑 ---------- */
 .deck{
-  display:flex;align-items:stretch;gap:10px;
-  margin:0;padding:2px 0 4px;
+  display:flex;align-items:stretch;
+  margin:8px 8px 0;padding:8px 0 18px;
   overflow-x:auto;overflow-y:hidden;
   scroll-snap-type:x mandatory;
-  scroll-padding-inline-start:0;
+  scroll-padding-inline:0;
   overscroll-behavior-x:contain;
   scrollbar-width:none;
   touch-action:manipulation;
+  /* 透视写在每张卡的 transform 里。滚动容器的 overflow 会把祖先 perspective 压平。 */
   -webkit-user-select:none;user-select:none;
   -webkit-tap-highlight-color:transparent;
 }
 .deck::-webkit-scrollbar{display:none;height:0}
-.deck::after{content:"";flex:0 0 72px;scroll-snap-align:none}
-.card{flex:0 0 calc(100% - 52px);scroll-snap-align:start;scroll-snap-stop:normal}
 .card{
-  position:relative;z-index:0;display:flex;flex-direction:column;gap:8px;min-width:0;min-height:44px;
-  padding:13px 13px 12px;border:1px solid rgba(199,155,110,.3);
-  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.012));
+  flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:normal;
+  position:relative;z-index:0;display:flex;justify-content:center;
+  min-width:0;min-height:44px;padding:4px 0 10px;
+  align-items:center;
+  background:transparent;border:0;box-shadow:none;
   cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
+.card__face{
+  width:min(78%,440px);min-width:0;height:calc(100% - 36px);
+  display:flex;flex-direction:column;gap:8px;
+  padding:16px 16px 14px;border-radius:30px;
+  border:1px solid rgba(92,44,32,.16);
+  background:linear-gradient(180deg,#FFF9F5 0%,#FFF1E8 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 10px 22px rgba(112,44,32,.16),
+    0 26px 46px rgba(78,28,20,.14);
+  transform:perspective(760px) translate3d(var(--tx,0px),0,var(--tz,0px)) rotateY(var(--ry,0deg)) scale(var(--sc,1));
+  transform-origin:center center;
+  position:relative;
+}
+.card__face::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:#6A3428;opacity:var(--veil,0);
+}
 .card input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;pointer-events:none}
-.card:focus-within{outline:2px solid var(--ice);outline-offset:2px}
-.card.is-on,.card:has(input:checked){border-color:rgba(240,214,182,.9);background:linear-gradient(180deg,rgba(199,155,110,.16),rgba(199,155,110,.04))}
+.card:focus-within .card__face{outline:2px solid var(--ice);outline-offset:3px}
+.card.is-on .card__face,.card:has(input:checked) .card__face{
+  border-color:#3E280C;
+  background:linear-gradient(180deg,#FFF8F2 0%,#F8E6D8 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.92),
+    0 12px 26px rgba(112,44,32,.2),
+    0 30px 52px rgba(78,28,20,.18);
+}
 .card__top{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.card__top b{font-family:var(--font-led);font-size:15px;font-weight:700;letter-spacing:.06em;color:var(--gold-l)}
-.card__flag{display:none;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--gold-hi)}
+.card__top b{font-family:var(--font-led);font-size:15px;font-weight:700;letter-spacing:.06em;color:#3E280C}
+.card__flag{display:none;font-size:12px;font-weight:700;letter-spacing:.08em;color:#3E280C}
 .card.is-on .card__flag,.card:has(input:checked) .card__flag{display:inline}
 .card__sq{width:14px;height:14px;border:1px solid rgba(240,214,182,.8);flex:none}
 .card.is-on .card__sq,.card:has(input:checked) .card__sq{background:var(--gold-l);box-shadow:inset 0 0 0 3px #201614}
 .card__top .card__end{display:flex;align-items:center;gap:8px}
-.card__name{font-size:16px;font-weight:700;line-height:1.45;text-wrap:pretty;color:#FFF6EA}
-.card__who{font-size:14px;line-height:1.4;color:var(--gold-l)}
+.card__name{font-size:16px;font-weight:700;line-height:1.45;text-wrap:pretty;color:var(--ink)}
+.card__who{font-size:14px;line-height:1.4;color:#3E280C}
 /* 外框高度固定为一屏：数字条贴顶到报名按钮之间。说明在不在视口里都不改这个高度。
    字装不下时只滚卡内，地点和名额留在框底，不靠改外框来腾地方。 */
 .card__body{
@@ -157,7 +182,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   scrollbar-width:thin;scrollbar-color:rgba(199,155,110,.45) transparent;
 }
 @media (max-width:899px){
-  .deck{padding:2px 0 0}
+  .deck{margin:10px 10px 0;padding:6px 0 14px}
   .card{height:var(--card-h,auto);min-height:0}
   .card__meta{margin-top:0}
 }
@@ -174,13 +199,14 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   .rule,.pending{font-size:13px;line-height:1.35;margin-bottom:4px}
 }
 @media (min-width:900px){
-  .card{flex-basis:calc(100% - 180px);height:auto;min-height:400px}
+  .card{height:auto;min-height:420px}
+  .card__face{height:auto;min-height:384px}
 }
-.card__meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:auto;padding-top:4px;font-size:13px;color:rgba(159,211,236,.92)}
-.card__meta b{margin-left:6px;font-weight:700;color:rgba(242,236,230,.92)}
+.card__meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:auto;padding-top:4px;font-size:13px;color:#0A303C}
+.card__meta b{margin-left:6px;font-weight:700;color:var(--ink)}
 /* ---------- 底栏：未接通，不是金砖 ---------- */
-.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:0 var(--pad) calc(10px + env(safe-area-inset-bottom,0px));pointer-events:none;background:linear-gradient(180deg,rgba(32,22,20,0),#201614 14px)}
-.dock__in{max-width:720px;margin:0 auto;pointer-events:auto;padding-top:8px;background:#201614}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:0 var(--pad) calc(10px + env(safe-area-inset-bottom,0px));pointer-events:none;background:linear-gradient(180deg,rgba(75,52,47,0),#4B342F 16px)}
+.dock__in{max-width:720px;margin:0 auto;pointer-events:auto;padding-top:8px;background:#4B342F}
 @media (min-width:800px){.dock__in{max-width:980px}}
 @media (min-width:900px){
   body{padding-bottom:0}
@@ -189,9 +215,9 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   .dock .hold{max-width:440px}
 }
 @media (hover:hover) and (pointer:fine){
-  .toc-btn:hover{color:var(--gold-hi)}
-  .card:hover{border-color:rgba(240,214,182,.75)}
-  .chan a:hover{border-color:var(--gold-l);color:#fff}
+  .toc-btn:hover{color:#FFE8C4}
+  .card:hover .card__face{border-color:#3E280C}
+  .chan a:hover{border-color:#FFD9A8;color:#FFE0B0}
 }
 @media (max-height:700px){
   .head{padding-top:6px}
@@ -218,7 +244,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 }
 @media (forced-colors:active){
   .head__t{background:none;-webkit-text-fill-color:CanvasText;color:CanvasText}
-  .card,.hold,.chan a{border:1px solid ButtonText}
+  .card__face,.hold,.chan a{border:1px solid ButtonText}
   .toc-btn,.toc__panel{background:Canvas;color:CanvasText;border:1px solid CanvasText}
 }
 /* ---------- 右侧目录：右上角「目录」打开。收起时整段移出，不留把手。 ---------- */
@@ -235,23 +261,23 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .toc.is-open{transform:none}
 .toc__panel{
   pointer-events:auto;position:absolute;left:0;top:0;right:0;bottom:0;overflow:auto;
-  overscroll-behavior:contain;padding:14px 12px 12px 8px;background:#3A2824;
+  overscroll-behavior:contain;padding:14px 12px 12px 8px;background:#684840;
   border-left:1px solid rgba(199,155,110,.45);
 }
 .toc.is-open .toc__panel{box-shadow:-14px 0 24px rgba(4,3,10,.5)}
-.toc__k{margin:0 4px 8px;font-family:var(--font-led);font-size:9px;letter-spacing:.22em;color:rgba(159,211,236,.86)}
+.toc__k{margin:0 4px 8px;font-family:var(--font-led);font-size:9px;letter-spacing:.22em;color:#C9E8F6}
 .toc a{
   display:flex;align-items:center;min-height:44px;padding:0 8px;
-  color:rgba(242,236,230,.88);text-decoration:none;font-size:15px;font-weight:700;
+  color:#FFD9A8;text-decoration:none;font-size:15px;font-weight:700;
   border-top:1px solid rgba(199,155,110,.16);
   -webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
-.toc a[aria-current="page"]{color:var(--gold-hi);background:rgba(199,155,110,.1);box-shadow:inset 2px 0 0 var(--gold-hi)}
-.toc a.toc__sub{padding-left:18px;font-size:14px;font-weight:600;color:rgba(159,211,236,.92)}
+.toc a[aria-current="page"]{color:#FFE8C4;background:rgba(255,217,168,.12);box-shadow:inset 2px 0 0 var(--gold-hi)}
+.toc a.toc__sub{padding-left:18px;font-size:14px;font-weight:600;color:#C9E8F6}
 .toc a:focus-visible{outline:2px solid var(--ice);outline-offset:2px}
 @media (min-width:900px){.toc{bottom:128px}}
 @media (hover:hover) and (pointer:fine){
-  .toc a:hover{color:#fff}
+  .toc a:hover{color:#FFE0B0}
 }
 </style>
 </head>
@@ -293,18 +319,18 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
         <a href="#w09">09</a><a href="#w10">10</a><a href="#w11">11</a><a href="#w12">12</a>
       </nav>
       <div class="deck" id="deck" aria-label="十二场工作坊，左右滑动换场">
-        <label class="card" id="w01"><input type="radio" name="workshop" autocomplete="off" value="01"><span class="card__top"><b>01</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">拒绝「伪装变革」：AI 时代重构真实学习设计的实操路径</span><span class="card__who">黎蒙</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w02"><input type="radio" name="workshop" autocomplete="off" value="02"><span class="card__top"><b>02</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当 AI 比我们会讲道理：国际化学校的德育，如何从「管住人」走向「长出判断」</span><span class="card__who">林静姿</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w03"><input type="radio" name="workshop" autocomplete="off" value="03"><span class="card__top"><b>03</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">破解学习迷宫：AI 驱动下的个性化学习空间与路线设计</span><span class="card__who">孙成伟</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w04"><input type="radio" name="workshop" autocomplete="off" value="04"><span class="card__top"><b>04</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">让数据「开口说话」：AI 驱动下的教务管理转型</span><span class="card__who">祁镇华 · 向晶</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w05"><input type="radio" name="workshop" autocomplete="off" value="05"><span class="card__top"><b>05</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当作业可以一键生成：我们如何重塑「真学习」评估</span><span class="card__who">Roselyn · 郭嘉</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w06"><input type="radio" name="workshop" autocomplete="off" value="06"><span class="card__top"><b>06</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">破局「课表难题」：如何系统化打造「每天一节」的硬核体育课程</span><span class="card__who">莫启源 · 阎泽雄</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w07"><input type="radio" name="workshop" autocomplete="off" value="07"><span class="card__top"><b>07</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当画笔遇上代码：CG Lab 如何把艺术、工程与设计锻造成跨学科课程</span><span class="card__who">张赞</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w08"><input type="radio" name="workshop" autocomplete="off" value="08"><span class="card__top"><b>08</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">学生的主体性与能动性，如何从「发现问题」走向「回应真实世界」</span><span class="card__who">谈昕然 · Ryan Wong</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w09"><input type="radio" name="workshop" autocomplete="off" value="09"><span class="card__top"><b>09</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">先照顾好人，再谈成绩：一套 SEL 教材与课程</span><span class="card__who">王珊 · 王艺桐 · 魏荣</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w10"><input type="radio" name="workshop" autocomplete="off" value="10"><span class="card__top"><b>10</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">最后一年，交出你自己的作品：小学、初中的毕业项目</span><span class="card__who">魏方 · 郭航</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w11"><input type="radio" name="workshop" autocomplete="off" value="11"><span class="card__top"><b>11</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">从读到写，从课本到舞台：语文组的十二年</span><span class="card__who">白文婷</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
-        <label class="card" id="w12"><input type="radio" name="workshop" autocomplete="off" value="12"><span class="card__top"><b>12</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">把「创新基因」做成可复制的模板：初中科学差异化跨学科 PBL</span><span class="card__who">柏苇</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></label>
+        <label class="card" id="w01"><input type="radio" name="workshop" autocomplete="off" value="01"><span class="card__face"><span class="card__top"><b>01</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">拒绝「伪装变革」：AI 时代重构真实学习设计的实操路径</span><span class="card__who">黎蒙</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w02"><input type="radio" name="workshop" autocomplete="off" value="02"><span class="card__face"><span class="card__top"><b>02</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当 AI 比我们会讲道理：国际化学校的德育，如何从「管住人」走向「长出判断」</span><span class="card__who">林静姿</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w03"><input type="radio" name="workshop" autocomplete="off" value="03"><span class="card__face"><span class="card__top"><b>03</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">破解学习迷宫：AI 驱动下的个性化学习空间与路线设计</span><span class="card__who">孙成伟</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w04"><input type="radio" name="workshop" autocomplete="off" value="04"><span class="card__face"><span class="card__top"><b>04</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">让数据「开口说话」：AI 驱动下的教务管理转型</span><span class="card__who">祁镇华 · 向晶</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w05"><input type="radio" name="workshop" autocomplete="off" value="05"><span class="card__face"><span class="card__top"><b>05</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当作业可以一键生成：我们如何重塑「真学习」评估</span><span class="card__who">Roselyn · 郭嘉</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w06"><input type="radio" name="workshop" autocomplete="off" value="06"><span class="card__face"><span class="card__top"><b>06</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">破局「课表难题」：如何系统化打造「每天一节」的硬核体育课程</span><span class="card__who">莫启源 · 阎泽雄</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w07"><input type="radio" name="workshop" autocomplete="off" value="07"><span class="card__face"><span class="card__top"><b>07</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当画笔遇上代码：CG Lab 如何把艺术、工程与设计锻造成跨学科课程</span><span class="card__who">张赞</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w08"><input type="radio" name="workshop" autocomplete="off" value="08"><span class="card__face"><span class="card__top"><b>08</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">学生的主体性与能动性，如何从「发现问题」走向「回应真实世界」</span><span class="card__who">谈昕然 · Ryan Wong</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w09"><input type="radio" name="workshop" autocomplete="off" value="09"><span class="card__face"><span class="card__top"><b>09</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">先照顾好人，再谈成绩：一套 SEL 教材与课程</span><span class="card__who">王珊 · 王艺桐 · 魏荣</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w10"><input type="radio" name="workshop" autocomplete="off" value="10"><span class="card__face"><span class="card__top"><b>10</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">最后一年，交出你自己的作品：小学、初中的毕业项目</span><span class="card__who">魏方 · 郭航</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w11"><input type="radio" name="workshop" autocomplete="off" value="11"><span class="card__face"><span class="card__top"><b>11</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">从读到写，从课本到舞台：语文组的十二年</span><span class="card__who">白文婷</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w12"><input type="radio" name="workshop" autocomplete="off" value="12"><span class="card__face"><span class="card__top"><b>12</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">把「创新基因」做成可复制的模板：初中科学差异化跨学科 PBL</span><span class="card__who">柏苇</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
       </div>
     </fieldset>
   </section>
@@ -324,7 +350,6 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
     <a href="story.html">背景</a>
     <a href="schedule.html">日程</a>
     <a href="workshops.html" aria-current="page">工作坊</a>
-    <a class="toc__sub" href="#rooms">01 · 提前报名</a>
   </nav>
 </div>
 
@@ -406,13 +431,64 @@ var raf = 0;
 function motion(){ return reduce ? 'auto' : 'smooth'; }
 
 function indexFromScroll(){
-  var edge = deck.getBoundingClientRect().left;
+  var mid = deck.scrollLeft + deck.clientWidth / 2;
   var best = 0, bestD = Infinity;
   for (var i = 0; i < cards.length; i++){
-    var d = Math.abs(cards[i].getBoundingClientRect().left - edge);
+    var c = cards[i].offsetLeft + cards[i].offsetWidth / 2;
+    var d = Math.abs(c - mid);
     if (d < bestD){ bestD = d; best = i; }
   }
   return best;
+}
+
+/* 封面流：滚动位置直接驱动旋转和远近，不另加过渡，手指到哪封面跟到哪。 */
+function placeCover(){
+  var viewW = deck.clientWidth;
+  if (!viewW) return;
+  if (deck._slotW !== viewW) {
+    deck._slotW = viewW;
+    for (var s = 0; s < cards.length; s++) cards[s].style.flexBasis = viewW + 'px';
+  }
+  var scroll = deck.scrollLeft;
+  var peek = Math.max(44, Math.min(64, viewW * 0.15));
+  var reads = [];
+  for (var i = 0; i < cards.length; i++){
+    var slot = cards[i].offsetWidth;
+    var face = cards[i].querySelector('.card__face');
+    var faceW = face ? face.offsetWidth : slot;
+    var natural = cards[i].offsetLeft + slot / 2 - scroll;
+    reads.push({i:i, face:face, faceW:faceW, natural:natural, t:(natural - viewW / 2) / viewW});
+  }
+  for (var k = 0; k < reads.length; k++){
+    var m = reads[k];
+    if (!m.face) continue;
+    var t = m.t;
+    var a = Math.abs(t);
+    var s = t < 0 ? -1 : 1;
+    /* 停稳时正对观众。只有正在翻的那一张和紧邻的一张被拉进画面。 */
+    var settled = a < 0.14;
+    var scale = settled ? 1 : 1 - Math.min(a, 1) * 0.11;
+    if (scale < 0.82) scale = 0.82;
+    var tx = 0;
+    if (!settled && a < 1.4) {
+      var half = m.faceW * scale / 2;
+      var along = Math.min(a, 1);
+      var rest = viewW / 2 - peek + half;
+      var target = viewW / 2 + s * along * rest;
+      var pull = a <= 1 ? 1 : Math.max(0, 1 - (a - 1) / 0.4);
+      tx = (target - m.natural) * pull;
+    }
+    var spin = reduce ? 14 : 40;
+    var ry = settled ? 0 : s * Math.min(a, 1) * spin;
+    var tz = (settled ? 1 : 1 - Math.min(a, 1)) * (reduce ? 0 : 36);
+    var veil = settled ? 0 : Math.min(0.14, Math.max(0, a - 0.12) * 0.12);
+    m.face.style.setProperty('--tx', tx.toFixed(2) + 'px');
+    m.face.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+    m.face.style.setProperty('--tz', tz.toFixed(1) + 'px');
+    m.face.style.setProperty('--sc', scale.toFixed(3));
+    m.face.style.setProperty('--veil', veil.toFixed(3));
+    cards[m.i].style.zIndex = String(80 - Math.round(Math.min(a, 4) * 14));
+  }
 }
 
 function centerLink(i, smooth){
@@ -447,10 +523,10 @@ function scrollDeckTo(i, smooth){
 }
 
 function stageHeight(){
-  /* 数字条贴顶之后，卡顶紧挨数字条，卡底停在报名按钮上沿。跟滚动位置无关。 */
+  /* 数字条和报名按钮之间留一圈空隙，卡片不要贴满这一截。 */
   var chanH = chan.getBoundingClientRect().height;
   var holdTop = document.querySelector('.hold').getBoundingClientRect().top;
-  return Math.floor(holdTop - chanH - 2);
+  return Math.floor(holdTop - chanH - 28);
 }
 function fitCards(){
   if (window.innerWidth >= 900){
@@ -461,8 +537,9 @@ function fitCards(){
   if (h < 160) h = 160;
   document.documentElement.style.setProperty('--card-h', h + 'px');
 }
-window.addEventListener('resize', fitCards);
+window.addEventListener('resize', function(){ fitCards(); placeCover(); });
 fitCards();
+placeCover();
 
 function scrollPageToStage(){
   if (window.innerWidth >= 900){
@@ -492,11 +569,13 @@ deck.addEventListener('scroll', function(){
   if (raf) return;
   raf = requestAnimationFrame(function(){
     raf = 0;
+    placeCover();
     setCurrent(indexFromScroll(), true);
   });
 }, {passive:true});
 
 deck.addEventListener('scrollend', function(){
+  placeCover();
   var i = indexFromScroll();
   setCurrent(i, true);
   if (history.replaceState) history.replaceState(null, '', links[i].getAttribute('href'));
@@ -516,6 +595,7 @@ if (hashed >= 0){
   scrollDeckTo(hashed, false);
   scrollPageToStage();
 }
+placeCover();
 })();
 </script>
 </body>
