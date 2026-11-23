@@ -113,7 +113,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 /* ---------- 十二场：封面流。中间最大，两侧透视立起，像在翻专辑 ---------- */
 .deck{
   display:flex;align-items:stretch;
-  margin:0;padding:6px 0 16px;
+  margin:8px 8px 0;padding:8px 0 18px;
   overflow-x:auto;overflow-y:hidden;
   scroll-snap-type:x mandatory;
   scroll-padding-inline:0;
@@ -127,13 +127,14 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .deck::-webkit-scrollbar{display:none;height:0}
 .card{
   flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:normal;
-  position:relative;z-index:0;display:flex;justify-content:center;align-items:stretch;
-  min-width:0;min-height:44px;padding:2px 0 8px;
+  position:relative;z-index:0;display:flex;justify-content:center;
+  min-width:0;min-height:44px;padding:4px 0 10px;
+  align-items:center;
   background:transparent;border:0;box-shadow:none;
   cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
 .card__face{
-  width:min(80%,460px);min-width:0;height:100%;
+  width:min(74%,420px);min-width:0;height:calc(100% - 36px);
   display:flex;flex-direction:column;gap:8px;
   padding:16px 16px 14px;border-radius:30px;
   border:1px solid rgba(92,44,32,.16);
@@ -177,7 +178,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   scrollbar-width:thin;scrollbar-color:rgba(199,155,110,.45) transparent;
 }
 @media (max-width:899px){
-  .deck{padding:4px 0 12px}
+  .deck{margin:10px 10px 0;padding:6px 0 14px}
   .card{height:var(--card-h,auto);min-height:0}
   .card__meta{margin-top:0}
 }
@@ -194,8 +195,8 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   .rule,.pending{font-size:13px;line-height:1.35;margin-bottom:4px}
 }
 @media (min-width:900px){
-  .card{height:auto;min-height:460px}
-  .card__face{min-height:420px}
+  .card{height:auto;min-height:420px}
+  .card__face{height:auto;min-height:384px}
 }
 .card__meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:auto;padding-top:4px;font-size:13px;color:#0A303C}
 .card__meta b{margin-left:6px;font-weight:700;color:var(--ink)}
@@ -461,7 +462,7 @@ function placeCover(){
     var a = Math.abs(t);
     var s = t < 0 ? -1 : 1;
     /* 停稳时正对观众。只有正在翻的那一张和紧邻的一张被拉进画面。 */
-    var settled = a < 0.08;
+    var settled = a < 0.14;
     var scale = settled ? 1 : 1 - Math.min(a, 1) * 0.11;
     if (scale < 0.82) scale = 0.82;
     var tx = 0;
@@ -518,10 +519,10 @@ function scrollDeckTo(i, smooth){
 }
 
 function stageHeight(){
-  /* 数字条贴顶之后，卡顶紧挨数字条，卡底停在报名按钮上沿。跟滚动位置无关。 */
+  /* 数字条和报名按钮之间留一圈空隙，卡片不要贴满这一截。 */
   var chanH = chan.getBoundingClientRect().height;
   var holdTop = document.querySelector('.hold').getBoundingClientRect().top;
-  return Math.floor(holdTop - chanH - 2);
+  return Math.floor(holdTop - chanH - 28);
 }
 function fitCards(){
   if (window.innerWidth >= 900){
