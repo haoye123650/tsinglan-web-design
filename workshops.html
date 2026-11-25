@@ -150,7 +150,8 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   cursor:pointer;-webkit-tap-highlight-color:transparent;
 }
 .card__face{
-  width:min(82%,440px);min-width:0;height:calc(100% - 48px);
+  width:min(82%,440px);min-width:0;
+  aspect-ratio:4/7;
   display:flex;flex-direction:column;gap:10px;
   padding:20px 20px 18px;border-radius:32px;
   border:1px solid rgba(92,44,32,.14);
@@ -205,7 +206,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 }
 @media (max-width:899px){
   .deck{margin-top:4px;padding-top:8px;padding-bottom:14px}
-  .card{height:var(--card-h,auto);min-height:0}
+  .card{height:auto;min-height:0}
   .card__meta{margin-top:0}
 }
 @media (max-width:340px) and (max-height:580px){
@@ -225,8 +226,8 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   .gesture{margin-top:2px;min-height:22px}
 }
 @media (min-width:900px){
-  .card{height:auto;min-height:400px}
-  .card__face{height:auto;min-height:352px}
+  .card{height:auto;min-height:0}
+  .card__face{width:min(78%,460px);aspect-ratio:5/4}
 }
 .card__meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:auto;padding-top:12px;border-top:1px solid rgba(62,40,12,.12);font-size:var(--fs-small);color:#564034}
 .card__meta b{margin-left:6px;font-weight:700;color:var(--ink)}
@@ -358,7 +359,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
     <h2 class="sec__t">同一时间，十二场</h2>
     <fieldset aria-label="十二场里先点一场。选中不会送出。">
       <p class="rule">同一时间只能去一场。嘉宾提前报名，报满即止。地点和名额之后补充。</p>
-      <p class="pending" id="pick-note" aria-live="polite">点卡片先预选（刷新后清除），再点下方按钮前往登记。</p>
+      <p class="pending" id="pick-note" aria-live="polite">点卡片预选，再点一次可撤销；选好后点下方按钮前往登记。</p>
       <nav class="chan" aria-label="按场次跳转">
         <a href="#w01">01</a><a href="#w02">02</a><a href="#w03">03</a><a href="#w04">04</a>
         <a href="#w05">05</a><a href="#w06">06</a><a href="#w07">07</a><a href="#w08">08</a>
@@ -429,17 +430,53 @@ function arm(){
   hold.setAttribute('aria-label','前往金数据登记（将在新页面打开）');
   hold.classList.add('is-ready');
 }
+function disarm(){
+  if (!hold) return;
+  hold.removeAttribute('href');
+  hold.removeAttribute('target');
+  hold.removeAttribute('rel');
+  hold.setAttribute('role','button');
+  hold.setAttribute('aria-disabled','true');
+  hold.setAttribute('tabindex','-1');
+  hold.setAttribute('aria-label','先选一场，才能前往登记');
+  hold.textContent = '先选一场，才能去登记';
+  hold.classList.remove('is-ready');
+}
+function pick(c){
+  var input = c.querySelector('input');
+  var number = c.querySelector('.card__top b').textContent;
+  var who = c.querySelector('.card__who').textContent;
+  paint();
+  note.textContent = number + ' 这场已在本次页面预选，尚未提交；请点下方按钮前往登记，再点一次卡片可撤销。';
+  pickState.textContent = '已预选 ' + number;
+  pickCurrent.textContent = who + ' · 待登记';
+  dockChoice.classList.add('is-pick');
+  if (hold) hold.textContent = '前往登记 · ' + number + ' 场';
+  arm();
+}
+function clearPick(){
+  var note = document.getElementById('pick-note');
+  paint();
+  note.textContent = '点卡片预选，再点一次可撤销；选好后点下方按钮前往登记。';
+  pickState.textContent = '十二选一';
+  pickCurrent.textContent = '点卡片预选一场';
+  dockChoice.classList.remove('is-pick');
+  disarm();
+}
 cards.forEach(function(c){
-  c.querySelector('input').addEventListener('change', function(){
-    paint();
-    var number = c.querySelector('.card__top b').textContent;
-    var who = c.querySelector('.card__who').textContent;
-    note.textContent = number + ' 这场已在本次页面预选，尚未提交；请点下方按钮前往登记。';
-    pickState.textContent = '已预选 ' + number;
-    pickCurrent.textContent = who + ' · 待登记';
-    dockChoice.classList.add('is-pick');
-    if (hold) hold.textContent = '前往登记 · ' + number + ' 场';
-    arm();
+  var input = c.querySelector('input');
+  /* change：radio 选中时触发（点未选中的卡）。 */
+  input.addEventListener('change', function(){
+    if (input.checked) pick(c);
+  });
+  /* click：点已选中的卡时，radio 不会触发 change，这里手动撤销。 */
+  c.addEventListener('click', function(e){
+    if (e.target.closest('input')) return;
+    if (input.checked){
+      e.preventDefault();
+      input.checked = false;
+      clearPick();
+    }
   });
 });
 if (hold){
@@ -505,7 +542,6 @@ var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var deck = document.getElementById('deck');
 var chan = document.querySelector('.chan');
 if (!deck || !chan) return;
-var dock = document.querySelector('.dock');
 var counter = document.getElementById('deck-count');
 var links = Array.prototype.slice.call(chan.querySelectorAll('a'));
 var cards = Array.prototype.slice.call(deck.querySelectorAll('.card'));
@@ -607,24 +643,9 @@ function measureCards(){
 }
 
 function fitCards(){
-  if (window.innerWidth >= 900){
-    document.documentElement.style.removeProperty('--card-h');
-    document.body.style.paddingBottom = '';
-    return;
-  }
   document.body.style.paddingBottom = '';
   var baseBottom = parseFloat(getComputedStyle(document.body).paddingBottom) || 0;
   var chanRect = chan.getBoundingClientRect();
-  var deckRect = deck.getBoundingClientRect();
-  var gap = deckRect.top - chanRect.bottom;
-  var dockH = dock.getBoundingClientRect().height;
-  var deckStyle = getComputedStyle(deck);
-  var deckPadding = parseFloat(deckStyle.paddingTop) + parseFloat(deckStyle.paddingBottom);
-  var h = Math.floor(window.innerHeight - dockH - chanRect.height - gap - deckPadding - 12);
-  h = Math.max(220, Math.min(680, h));
-  document.documentElement.style.setProperty('--card-h', h + 'px');
-
-  /* 保证数字条能真正贴到视口顶部，短屏也不会把卡片底部藏进固定底栏。 */
   var targetScroll = chanRect.top + window.scrollY;
   var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
   var deficit = targetScroll - maxScroll;
