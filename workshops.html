@@ -122,12 +122,10 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   display:flex;align-items:stretch;
   margin:4px 8px 0;padding:10px 0 18px;
   overflow-x:auto;overflow-y:hidden;
-  scroll-snap-type:x mandatory;
-  scroll-padding-inline:0;
+  /* 触摸/触控笔路径自己接管横滑，纵向仍交回浏览器；鼠标用原生滚动+snap。 */
+  touch-action:pan-y;
   overscroll-behavior-x:contain;
   scrollbar-width:none;
-  /* 纵向交给页面/卡内滚动，横向由指针事件接管；避免浏览器把横滑吞掉。 */
-  touch-action:pan-y;
   cursor:grab;
   /* 每张卡单独使用透视，避免滚动容器的 overflow 压平层级。 */
   -webkit-user-select:none;user-select:none;
@@ -135,13 +133,16 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 }
 .deck::-webkit-scrollbar{display:none;height:0}
 .deck,.deck *{touch-action:pan-y}
+/* 松手回吸用原生 mandatory 吸附；拖动/惯性期间由 JS 接管，关闭原生吸附避免与 JS 滚动打架。 */
+.deck--settle{scroll-snap-type:x mandatory;scroll-padding-inline:0}
+.deck--settle .card{scroll-snap-align:center;scroll-snap-stop:normal}
 .deck.is-dragging{scroll-snap-type:none;scroll-behavior:auto;cursor:grabbing}
 .deck.is-dragging .card{cursor:grabbing}
 .gesture{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:26px;margin:6px 12px 0;color:#C9E8F6;font-size:var(--fs-small);line-height:1.4;letter-spacing:.05em}
 .gesture b{flex:none;font-family:var(--font-led);font-size:10px;font-weight:700;letter-spacing:.08em;color:#FFD9A8;font-variant-numeric:tabular-nums}
 .card{
   counter-increment:workshop;
-  flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:normal;
+  flex:0 0 100%;
   position:relative;z-index:0;display:flex;justify-content:center;
   min-width:0;min-height:44px;padding:4px 0 10px;
   align-items:center;
@@ -178,6 +179,8 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .card__face>*{position:relative;z-index:1}
 .card input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;pointer-events:none}
 .card:focus-within .card__face{outline:2px solid var(--ice);outline-offset:3px}
+/* 每帧变换的卡片交给合成器单独渲染，避免整树重排。 */
+.card__face{will-change:transform}
 .card.is-on .card__face{
   border-color:#9A673A;
   background:
@@ -640,17 +643,17 @@ function centerLink(i, smooth){
 
 function setCurrent(i, reveal){
   if (i < 0 || i >= links.length) return;
-  if (i === current){
-    if (reveal) centerLink(i, false);
-    return;
-  }
+  var changed = i !== current;
   current = i;
-  for (var n = 0; n < links.length; n++){
-    if (n === i) links[n].setAttribute('aria-current', 'true');
-    else links[n].removeAttribute('aria-current');
+  if (changed){
+    for (var n = 0; n < links.length; n++){
+      if (n === i) links[n].setAttribute('aria-current', 'true');
+      else links[n].removeAttribute('aria-current');
+    }
+    counter.textContent = ('0' + (i + 1)).slice(-2) + ' / 12';
   }
-  counter.textContent = ('0' + (i + 1)).slice(-2) + ' / 12';
-  if (reveal) centerLink(i, false);
+  /* centerLink 只在序号真的变化、且需要让场次条露出当前项时才调；滑动中途不反复布局。 */
+  if (changed && reveal) centerLink(i, false);
 }
 
 function scrollDeckTo(i, smooth){
@@ -706,18 +709,27 @@ deck.addEventListener('scroll', function(){
 }, {passive:true});
 
 function inputActive(){ return wheelActive || !!(drag && drag.dragging); }
-function settleToNearest(){
-  var i = indexFromScroll();
-  setCurrent(i, true);
-  scrollDeckTo(i, true);
-  if (history.replaceState) history.replaceState(null, '', links[i].getAttribute('href'));
+/* 吸附开关：拖动/惯性期间关掉，交给 JS 直控；松手后恢复 mandatory，让浏览器原生把位置拉回对齐点。 */
+function snapOn(){
+  deck.classList.add('deck--settle');
+  deck.style.scrollSnapType = 'x mandatory';
 }
-function finishScroll(){
-  if (inputActive()) return;
+function snapOff(){
+  deck.classList.remove('deck--settle');
+  deck.style.scrollSnapType = 'none';
+}
+/* 松手后：恢复原生 mandatory 吸附。浏览器会把当前 scrollLeft 自动吸附到最近一张，无需 JS 校正。 */
+function settle(){
+  snapOn();
+  /* 若位置恰好已对齐，mandatory 不会产生滚动；主动把对齐后的结果同步给封面与计数。 */
   var i = indexFromScroll();
   placeCover(i);
   setCurrent(i, true);
   if (history.replaceState) history.replaceState(null, '', links[i].getAttribute('href'));
+}
+function finishScroll(){
+  if (inputActive()) return;
+  settle();
 }
 if ('onscrollend' in deck){
   deck.addEventListener('scrollend', finishScroll);
@@ -735,13 +747,12 @@ function releaseDrag(e){
   var id = drag.id;
   drag = null;
   deck.classList.remove('is-dragging');
-  deck.style.removeProperty('scroll-snap-type');
-  deck.style.removeProperty('scroll-behavior');
   try { if (deck.hasPointerCapture(id)) deck.releasePointerCapture(id); } catch (err) {}
   if (dragged){
     suppressClick = true;
     setTimeout(function(){ suppressClick = false; }, 300);
-    settleToNearest();
+    /* 松手即恢复 mandatory 吸附，交给浏览器原生把位置拉回最近一张。 */
+    settle();
   }
 }
 deck.addEventListener('pointerdown', function(e){
@@ -758,8 +769,7 @@ deck.addEventListener('pointermove', function(e){
     if (Math.abs(dx) <= Math.abs(dy) * 1.15){ drag = null; return; }
     drag.dragging = true;
     deck.classList.add('is-dragging');
-    deck.style.scrollSnapType = 'none';
-    deck.style.scrollBehavior = 'auto';
+    snapOff();
     /* 鼠标/触控笔越过卡片边界后仍要收到 move；轻点时不捕获，保留 label 的点击目标。 */
     if (e.pointerType !== 'touch'){
       try { deck.setPointerCapture(e.pointerId); } catch (err) {}
@@ -790,16 +800,13 @@ deck.addEventListener('wheel', function(e){
   e.preventDefault();
   if (!wheelActive){
     wheelActive = true;
-    deck.style.scrollSnapType = 'none';
-    deck.style.scrollBehavior = 'auto';
+    snapOff();
   }
   deck.scrollLeft += dx;
   clearTimeout(wheelTimer);
   wheelTimer = setTimeout(function(){
     wheelActive = false;
-    deck.style.removeProperty('scroll-snap-type');
-    deck.style.removeProperty('scroll-behavior');
-    settleToNearest();
+    settle();
   }, 140);
 }, {passive:false});
 
@@ -815,6 +822,7 @@ window.addEventListener('resize', queueRefresh);
 if (window.visualViewport) window.visualViewport.addEventListener('resize', queueRefresh);
 fitCards();
 measureCards();
+snapOn();
 var hashed = links.findIndex(function(a){ return a.getAttribute('href') === location.hash; });
 var initial = hashed >= 0 ? hashed : 0;
 setCurrent(initial, hashed >= 0);
