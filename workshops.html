@@ -23,6 +23,8 @@
   --ice:#9FD3EC;--paper:#F2ECE6;--neon:#FF6FB5;
   --font-cn:"PingFang SC","Hiragino Sans GB","Heiti SC","Noto Sans SC","Microsoft YaHei",sans-serif;
   --font-led:"Orbitron","SF Mono",Menlo,ui-monospace,monospace;
+  /* 全站统一字阶：五页同值。小屏缩放仍由各页 media 单独负责。 */
+  --fs-h1:32px;--fs-h2:22px;--fs-lead:16px;--fs-kicker:14px;--fs-small:13px;--fs-note:12px;--fs-deco:9px;
   --pad:18px;--bar:52px;
 }
 @media (min-width:390px){:root{--pad:20px}}
@@ -30,7 +32,7 @@
 *,*::before,*::after{box-sizing:border-box}
 html{background:#4B342F;color-scheme:dark;-webkit-text-size-adjust:100%;scroll-padding-top:72px;scroll-padding-bottom:160px;overscroll-behavior-x:none}
 html,body{margin:0;padding:0}
-body{background:#4B342F;color:#FFD9A8;font-family:var(--font-cn);-webkit-font-smoothing:antialiased;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+body{background:#4B342F;color:#FFD9A8;font-family:var(--font-cn);padding-bottom:calc(128px + env(safe-area-inset-bottom,0px))}
 ::selection{background:rgba(199,155,110,.35);color:#fff}
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:
   radial-gradient(92% 46% at 8% -10%, rgba(215,149,128,.24), transparent 62%),
@@ -82,13 +84,13 @@ body{background:#4B342F;color:#FFD9A8;font-family:var(--font-cn);-webkit-font-sm
 .head{padding:16px 0 0}
 .head__k{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-family:var(--font-led);font-size:9px;letter-spacing:.22em;color:#C9E8F6}
 .head__k::before{content:"";width:22px;height:1px;flex:none;background:linear-gradient(90deg,var(--ice),transparent)}
-.head__t{margin:0;font-size:32px;font-weight:700;line-height:1.25;letter-spacing:.02em;white-space:nowrap;text-wrap:pretty;background:linear-gradient(178deg,#FFF1D6 4%,#FFE0B0 36%,#FFD9A8 68%,#F0D6B6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#FFD9A8}
+.head__t{margin:0;font-size:var(--fs-h1);font-weight:700;line-height:1.25;letter-spacing:0;white-space:nowrap;text-wrap:pretty;background:linear-gradient(178deg,#FFF1D6 4%,#FFE0B0 36%,#FFD9A8 68%,#F8E3C6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#FFD9A8}
 .lock{display:flex;align-items:baseline;gap:8px;margin:12px 0 0;font-family:var(--font-led);font-weight:700;font-size:32px;letter-spacing:.04em;font-variant-numeric:tabular-nums;color:#FFD9A8;line-height:1}
 .lock span{font-family:var(--font-cn);font-size:14px;font-weight:600;letter-spacing:.08em;color:#C9E8F6}
 @media (max-width:360px){.head__t{font-size:28px}.lock{font-size:26px}.head__k{letter-spacing:.12em}}
 .sec{margin-top:8px}
-.sec__k{margin:14px 0 8px;font-family:var(--font-led),var(--font-cn);font-size:12px;letter-spacing:.14em;color:#FFD9A8}
-.sec__t{margin:0 0 8px;font-size:22px;font-weight:700;line-height:1.35;color:#FFE0B0}
+.sec__k{margin:14px 0 8px;font-family:var(--font-cn);font-size:var(--fs-kicker);font-weight:600;letter-spacing:.06em;line-height:1.4;font-variant-numeric:tabular-nums;color:#FFD9A8}
+.sec__t{margin:0 0 8px;font-size:var(--fs-h2);font-weight:700;line-height:1.35;color:#FFE0B0}
 .rule{margin:0 0 8px;font-size:15px;line-height:1.7;color:#FFD9A8}
 .pending{margin:0 0 12px;font-size:14px;line-height:1.6;color:rgba(255,217,168,.88)}
 .sec__t{text-wrap:pretty}
@@ -116,73 +118,90 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 @media (max-width:899px){.chan{top:0}}
 /* ---------- 十二场：封面流。中间最大，两侧透视立起，像在翻专辑 ---------- */
 .deck{
+  counter-reset:workshop;
   display:flex;align-items:stretch;
-  margin:8px 8px 0;padding:8px 0 18px;
+  margin:4px 8px 0;padding:10px 0 18px;
   overflow-x:auto;overflow-y:hidden;
   scroll-snap-type:x mandatory;
   scroll-padding-inline:0;
   overscroll-behavior-x:contain;
   scrollbar-width:none;
-  touch-action:manipulation;
-  /* 透视写在每张卡的 transform 里。滚动容器的 overflow 会把祖先 perspective 压平。 */
+  /* 纵向交给页面/卡内滚动，横向由指针事件接管；避免浏览器把横滑吞掉。 */
+  touch-action:pan-y;
+  cursor:grab;
+  /* 每张卡单独使用透视，避免滚动容器的 overflow 压平层级。 */
   -webkit-user-select:none;user-select:none;
   -webkit-tap-highlight-color:transparent;
 }
 .deck::-webkit-scrollbar{display:none;height:0}
+.deck,.deck *{touch-action:pan-y}
+.deck.is-dragging{scroll-snap-type:none;scroll-behavior:auto;cursor:grabbing}
+.deck.is-dragging .card{cursor:grabbing}
+.gesture{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:26px;margin:6px 12px 0;color:#C9E8F6;font-size:var(--fs-small);line-height:1.4;letter-spacing:.05em}
+.gesture b{flex:none;font-family:var(--font-led);font-size:10px;font-weight:700;letter-spacing:.08em;color:#FFD9A8;font-variant-numeric:tabular-nums}
 .card{
+  counter-increment:workshop;
   flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:normal;
   position:relative;z-index:0;display:flex;justify-content:center;
   min-width:0;min-height:44px;padding:4px 0 10px;
   align-items:center;
   background:transparent;border:0;box-shadow:none;
-  cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
 }
 .card__face{
-  width:min(78%,440px);min-width:0;height:calc(100% - 36px);
-  display:flex;flex-direction:column;gap:8px;
-  padding:16px 16px 14px;border-radius:30px;
-  border:1px solid rgba(92,44,32,.16);
-  background:linear-gradient(180deg,#FFF9F5 0%,#FFF1E8 100%);
+  width:min(82%,440px);min-width:0;height:calc(100% - 48px);
+  display:flex;flex-direction:column;gap:10px;
+  padding:20px 20px 18px;border-radius:32px;
+  border:1px solid rgba(92,44,32,.14);
+  background:
+    radial-gradient(120% 72% at 4% 0%,rgba(255,255,255,.96),transparent 62%),
+    linear-gradient(145deg,#FFFDF9 0%,#FFF6EE 52%,#F5E5D7 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.9),
-    0 10px 22px rgba(112,44,32,.16),
-    0 26px 46px rgba(78,28,20,.14);
-  transform:perspective(760px) translate3d(var(--tx,0px),0,var(--tz,0px)) rotateY(var(--ry,0deg)) scale(var(--sc,1));
-  transform-origin:center center;
+    inset 0 1px 0 rgba(255,255,255,.96),
+    0 16px 28px rgba(83,39,29,.18),
+    0 30px 60px rgba(55,25,20,.12);
+  transform:perspective(1100px) translate3d(var(--tx,0px),var(--ty,0px),0) rotateY(var(--ry,0deg)) scale(var(--sc,1));
+  transform-origin:50% 58%;
+  backface-visibility:hidden;
   position:relative;
 }
-.card__face::after{
-  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-  background:#6A3428;opacity:var(--veil,0);
+.card__face::before{
+  content:counter(workshop,decimal-leading-zero);
+  position:absolute;z-index:0;right:14px;bottom:46px;pointer-events:none;
+  font-family:var(--font-led);font-size:clamp(96px,31vw,156px);font-weight:900;line-height:.8;letter-spacing:-.09em;
+  color:rgba(127,88,77,.065);
 }
+.card__face::after{
+  content:"";position:absolute;z-index:3;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(155deg,#F7E9DE 0%,#D8B7A3 100%);opacity:var(--veil,0);
+}
+.card__face>*{position:relative;z-index:1}
 .card input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;pointer-events:none}
 .card:focus-within .card__face{outline:2px solid var(--ice);outline-offset:3px}
-.card.is-on .card__face,.card:has(input:checked) .card__face{
-  border-color:#3E280C;
-  background:linear-gradient(180deg,#FFF8F2 0%,#F8E6D8 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.92),
-    0 12px 26px rgba(112,44,32,.2),
-    0 30px 52px rgba(78,28,20,.18);
+.card.is-on .card__face{
+  border-color:#9A673A;
+  background:
+    radial-gradient(120% 72% at 4% 0%,rgba(255,255,255,.98),transparent 62%),
+    linear-gradient(145deg,#FFFDF8 0%,#FFF2E4 58%,#EFD3B8 100%);
 }
-.card__top{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.card__top b{font-family:var(--font-led);font-size:15px;font-weight:700;letter-spacing:.06em;color:#3E280C}
-.card__flag{display:none;font-size:12px;font-weight:700;letter-spacing:.08em;color:#3E280C}
-.card.is-on .card__flag,.card:has(input:checked) .card__flag{display:inline}
-.card__sq{width:14px;height:14px;border:1px solid rgba(240,214,182,.8);flex:none}
-.card.is-on .card__sq,.card:has(input:checked) .card__sq{background:var(--gold-l);box-shadow:inset 0 0 0 3px #201614}
+.card__top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-bottom:14px;border-bottom:1px solid rgba(62,40,12,.12)}
+.card__top b{font-family:var(--font-led);font-size:18px;font-weight:700;letter-spacing:.04em;color:#3E280C}
+.card__flag{display:none;font-size:12px;font-weight:700;letter-spacing:.08em;color:#6C461F}
+.card.is-on .card__flag{display:inline}
+.card__sq{width:16px;height:16px;border:1px solid #A88B76;flex:none;background:rgba(255,255,255,.36)}
+.card.is-on .card__sq{background:#3E280C;box-shadow:inset 0 0 0 4px #F0D6B6;border-color:#3E280C}
 .card__top .card__end{display:flex;align-items:center;gap:8px}
-.card__name{font-size:16px;font-weight:700;line-height:1.45;text-wrap:pretty;color:var(--ink)}
-.card__who{font-size:14px;line-height:1.4;color:#3E280C}
-/* 外框高度固定为一屏：数字条贴顶到报名按钮之间。说明在不在视口里都不改这个高度。
-   字装不下时只滚卡内，地点和名额留在框底，不靠改外框来腾地方。 */
+.card__name{font-size:clamp(18px,4.8vw,23px);font-weight:700;line-height:1.5;letter-spacing:.01em;text-wrap:pretty;color:var(--ink)}
+.card__who{display:flex;align-items:center;gap:7px;font-size:14px;line-height:1.5;color:#6E4C3C}
+.card__who::before{content:"";width:15px;height:1px;flex:none;background:#C79B6E}
+/* 卡片按实际可见区域定高，文字过长时只滚正文，地点与名额始终留在框底。 */
 .card__body{
-  flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:8px;
+  flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:10px;
   overflow-y:auto;overscroll-behavior:contain;
   scrollbar-width:thin;scrollbar-color:rgba(199,155,110,.45) transparent;
 }
 @media (max-width:899px){
-  .deck{margin:10px 10px 0;padding:6px 0 14px}
+  .deck{margin-top:4px;padding-top:8px;padding-bottom:14px}
   .card{height:var(--card-h,auto);min-height:0}
   .card__meta{margin-top:0}
 }
@@ -197,27 +216,37 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   .sec__k{margin:4px 0 2px}
   .sec__t{font-size:18px;margin-bottom:2px}
   .rule,.pending{font-size:13px;line-height:1.35;margin-bottom:4px}
+  .card__face{padding:16px 16px 14px;border-radius:26px}
+  .card__top{padding-bottom:10px}
+  .card__name{font-size:17px}
+  .gesture{margin-top:2px;min-height:22px}
 }
 @media (min-width:900px){
-  .card{height:auto;min-height:420px}
-  .card__face{height:auto;min-height:384px}
+  .card{height:auto;min-height:400px}
+  .card__face{height:auto;min-height:352px}
 }
-.card__meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:auto;padding-top:4px;font-size:13px;color:#0A303C}
+.card__meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:auto;padding-top:12px;border-top:1px solid rgba(62,40,12,.12);font-size:var(--fs-small);color:#564034}
 .card__meta b{margin-left:6px;font-weight:700;color:var(--ink)}
-/* ---------- 底栏：未接通，不是金砖 ---------- */
+/* ---------- 底栏：预选后才点亮的金砖登记按钮 ---------- */
 .dock{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:0 var(--pad) calc(10px + env(safe-area-inset-bottom,0px));pointer-events:none;background:linear-gradient(180deg,rgba(75,52,47,0),#4B342F 16px)}
 .dock__in{max-width:720px;margin:0 auto;pointer-events:auto;padding-top:8px;background:#4B342F}
+.dock__choice{display:flex;align-items:center;gap:10px;min-height:26px;margin:0 auto 6px;color:rgba(255,217,168,.68);font-size:var(--fs-small);line-height:1.4}
+.dock__choice span{flex:none;font-family:var(--font-led);font-size:9px;font-weight:700;letter-spacing:.08em;color:#C9E8F6}
+.dock__choice strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;color:#FFD9A8}
+.dock__choice.is-pick span{color:#FFE0B0}
+.dock__choice.is-pick strong{color:#FFF1D6}
 @media (min-width:800px){.dock__in{max-width:980px}}
 @media (min-width:900px){
-  body{padding-bottom:0}
-  .dock{position:static;pointer-events:auto;background:none;padding:22px var(--pad) 36px}
-  .dock__in{background:none;padding-top:0}
-  .dock .hold{max-width:440px}
+  body{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
+  .dock{background:linear-gradient(180deg,rgba(75,52,47,0),#4B342F 16px);padding:0 var(--pad) calc(10px + env(safe-area-inset-bottom,0px))}
+  .dock__in{background:none;padding-top:8px}
+  .dock .hold,.dock .dock__choice{max-width:440px;margin-left:auto;margin-right:auto}
 }
 @media (hover:hover) and (pointer:fine){
   .toc-btn:hover{color:#FFE8C4}
   .card:hover .card__face{border-color:#3E280C}
   .chan a:hover{border-color:#FFD9A8;color:#FFE0B0}
+  .hold.is-ready:hover{filter:drop-shadow(0 4px 0 #7A4E10) brightness(1.06)}
 }
 @media (max-height:700px){
   .head{padding-top:6px}
@@ -230,11 +259,25 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 }
 .hold{
   display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;padding:0 14px;
-  border:1px solid rgba(199,155,110,.6);background:rgba(32,22,20,.9);color:var(--gold-l);
+  border:1px solid rgba(199,155,110,.4);background:rgba(32,22,20,.78);
+  color:rgba(240,214,182,.58);
   font-family:var(--font-cn);font-size:15px;font-weight:700;letter-spacing:.06em;
-  cursor:not-allowed;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  text-align:center;text-decoration:none;
+  cursor:not-allowed;opacity:.7;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  transition:color .25s ease,opacity .25s ease,border-color .25s ease;
 }
-.hold:disabled,.hold[aria-disabled="true"]{color:var(--gold-l);opacity:1}
+.hold[aria-disabled="true"]{cursor:not-allowed}
+.hold.is-ready{
+  border-color:transparent;
+  background:linear-gradient(180deg,#E8BE4C,#C98F2B 62%,#A96F16);
+  color:#3A2508;opacity:1;cursor:pointer;
+  clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px);
+  filter:drop-shadow(0 4px 0 #7A4E10);
+  animation:holdLight .45s ease-out;
+}
+.hold.is-ready:active{transform:translateY(4px);filter:none}
+@keyframes holdLight{0%{opacity:.3}55%{opacity:1}100%{opacity:1}}
 .in{opacity:0;transform:translateY(12px);animation:bootIn .8s cubic-bezier(.22,1,.36,1) forwards}
 .in1{animation-delay:.08s}.in2{animation-delay:.16s}.in3{animation-delay:.26s}.in4{animation-delay:.36s}
 @keyframes bootIn{to{opacity:1;transform:none}}
@@ -265,7 +308,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   border-left:1px solid rgba(199,155,110,.45);
 }
 .toc.is-open .toc__panel{box-shadow:-14px 0 24px rgba(4,3,10,.5)}
-.toc__k{margin:0 4px 8px;font-family:var(--font-led);font-size:9px;letter-spacing:.22em;color:#C9E8F6}
+.toc__k{margin:0 4px 8px;font-family:var(--font-cn);font-size:var(--fs-note);font-weight:600;letter-spacing:.16em;color:#C9E8F6}
 .toc a{
   display:flex;align-items:center;min-height:44px;padding:0 8px;
   color:#FFD9A8;text-decoration:none;font-size:15px;font-weight:700;
@@ -312,25 +355,26 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
     <h2 class="sec__t">同一时间，十二场</h2>
     <fieldset aria-label="十二场里先点一场。选中不会送出。">
       <p class="rule">同一时间只能去一场。嘉宾提前报名，报满即止。地点和名额之后补充。</p>
-      <p class="pending" id="pick-note" aria-live="polite">可以先点一场。选中只留在这台手机上，还不能提交。</p>
+      <p class="pending" id="pick-note" aria-live="polite">点卡片先预选（刷新后清除），再点下方按钮前往登记。</p>
       <nav class="chan" aria-label="按场次跳转">
         <a href="#w01">01</a><a href="#w02">02</a><a href="#w03">03</a><a href="#w04">04</a>
         <a href="#w05">05</a><a href="#w06">06</a><a href="#w07">07</a><a href="#w08">08</a>
         <a href="#w09">09</a><a href="#w10">10</a><a href="#w11">11</a><a href="#w12">12</a>
       </nav>
+      <p class="gesture"><span>左右滑动 · 点卡片预选</span><b id="deck-count" aria-hidden="true">01 / 12</b></p>
       <div class="deck" id="deck" aria-label="十二场工作坊，左右滑动换场">
-        <label class="card" id="w01"><input type="radio" name="workshop" autocomplete="off" value="01"><span class="card__face"><span class="card__top"><b>01</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">拒绝「伪装变革」：AI 时代重构真实学习设计的实操路径</span><span class="card__who">黎蒙</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
-        <label class="card" id="w02"><input type="radio" name="workshop" autocomplete="off" value="02"><span class="card__face"><span class="card__top"><b>02</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当 AI 比我们会讲道理：国际化学校的德育，如何从「管住人」走向「长出判断」</span><span class="card__who">林静姿</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
-        <label class="card" id="w03"><input type="radio" name="workshop" autocomplete="off" value="03"><span class="card__face"><span class="card__top"><b>03</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">破解学习迷宫：AI 驱动下的个性化学习空间与路线设计</span><span class="card__who">孙成伟</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
-        <label class="card" id="w04"><input type="radio" name="workshop" autocomplete="off" value="04"><span class="card__face"><span class="card__top"><b>04</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">让数据「开口说话」：AI 驱动下的教务管理转型</span><span class="card__who">祁镇华 · 向晶</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
-        <label class="card" id="w05"><input type="radio" name="workshop" autocomplete="off" value="05"><span class="card__face"><span class="card__top"><b>05</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当作业可以一键生成：我们如何重塑「真学习」评估</span><span class="card__who">Roselyn · 郭嘉</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
-        <label class="card" id="w06"><input type="radio" name="workshop" autocomplete="off" value="06"><span class="card__face"><span class="card__top"><b>06</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">破局「课表难题」：如何系统化打造「每天一节」的硬核体育课程</span><span class="card__who">莫启源 · 阎泽雄</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
-        <label class="card" id="w07"><input type="radio" name="workshop" autocomplete="off" value="07"><span class="card__face"><span class="card__top"><b>07</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当画笔遇上代码：CG Lab 如何把艺术、工程与设计锻造成跨学科课程</span><span class="card__who">张赞</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
-        <label class="card" id="w08"><input type="radio" name="workshop" autocomplete="off" value="08"><span class="card__face"><span class="card__top"><b>08</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">学生的主体性与能动性，如何从「发现问题」走向「回应真实世界」</span><span class="card__who">谈昕然 · Ryan Wong</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
-        <label class="card" id="w09"><input type="radio" name="workshop" autocomplete="off" value="09"><span class="card__face"><span class="card__top"><b>09</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">先照顾好人，再谈成绩：一套 SEL 教材与课程</span><span class="card__who">王珊 · 王艺桐 · 魏荣</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
-        <label class="card" id="w10"><input type="radio" name="workshop" autocomplete="off" value="10"><span class="card__face"><span class="card__top"><b>10</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">最后一年，交出你自己的作品：小学、初中的毕业项目</span><span class="card__who">魏方 · 郭航</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
-        <label class="card" id="w11"><input type="radio" name="workshop" autocomplete="off" value="11"><span class="card__face"><span class="card__top"><b>11</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">从读到写，从课本到舞台：语文组的十二年</span><span class="card__who">白文婷</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
-        <label class="card" id="w12"><input type="radio" name="workshop" autocomplete="off" value="12"><span class="card__face"><span class="card__top"><b>12</b><span class="card__end"><span class="card__flag">未提交</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">把「创新基因」做成可复制的模板：初中科学差异化跨学科 PBL</span><span class="card__who">柏苇</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w01"><input type="radio" name="workshop" autocomplete="off" value="01"><span class="card__face"><span class="card__top"><b>01</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">拒绝「伪装变革」：AI 时代重构真实学习设计的实操路径</span><span class="card__who">黎蒙</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w02"><input type="radio" name="workshop" autocomplete="off" value="02"><span class="card__face"><span class="card__top"><b>02</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当 AI 比我们会讲道理：国际化学校的德育，如何从「管住人」走向「长出判断」</span><span class="card__who">林静姿</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w03"><input type="radio" name="workshop" autocomplete="off" value="03"><span class="card__face"><span class="card__top"><b>03</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">破解学习迷宫：AI 驱动下的个性化学习空间与路线设计</span><span class="card__who">孙成伟</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w04"><input type="radio" name="workshop" autocomplete="off" value="04"><span class="card__face"><span class="card__top"><b>04</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">让数据「开口说话」：AI 驱动下的教务管理转型</span><span class="card__who">祁镇华 · 向晶</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w05"><input type="radio" name="workshop" autocomplete="off" value="05"><span class="card__face"><span class="card__top"><b>05</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当作业可以一键生成：我们如何重塑「真学习」评估</span><span class="card__who">Roselyn · 郭嘉</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w06"><input type="radio" name="workshop" autocomplete="off" value="06"><span class="card__face"><span class="card__top"><b>06</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">破局「课表难题」：如何系统化打造「每天一节」的硬核体育课程</span><span class="card__who">莫启源 · 阎泽雄</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w07"><input type="radio" name="workshop" autocomplete="off" value="07"><span class="card__face"><span class="card__top"><b>07</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当画笔遇上代码：CG Lab 如何把艺术、工程与设计锻造成跨学科课程</span><span class="card__who">张赞</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w08"><input type="radio" name="workshop" autocomplete="off" value="08"><span class="card__face"><span class="card__top"><b>08</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">学生的主体性与能动性，如何从「发现问题」走向「回应真实世界」</span><span class="card__who">谈昕然 · Ryan Wong</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w09"><input type="radio" name="workshop" autocomplete="off" value="09"><span class="card__face"><span class="card__top"><b>09</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">先照顾好人，再谈成绩：一套 SEL 教材与课程</span><span class="card__who">王珊 · 王艺桐 · 魏荣</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w10"><input type="radio" name="workshop" autocomplete="off" value="10"><span class="card__face"><span class="card__top"><b>10</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">最后一年，交出你自己的作品：小学、初中的毕业项目</span><span class="card__who">魏方 · 郭航</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w11"><input type="radio" name="workshop" autocomplete="off" value="11"><span class="card__face"><span class="card__top"><b>11</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">从读到写，从课本到舞台：语文组的十二年</span><span class="card__who">白文婷</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w12"><input type="radio" name="workshop" autocomplete="off" value="12"><span class="card__face"><span class="card__top"><b>12</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">把「创新基因」做成可复制的模板：初中科学差异化跨学科 PBL</span><span class="card__who">柏苇</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
       </div>
     </fieldset>
   </section>
@@ -338,7 +382,8 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 
 <div class="dock">
   <div class="dock__in">
-    <button type="button" class="hold" id="submit-hold" aria-disabled="true" aria-describedby="pick-note">还不能提交报名</button>
+    <div class="dock__choice" id="dock-choice"><span id="pick-state">十二选一</span><strong id="pick-current">点卡片预选一场</strong></div>
+    <a class="hold" id="submit-hold" role="button" aria-disabled="true" aria-describedby="pick-note" tabindex="-1" aria-label="先选一场，才能前往登记">先选一场，才能去登记</a>
   </div>
 </div>
 
@@ -356,23 +401,49 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 <script>
 (function(){
 'use strict';
-/* 选中只改这台手机上的句子，不提交、不记到本地 */
+/* 预选只保留在本次页面，不提交、不写本地存储。
+   选过一场之后才把底栏按钮接通金数据表单。 */
+var FORM_URL = 'https://mny0ilbd.jsjform.com/f/VkBx8i';
 var note = document.getElementById('pick-note');
 var cards = document.querySelectorAll('.card');
+var dockChoice = document.getElementById('dock-choice');
+var pickState = document.getElementById('pick-state');
+var pickCurrent = document.getElementById('pick-current');
+var hold = document.getElementById('submit-hold');
 function paint(){
   cards.forEach(function(c){
     c.classList.toggle('is-on', c.querySelector('input').checked);
   });
 }
+function arm(){
+  if (!hold || hold.classList.contains('is-ready')) return;
+  hold.href = FORM_URL;
+  hold.setAttribute('target','_blank');
+  hold.setAttribute('rel','noopener noreferrer');
+  hold.removeAttribute('role');
+  hold.removeAttribute('aria-disabled');
+  hold.removeAttribute('tabindex');
+  hold.setAttribute('aria-label','前往金数据登记（将在新页面打开）');
+  hold.classList.add('is-ready');
+}
 cards.forEach(function(c){
   c.querySelector('input').addEventListener('change', function(){
     paint();
-    note.textContent = c.querySelector('.card__top b').textContent + ' 这场已记在这台手机上，还不能提交。';
+    var number = c.querySelector('.card__top b').textContent;
+    var who = c.querySelector('.card__who').textContent;
+    note.textContent = number + ' 这场已在本次页面预选，尚未提交；请点下方按钮前往登记。';
+    pickState.textContent = '已预选 ' + number;
+    pickCurrent.textContent = who + ' · 待登记';
+    dockChoice.classList.add('is-pick');
+    if (hold) hold.textContent = '前往登记 · ' + number + ' 场';
+    arm();
   });
 });
-document.querySelectorAll('.hold').forEach(function(b){
-  b.addEventListener('click', function(e){ e.preventDefault(); });
-});
+if (hold){
+  hold.addEventListener('click', function(e){
+    if (hold.getAttribute('aria-disabled') === 'true') e.preventDefault();
+  });
+}
 })();
 </script>
 <script>
@@ -383,21 +454,29 @@ var root = document.getElementById('toc');
 var btn = document.getElementById('toc-btn');
 var panel = document.getElementById('toc-panel');
 var open = false;
-function setOpen(next){
+function setOpen(next, restoreFocus){
   open = next;
   root.classList.toggle('is-open', open);
   btn.setAttribute('aria-expanded', open ? 'true' : 'false');
   panel.inert = !open;
+  if (open){
+    var currentLink = panel.querySelector('a[aria-current="page"]') || panel.querySelector('a');
+    if (currentLink) currentLink.focus({preventScroll:true});
+  }else if (restoreFocus){
+    btn.focus({preventScroll:true});
+  }
 }
-btn.addEventListener('click', function(){ setOpen(!open); });
+btn.addEventListener('click', function(){ setOpen(!open, open); });
 document.addEventListener('keydown', function(e){
-  if (e.key === 'Escape' && open){ setOpen(false); btn.focus(); }
+  if (e.key === 'Escape' && open) setOpen(false, true);
 });
 panel.addEventListener('click', function(e){
   var a = e.target.closest('a');
-  if (!a) return;
-  if ((a.getAttribute('href') || '').charAt(0) === '#') setOpen(false);
+  if (a) setOpen(false);
 });
+/* 链接一旦被使用就收起；pagehide 同时覆盖后退缓存，返回时不会恢复成打开状态。 */
+window.addEventListener('pagehide', function(){ setOpen(false); });
+window.addEventListener('pageshow', function(e){ if (e.persisted) setOpen(false); });
 var sx = 0, sy = 0, armed = false, pid = null;
 document.addEventListener('pointerdown', function(e){
   if (!open) return;
@@ -418,77 +497,135 @@ document.addEventListener('pointercancel', function(){ armed = false; });
 <script>
 (function(){
 'use strict';
-/* 数字条和卡片是两条独立的横滑。点数字才跳场，并让说明滚出视口。 */
+/* 几何数据只在初始化与尺寸变化时测量；手指滑动时只计算附近五张卡。 */
 var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var deck = document.getElementById('deck');
 var chan = document.querySelector('.chan');
 if (!deck || !chan) return;
+var dock = document.querySelector('.dock');
+var counter = document.getElementById('deck-count');
 var links = Array.prototype.slice.call(chan.querySelectorAll('a'));
 var cards = Array.prototype.slice.call(deck.querySelectorAll('.card'));
+var faces = cards.map(function(c){ return c.querySelector('.card__face'); });
+var metrics = [];
+var activeFaces = [];
 var current = -1;
 var raf = 0;
+var resizeRaf = 0;
+var endTimer = 0;
+var viewW = 0;
+var slotW = 0;
+var firstLeft = 0;
+var drag = null;
+var wheelActive = false;
+var wheelTimer = 0;
+var suppressClick = false;
 
 function motion(){ return reduce ? 'auto' : 'smooth'; }
+function clampIndex(i){ return Math.max(0, Math.min(cards.length - 1, i)); }
+function indexFromScroll(){ return slotW ? clampIndex(Math.round(deck.scrollLeft / slotW)) : 0; }
 
-function indexFromScroll(){
-  var mid = deck.scrollLeft + deck.clientWidth / 2;
-  var best = 0, bestD = Infinity;
-  for (var i = 0; i < cards.length; i++){
-    var c = cards[i].offsetLeft + cards[i].offsetWidth / 2;
-    var d = Math.abs(c - mid);
-    if (d < bestD){ bestD = d; best = i; }
-  }
-  return best;
+function setFace(i, prop, value){
+  var face = faces[i];
+  var cache = face._cover || (face._cover = {});
+  if (cache[prop] === value) return;
+  cache[prop] = value;
+  face.style.setProperty(prop, value);
+}
+function setLevel(i, value){
+  if (cards[i]._coverLevel === value) return;
+  cards[i]._coverLevel = value;
+  cards[i].style.zIndex = value;
+}
+function resetFace(i){
+  setFace(i, '--tx', '0px');
+  setFace(i, '--ty', '0px');
+  setFace(i, '--ry', '0deg');
+  setFace(i, '--sc', '1');
+  setFace(i, '--veil', '0');
+  setLevel(i, '0');
 }
 
-/* 封面流：滚动位置直接驱动旋转和远近，不另加过渡，手指到哪封面跟到哪。 */
-function placeCover(){
-  var viewW = deck.clientWidth;
-  if (!viewW) return;
-  if (deck._slotW !== viewW) {
-    deck._slotW = viewW;
-    for (var s = 0; s < cards.length; s++) cards[s].style.flexBasis = viewW + 'px';
+function placeCover(index){
+  if (!viewW || !metrics.length) return;
+  var old = activeFaces.slice();
+  var from = Math.max(0, index - 2);
+  var to = Math.min(cards.length - 1, index + 2);
+  for (var j = 0; j < old.length; j++){
+    if (old[j] < from || old[j] > to || reduce) resetFace(old[j]);
+  }
+  activeFaces = [];
+  if (reduce){
+    setLevel(index, '80');
+    return;
   }
   var scroll = deck.scrollLeft;
-  var peek = Math.max(44, Math.min(64, viewW * 0.15));
-  var reads = [];
-  for (var i = 0; i < cards.length; i++){
-    var slot = cards[i].offsetWidth;
-    var face = cards[i].querySelector('.card__face');
-    var faceW = face ? face.offsetWidth : slot;
-    var natural = cards[i].offsetLeft + slot / 2 - scroll;
-    reads.push({i:i, face:face, faceW:faceW, natural:natural, t:(natural - viewW / 2) / viewW});
-  }
-  for (var k = 0; k < reads.length; k++){
-    var m = reads[k];
-    if (!m.face) continue;
-    var t = m.t;
+  for (var i = from; i <= to; i++){
+    var natural = metrics[i].center - scroll;
+    var t = (natural - viewW / 2) / viewW;
     var a = Math.abs(t);
-    var s = t < 0 ? -1 : 1;
-    /* 停稳时正对观众。只有正在翻的那一张和紧邻的一张被拉进画面。 */
-    var settled = a < 0.14;
-    var scale = settled ? 1 : 1 - Math.min(a, 1) * 0.11;
-    if (scale < 0.82) scale = 0.82;
-    var tx = 0;
-    if (!settled && a < 1.4) {
-      var half = m.faceW * scale / 2;
-      var along = Math.min(a, 1);
-      var rest = viewW / 2 - peek + half;
-      var target = viewW / 2 + s * along * rest;
-      var pull = a <= 1 ? 1 : Math.max(0, 1 - (a - 1) / 0.4);
-      tx = (target - m.natural) * pull;
-    }
-    var spin = reduce ? 14 : 40;
-    var ry = settled ? 0 : s * Math.min(a, 1) * spin;
-    var tz = (settled ? 1 : 1 - Math.min(a, 1)) * (reduce ? 0 : 36);
-    var veil = settled ? 0 : Math.min(0.14, Math.max(0, a - 0.12) * 0.12);
-    m.face.style.setProperty('--tx', tx.toFixed(2) + 'px');
-    m.face.style.setProperty('--ry', ry.toFixed(2) + 'deg');
-    m.face.style.setProperty('--tz', tz.toFixed(1) + 'px');
-    m.face.style.setProperty('--sc', scale.toFixed(3));
-    m.face.style.setProperty('--veil', veil.toFixed(3));
-    cards[m.i].style.zIndex = String(80 - Math.round(Math.min(a, 4) * 14));
+    if (a > 2.15){ resetFace(i); continue; }
+    var direction = t < 0 ? -1 : 1;
+    var near = Math.min(a, 1);
+    var far = Math.max(0, Math.min(1, a - 1));
+    var scale = 1 - Math.min(a, 2) * 0.055;
+    var peek = 54 - far * 24;
+    var half = metrics[i].faceW * scale / 2;
+    var rest = viewW / 2 - peek + half;
+    var target = viewW / 2 + direction * near * rest;
+    var tx = target - natural;
+    var ry = direction * (near * 18 + far * 6);
+    var ty = near * 8 + far * 10;
+    var veil = Math.min(0.96, near * 0.88 + far * 0.08);
+    setFace(i, '--tx', tx.toFixed(2) + 'px');
+    setFace(i, '--ty', ty.toFixed(2) + 'px');
+    setFace(i, '--ry', ry.toFixed(2) + 'deg');
+    setFace(i, '--sc', scale.toFixed(3));
+    setFace(i, '--veil', veil.toFixed(3));
+    setLevel(i, String(80 - Math.round(Math.min(a, 4) * 20)));
+    activeFaces.push(i);
   }
+}
+
+function measureCards(){
+  var nextW = deck.clientWidth;
+  if (!nextW || (nextW === viewW && metrics.length)) return;
+  viewW = nextW;
+  for (var s = 0; s < cards.length; s++) cards[s].style.flexBasis = viewW + 'px';
+  firstLeft = cards[0].offsetLeft;
+  slotW = cards[0].offsetWidth;
+  metrics = cards.map(function(card, i){
+    return {
+      center: firstLeft + i * slotW + slotW / 2,
+      faceW: faces[i].offsetWidth
+    };
+  });
+  activeFaces = [];
+}
+
+function fitCards(){
+  if (window.innerWidth >= 900){
+    document.documentElement.style.removeProperty('--card-h');
+    document.body.style.paddingBottom = '';
+    return;
+  }
+  document.body.style.paddingBottom = '';
+  var baseBottom = parseFloat(getComputedStyle(document.body).paddingBottom) || 0;
+  var chanRect = chan.getBoundingClientRect();
+  var deckRect = deck.getBoundingClientRect();
+  var gap = deckRect.top - chanRect.bottom;
+  var dockH = dock.getBoundingClientRect().height;
+  var deckStyle = getComputedStyle(deck);
+  var deckPadding = parseFloat(deckStyle.paddingTop) + parseFloat(deckStyle.paddingBottom);
+  var h = Math.floor(window.innerHeight - dockH - chanRect.height - gap - deckPadding - 12);
+  h = Math.max(220, Math.min(680, h));
+  document.documentElement.style.setProperty('--card-h', h + 'px');
+
+  /* 保证数字条能真正贴到视口顶部，短屏也不会把卡片底部藏进固定底栏。 */
+  var targetScroll = chanRect.top + window.scrollY;
+  var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  var deficit = targetScroll - maxScroll;
+  if (deficit > 0) document.body.style.paddingBottom = Math.ceil(baseBottom + deficit + 2) + 'px';
 }
 
 function centerLink(i, smooth){
@@ -502,8 +639,9 @@ function centerLink(i, smooth){
 }
 
 function setCurrent(i, reveal){
-  if (i < 0 || i >= links.length || i === current) {
-    if (reveal && i === current) centerLink(i, false);
+  if (i < 0 || i >= links.length) return;
+  if (i === current){
+    if (reveal) centerLink(i, false);
     return;
   }
   current = i;
@@ -511,46 +649,38 @@ function setCurrent(i, reveal){
     if (n === i) links[n].setAttribute('aria-current', 'true');
     else links[n].removeAttribute('aria-current');
   }
+  counter.textContent = ('0' + (i + 1)).slice(-2) + ' / 12';
   if (reveal) centerLink(i, false);
 }
 
-function deckLeftFor(i){
-  return cards[i].offsetLeft - cards[0].offsetLeft;
-}
-
 function scrollDeckTo(i, smooth){
-  deck.scrollTo({left: deckLeftFor(i), behavior: smooth ? motion() : 'auto'});
+  if (!slotW) return;
+  deck.scrollTo({left: i * slotW, behavior: smooth ? motion() : 'auto'});
 }
-
-function stageHeight(){
-  /* 数字条和报名按钮之间留一圈空隙，卡片不要贴满这一截。 */
-  var chanH = chan.getBoundingClientRect().height;
-  var holdTop = document.querySelector('.hold').getBoundingClientRect().top;
-  return Math.floor(holdTop - chanH - 28);
-}
-function fitCards(){
-  if (window.innerWidth >= 900){
-    document.documentElement.style.removeProperty('--card-h');
-    return;
-  }
-  var h = stageHeight();
-  if (h < 160) h = 160;
-  document.documentElement.style.setProperty('--card-h', h + 'px');
-}
-window.addEventListener('resize', function(){ fitCards(); placeCover(); });
-fitCards();
-placeCover();
 
 function scrollPageToStage(){
   if (window.innerWidth >= 900){
     var top = deck.getBoundingClientRect().top;
     if (top < 72 || deck.getBoundingClientRect().bottom > window.innerHeight - 24){
-      window.scrollTo({top: deck.getBoundingClientRect().top + window.scrollY - 76, behavior: motion()});
+      window.scrollTo({top: top + window.scrollY - 76, behavior: motion()});
     }
     return;
   }
   var y = chan.getBoundingClientRect().top + window.scrollY;
   window.scrollTo({top: y, behavior: motion()});
+}
+
+function refresh(){
+  resizeRaf = 0;
+  var desired = current < 0 ? 0 : current;
+  fitCards();
+  measureCards();
+  scrollDeckTo(desired, false);
+  placeCover(desired);
+  setCurrent(desired, true);
+}
+function queueRefresh(){
+  if (!resizeRaf) resizeRaf = requestAnimationFrame(refresh);
 }
 
 links.forEach(function(a, i){
@@ -569,33 +699,129 @@ deck.addEventListener('scroll', function(){
   if (raf) return;
   raf = requestAnimationFrame(function(){
     raf = 0;
-    placeCover();
-    setCurrent(indexFromScroll(), true);
+    var i = indexFromScroll();
+    placeCover(i);
+    setCurrent(i, true);
   });
 }, {passive:true});
 
-deck.addEventListener('scrollend', function(){
-  placeCover();
+function inputActive(){ return wheelActive || !!(drag && drag.dragging); }
+function settleToNearest(){
   var i = indexFromScroll();
   setCurrent(i, true);
+  scrollDeckTo(i, true);
   if (history.replaceState) history.replaceState(null, '', links[i].getAttribute('href'));
+}
+function finishScroll(){
+  if (inputActive()) return;
+  var i = indexFromScroll();
+  placeCover(i);
+  setCurrent(i, true);
+  if (history.replaceState) history.replaceState(null, '', links[i].getAttribute('href'));
+}
+if ('onscrollend' in deck){
+  deck.addEventListener('scrollend', finishScroll);
+}else{
+  deck.addEventListener('scroll', function(){
+    clearTimeout(endTimer);
+    endTimer = setTimeout(finishScroll, 140);
+  }, {passive:true});
+}
+
+/* 触摸横滑、鼠标拖拽与横向滚轮共用一个滚动容器；纵向手势仍交给浏览器。 */
+function releaseDrag(e){
+  if (!drag || (e && e.pointerId !== drag.id)) return;
+  var dragged = drag.dragging;
+  var id = drag.id;
+  drag = null;
+  deck.classList.remove('is-dragging');
+  deck.style.removeProperty('scroll-snap-type');
+  deck.style.removeProperty('scroll-behavior');
+  try { if (deck.hasPointerCapture(id)) deck.releasePointerCapture(id); } catch (err) {}
+  if (dragged){
+    suppressClick = true;
+    setTimeout(function(){ suppressClick = false; }, 300);
+    settleToNearest();
+  }
+}
+deck.addEventListener('pointerdown', function(e){
+  if (drag || (e.pointerType === 'mouse' && e.button !== 0)) return;
+  drag = {id:e.pointerId, x:e.clientX, y:e.clientY, scroll:deck.scrollLeft, dragging:false};
+}, {passive:true});
+deck.addEventListener('pointermove', function(e){
+  if (!drag || e.pointerId !== drag.id) return;
+  var dx = e.clientX - drag.x;
+  var dy = e.clientY - drag.y;
+  if (!drag.dragging){
+    if (Math.abs(dx) < 7 && Math.abs(dy) < 7) return;
+    /* 纵向为主时立即放手，让页面或卡内正文继续原生滚动。 */
+    if (Math.abs(dx) <= Math.abs(dy) * 1.15){ drag = null; return; }
+    drag.dragging = true;
+    deck.classList.add('is-dragging');
+    deck.style.scrollSnapType = 'none';
+    deck.style.scrollBehavior = 'auto';
+    /* 鼠标/触控笔越过卡片边界后仍要收到 move；轻点时不捕获，保留 label 的点击目标。 */
+    if (e.pointerType !== 'touch'){
+      try { deck.setPointerCapture(e.pointerId); } catch (err) {}
+    }
+  }
+  e.preventDefault();
+  deck.scrollLeft = drag.scroll - dx;
+}, {passive:false});
+deck.addEventListener('pointerup', releaseDrag);
+deck.addEventListener('pointercancel', releaseDrag);
+/* 触摸已有隐式指针捕获；显式 capture 反而会触发 lostpointercapture 并中断横滑。 */
+deck.addEventListener('lostpointercapture', function(e){
+  if (e.pointerType !== 'touch') releaseDrag(e);
 });
+deck.addEventListener('click', function(e){
+  if (!suppressClick) return;
+  e.preventDefault();
+  e.stopPropagation();
+  suppressClick = false;
+}, true);
+deck.addEventListener('wheel', function(e){
+  if (drag && drag.dragging){ e.preventDefault(); return; }
+  var unit = e.deltaMode === 1 ? 16 : (e.deltaMode === 2 ? deck.clientWidth : 1);
+  var dx = e.deltaX * unit;
+  var dy = e.deltaY * unit;
+  if (e.shiftKey && Math.abs(dy) > Math.abs(dx)) dx = dy;
+  if (!dx || (!e.shiftKey && Math.abs(dx) <= Math.abs(dy))) return;
+  e.preventDefault();
+  if (!wheelActive){
+    wheelActive = true;
+    deck.style.scrollSnapType = 'none';
+    deck.style.scrollBehavior = 'auto';
+  }
+  deck.scrollLeft += dx;
+  clearTimeout(wheelTimer);
+  wheelTimer = setTimeout(function(){
+    wheelActive = false;
+    deck.style.removeProperty('scroll-snap-type');
+    deck.style.removeProperty('scroll-behavior');
+    settleToNearest();
+  }, 140);
+}, {passive:false});
 
 cards.forEach(function(c, i){
   c.querySelector('input').addEventListener('change', function(){
     if (!this.checked) return;
     setCurrent(i, true);
-    if (Math.abs(deck.scrollLeft - deckLeftFor(i)) > 4) scrollDeckTo(i, true);
+    if (Math.abs(deck.scrollLeft - i * slotW) > 4) scrollDeckTo(i, true);
   });
 });
 
+window.addEventListener('resize', queueRefresh);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', queueRefresh);
+fitCards();
+measureCards();
 var hashed = links.findIndex(function(a){ return a.getAttribute('href') === location.hash; });
-setCurrent(hashed >= 0 ? hashed : 0, hashed >= 0);
-if (hashed >= 0){
-  scrollDeckTo(hashed, false);
-  scrollPageToStage();
-}
-placeCover();
+var initial = hashed >= 0 ? hashed : 0;
+setCurrent(initial, hashed >= 0);
+scrollDeckTo(initial, false);
+placeCover(initial);
+if (hashed >= 0) scrollPageToStage();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(queueRefresh);
 })();
 </script>
 </body>

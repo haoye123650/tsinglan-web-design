@@ -52,6 +52,8 @@
   /* 美式霓虹的“机器字”：宽字身、方折、方孔，用来承载全部英文与数字 */
   --font-led:"Orbitron","SF Mono",Menlo,ui-monospace,"PingFang SC",monospace;
   --font-mono:"Orbitron","SF Mono",Menlo,ui-monospace,"PingFang SC",monospace;
+  /* 全站统一字阶：五页同值。小屏缩放仍由各页 media 单独负责。 */
+  --fs-h1:32px;--fs-h2:22px;--fs-lead:16px;--fs-kicker:14px;--fs-small:13px;--fs-note:12px;--fs-deco:9px;
   /* 霓虹两色：灯管粉 + 冰蓝，只在字标与少量信号点出现 */
   --neon:#FF6FB5;
   --neon-hot:#FF2E9A;
@@ -68,7 +70,6 @@ body{
   background:var(--ink);
   color:var(--paper);
   font-family:var(--font-ui);
-  -webkit-font-smoothing:antialiased;
   overflow:clip;
   overscroll-behavior:none;
 }
@@ -482,9 +483,9 @@ body{
 .tip{
   margin:clamp(15px,3.6vw,20px) 0 0;
   font-family:var(--font-mono);
-  font-size:8.5px;
-  letter-spacing:.14em;
-  color:rgba(242,236,230,.52);
+  font-size:11px;
+  letter-spacing:.1em;
+  color:rgba(242,236,230,.7);
 }
 
 /* ---------- 底栏读数 ---------- */
@@ -507,16 +508,16 @@ body{
 .data__i:first-child{padding-left:0;border-left:0}
 .data__k{
   display:block;
-  font-family:var(--font-mono);
-  font-size:7.5px;
-  letter-spacing:.12em;
-  color:rgba(159,211,236,.55);
+  font-family:var(--font-ui);font-weight:600;
+  font-size:var(--fs-note);
+  letter-spacing:.08em;
+  color:rgba(159,211,236,.78);
   margin-bottom:4px;
   text-transform:uppercase;
 }
 .data__v{
   display:block;
-  font-size:clamp(10px,2.7vw,12px);
+  font-size:clamp(12px,3vw,13px);
   letter-spacing:.06em;
   color:rgba(242,236,230,.9);
   white-space:nowrap;
@@ -563,7 +564,7 @@ body{
   padding:0 11px 0 12px;
   color:#150C06;
   font-family:"PingFang SC","Hiragino Sans GB","Heiti SC","Microsoft YaHei",sans-serif;
-  font-size:12px;
+  font-size:var(--fs-note);
   font-weight:700;
   letter-spacing:.1em;
   line-height:1;
@@ -688,7 +689,7 @@ body{
 /* ---------- 矮屏收紧 ---------- */
 /* 窄屏：Orbitron 比等宽字宽，小屏要再收一档 */
 @media (max-width:380px){
-  .tip{font-size:8px;letter-spacing:.1em}
+  .tip{font-size:10px;letter-spacing:.08em}
   .spec{letter-spacing:.14em}
   .gate{--key-h:28px;gap:8px;padding:6px 0 1px}
   .gate__key{padding:0 8px 0 9px;font-size:11px;letter-spacing:.04em;gap:4px}
