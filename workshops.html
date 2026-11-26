@@ -117,27 +117,35 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .chan a[aria-current="true"]{border-color:#FFD9A8;background:rgba(255,217,168,.18);color:#FFE0B0}
 @media (max-width:899px){.chan{top:0}}
 /* ---------- 十二场：封面流。中间最大，两侧透视立起，像在翻专辑 ---------- */
+.stage{position:relative}
+/* 透明底箭头：贴屏幕两边，点击前后换卡；首张只有下一张，末张只有上一张。 */
+.edge{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:90;
+  width:44px;height:64px;display:flex;align-items:center;justify-content:center;
+  padding:0;border:0;background:transparent;color:#FFD9A8;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  filter:drop-shadow(0 1px 3px rgba(40,20,12,.55));
+}
+.edge--prev{left:-6px}
+.edge--next{right:-6px}
+.edge:active{color:#FFF1D6;transform:translateY(-50%) scale(.9)}
+.edge[hidden]{display:none}
 .deck{
   counter-reset:workshop;
   display:flex;align-items:stretch;
   margin:4px 8px 0;padding:10px 0 18px;
   overflow-x:auto;overflow-y:hidden;
-  /* 触摸/触控笔路径自己接管横滑，纵向仍交回浏览器；鼠标用原生滚动+snap。 */
-  touch-action:pan-y;
+  /* 横滑完全走浏览器原生滚动 + 惯性 + mandatory 吸附；纵向手势交回页面。 */
+  touch-action:pan-x pan-y;
+  scroll-snap-type:x mandatory;scroll-padding-inline:0;
   overscroll-behavior-x:contain;
   scrollbar-width:none;
-  cursor:grab;
   /* 每张卡单独使用透视，避免滚动容器的 overflow 压平层级。 */
   -webkit-user-select:none;user-select:none;
   -webkit-tap-highlight-color:transparent;
 }
 .deck::-webkit-scrollbar{display:none;height:0}
-.deck,.deck *{touch-action:pan-y}
-/* 松手回吸用原生 mandatory 吸附；拖动/惯性期间由 JS 接管，关闭原生吸附避免与 JS 滚动打架。 */
-.deck--settle{scroll-snap-type:x mandatory;scroll-padding-inline:0}
-.deck--settle .card{scroll-snap-align:center;scroll-snap-stop:normal}
-.deck.is-dragging{scroll-snap-type:none;scroll-behavior:auto;cursor:grabbing}
-.deck.is-dragging .card{cursor:grabbing}
+.deck .card{scroll-snap-align:center;scroll-snap-stop:normal}
 .gesture{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:26px;margin:6px 12px 0;color:#C9E8F6;font-size:var(--fs-small);line-height:1.4;letter-spacing:.05em}
 .gesture b{flex:none;font-family:var(--font-led);font-size:10px;font-weight:700;letter-spacing:.08em;color:#FFD9A8;font-variant-numeric:tabular-nums}
 .card{
@@ -180,8 +188,8 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .card__face>*{position:relative;z-index:1}
 .card input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;pointer-events:none}
 .card:focus-within .card__face{outline:2px solid var(--ice);outline-offset:3px}
-/* 每帧变换的卡片交给合成器单独渲染，避免整树重排。 */
-.card__face{will-change:transform}
+/* will-change 只给当前及相邻卡（JS 动态加 .is-live），避免 12 张大纹理常驻显存。 */
+.card.is-live .card__face{will-change:transform}
 .card.is-on .card__face{
   border-color:#9A673A;
   background:
@@ -355,8 +363,6 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   </header>
 
   <section class="sec" id="rooms">
-    <p class="sec__k in in4">01 · 提前报名</p>
-    <h2 class="sec__t">同一时间，十二场</h2>
     <fieldset aria-label="十二场里先点一场。选中不会送出。">
       <p class="rule">同一时间只能去一场。嘉宾提前报名，报满即止。地点和名额之后补充。</p>
       <p class="pending" id="pick-note" aria-live="polite">点卡片预选，再点一次可撤销；选好后点下方按钮前往登记。</p>
@@ -365,9 +371,11 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
         <a href="#w05">05</a><a href="#w06">06</a><a href="#w07">07</a><a href="#w08">08</a>
         <a href="#w09">09</a><a href="#w10">10</a><a href="#w11">11</a><a href="#w12">12</a>
       </nav>
-      <p class="gesture"><span>左右滑动 · 点卡片预选</span><b id="deck-count" aria-hidden="true">01 / 12</b></p>
+      <p class="gesture"><span>左右滑动或点箭头 · 点卡片预选</span><b id="deck-count" aria-hidden="true">01 / 12</b></p>
+      <div class="stage">
+      <button type="button" class="edge edge--prev" id="deck-prev" aria-label="上一场" hidden><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M15 4 L7 12 L15 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <div class="deck" id="deck" aria-label="十二场工作坊，左右滑动换场">
-        <label class="card" id="w01"><input type="radio" name="workshop" autocomplete="off" value="01"><span class="card__face"><span class="card__top"><b>01</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">拒绝「伪装变革」：AI 时代重构真实学习设计的实操路径</span><span class="card__who">黎蒙</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w01"><input type="radio" name="workshop" autocomplete="off" value="01"><span class="card__face"><span class="card__top"><b>01</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">拒绝「伪装变革」：AI 时代重构真实学习设计的实操路径</span><span class="card__who">黎蒙</span></span><span class="card__meta"><span>地点<b>C100</b></span><span>名额<b>80 人</b></span></span></span></label>
         <label class="card" id="w02"><input type="radio" name="workshop" autocomplete="off" value="02"><span class="card__face"><span class="card__top"><b>02</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当 AI 比我们会讲道理：国际化学校的德育，如何从「管住人」走向「长出判断」</span><span class="card__who">林静姿</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
         <label class="card" id="w03"><input type="radio" name="workshop" autocomplete="off" value="03"><span class="card__face"><span class="card__top"><b>03</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">破解学习迷宫：AI 驱动下的个性化学习空间与路线设计</span><span class="card__who">孙成伟</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
         <label class="card" id="w04"><input type="radio" name="workshop" autocomplete="off" value="04"><span class="card__face"><span class="card__top"><b>04</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">让数据「开口说话」：AI 驱动下的教务管理转型</span><span class="card__who">祁镇华 · 向晶</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
@@ -375,10 +383,12 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
         <label class="card" id="w06"><input type="radio" name="workshop" autocomplete="off" value="06"><span class="card__face"><span class="card__top"><b>06</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">破局「课表难题」：如何系统化打造「每天一节」的硬核体育课程</span><span class="card__who">莫启源 · 阎泽雄</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
         <label class="card" id="w07"><input type="radio" name="workshop" autocomplete="off" value="07"><span class="card__face"><span class="card__top"><b>07</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当画笔遇上代码：CG Lab 如何把艺术、工程与设计锻造成跨学科课程</span><span class="card__who">张赞</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
         <label class="card" id="w08"><input type="radio" name="workshop" autocomplete="off" value="08"><span class="card__face"><span class="card__top"><b>08</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">学生的主体性与能动性，如何从「发现问题」走向「回应真实世界」</span><span class="card__who">谈昕然 · Ryan Wong</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
-        <label class="card" id="w09"><input type="radio" name="workshop" autocomplete="off" value="09"><span class="card__face"><span class="card__top"><b>09</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">先照顾好人，再谈成绩：一套 SEL 教材与课程</span><span class="card__who">王珊 · 王艺桐 · 魏荣</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+        <label class="card" id="w09"><input type="radio" name="workshop" autocomplete="off" value="09"><span class="card__face"><span class="card__top"><b>09</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">先照顾好人，再谈成绩：一套 SEL 教材与课程</span><span class="card__who">王珊 · 王艺桐</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
         <label class="card" id="w10"><input type="radio" name="workshop" autocomplete="off" value="10"><span class="card__face"><span class="card__top"><b>10</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">最后一年，交出你自己的作品：小学、初中的毕业项目</span><span class="card__who">魏方 · 郭航</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
         <label class="card" id="w11"><input type="radio" name="workshop" autocomplete="off" value="11"><span class="card__face"><span class="card__top"><b>11</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">从读到写，从课本到舞台：语文组的十二年</span><span class="card__who">白文婷</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
         <label class="card" id="w12"><input type="radio" name="workshop" autocomplete="off" value="12"><span class="card__face"><span class="card__top"><b>12</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">把「创新基因」做成可复制的模板：初中科学差异化跨学科 PBL</span><span class="card__who">柏苇</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
+      </div>
+      <button type="button" class="edge edge--next" id="deck-next" aria-label="下一场"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M9 4 L17 12 L9 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
     </fieldset>
   </section>
@@ -422,12 +432,10 @@ function paint(){
 function arm(){
   if (!hold || hold.classList.contains('is-ready')) return;
   hold.href = FORM_URL;
-  hold.setAttribute('target','_blank');
-  hold.setAttribute('rel','noopener noreferrer');
   hold.removeAttribute('role');
   hold.removeAttribute('aria-disabled');
   hold.removeAttribute('tabindex');
-  hold.setAttribute('aria-label','前往金数据登记（将在新页面打开）');
+  hold.setAttribute('aria-label','前往金数据登记（当前页面打开）');
   hold.classList.add('is-ready');
 }
 function disarm(){
@@ -543,6 +551,8 @@ var deck = document.getElementById('deck');
 var chan = document.querySelector('.chan');
 if (!deck || !chan) return;
 var counter = document.getElementById('deck-count');
+var prevBtn = document.getElementById('deck-prev');
+var nextBtn = document.getElementById('deck-next');
 var links = Array.prototype.slice.call(chan.querySelectorAll('a'));
 var cards = Array.prototype.slice.call(deck.querySelectorAll('.card'));
 var faces = cards.map(function(c){ return c.querySelector('.card__face'); });
@@ -556,8 +566,6 @@ var viewW = 0;
 var slotW = 0;
 var firstLeft = 0;
 var drag = null;
-var wheelActive = false;
-var wheelTimer = 0;
 var suppressClick = false;
 
 function motion(){ return reduce ? 'auto' : 'smooth'; }
@@ -585,13 +593,18 @@ function resetFace(i){
   setLevel(i, '0');
 }
 
+function setLive(i, on){
+  if (cards[i]._live === on) return;
+  cards[i]._live = on;
+  cards[i].classList.toggle('is-live', on);
+}
 function placeCover(index){
   if (!viewW || !metrics.length) return;
   var old = activeFaces.slice();
-  var from = Math.max(0, index - 2);
-  var to = Math.min(cards.length - 1, index + 2);
+  var from = Math.max(0, index - 1);
+  var to = Math.min(cards.length - 1, index + 1);
   for (var j = 0; j < old.length; j++){
-    if (old[j] < from || old[j] > to || reduce) resetFace(old[j]);
+    if (old[j] < from || old[j] > to || reduce){ resetFace(old[j]); setLive(old[j], false); }
   }
   activeFaces = [];
   if (reduce){
@@ -603,7 +616,7 @@ function placeCover(index){
     var natural = metrics[i].center - scroll;
     var t = (natural - viewW / 2) / viewW;
     var a = Math.abs(t);
-    if (a > 2.15){ resetFace(i); continue; }
+    if (a > 1.6){ resetFace(i); setLive(i, false); continue; }
     var direction = t < 0 ? -1 : 1;
     var near = Math.min(a, 1);
     var far = Math.max(0, Math.min(1, a - 1));
@@ -622,6 +635,7 @@ function placeCover(index){
     setFace(i, '--sc', scale.toFixed(3));
     setFace(i, '--veil', veil.toFixed(3));
     setLevel(i, String(80 - Math.round(Math.min(a, 4) * 20)));
+    setLive(i, true);
     activeFaces.push(i);
   }
 }
@@ -672,6 +686,8 @@ function setCurrent(i, reveal){
       else links[n].removeAttribute('aria-current');
     }
     counter.textContent = ('0' + (i + 1)).slice(-2) + ' / 12';
+    if (prevBtn) prevBtn.hidden = i === 0;
+    if (nextBtn) nextBtn.hidden = i === cards.length - 1;
   }
   /* centerLink 只在序号真的变化、且需要让场次条露出当前项时才调；滑动中途不反复布局。 */
   if (changed && reveal) centerLink(i, false);
@@ -707,6 +723,16 @@ function queueRefresh(){
   if (!resizeRaf) resizeRaf = requestAnimationFrame(refresh);
 }
 
+/* 两侧箭头：点击前后换卡，走与场次条相同的原生平滑滚动 + 吸附。 */
+function step(delta){
+  var i = clampIndex(indexFromScroll() + delta);
+  setCurrent(i, true);
+  scrollDeckTo(i, true);
+  if (history.replaceState) history.replaceState(null, '', links[i].getAttribute('href'));
+}
+if (prevBtn) prevBtn.addEventListener('click', function(){ step(-1); });
+if (nextBtn) nextBtn.addEventListener('click', function(){ step(1); });
+
 links.forEach(function(a, i){
   a.addEventListener('click', function(e){
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
@@ -729,20 +755,9 @@ deck.addEventListener('scroll', function(){
   });
 }, {passive:true});
 
-function inputActive(){ return wheelActive || !!(drag && drag.dragging); }
-/* 吸附开关：拖动/惯性期间关掉，交给 JS 直控；松手后恢复 mandatory，让浏览器原生把位置拉回对齐点。 */
-function snapOn(){
-  deck.classList.add('deck--settle');
-  deck.style.scrollSnapType = 'x mandatory';
-}
-function snapOff(){
-  deck.classList.remove('deck--settle');
-  deck.style.scrollSnapType = 'none';
-}
-/* 松手后：恢复原生 mandatory 吸附。浏览器会把当前 scrollLeft 自动吸附到最近一张，无需 JS 校正。 */
+function inputActive(){ return !!(drag && drag.dragging); }
+/* 原生 mandatory 吸附常驻；滚动结束后只同步地址 hash，不做任何滚动校正。 */
 function settle(){
-  snapOn();
-  /* 若位置恰好已对齐，mandatory 不会产生滚动；主动把对齐后的结果同步给封面与计数。 */
   var i = indexFromScroll();
   placeCover(i);
   setCurrent(i, true);
@@ -761,74 +776,59 @@ if ('onscrollend' in deck){
   }, {passive:true});
 }
 
-/* 触摸横滑、鼠标拖拽与横向滚轮共用一个滚动容器；纵向手势仍交给浏览器。 */
+/* 触摸横滑完全交给浏览器原生滚动（合成器线程，自带惯性与 mandatory 吸附），
+   JS 不再逐帧写 scrollLeft。这里只保留鼠标拖拽与 Shift+滚轮，方便桌面端。 */
 function releaseDrag(e){
   if (!drag || (e && e.pointerId !== drag.id)) return;
   var dragged = drag.dragging;
   var id = drag.id;
   drag = null;
-  deck.classList.remove('is-dragging');
   try { if (deck.hasPointerCapture(id)) deck.releasePointerCapture(id); } catch (err) {}
   if (dragged){
     suppressClick = true;
     setTimeout(function(){ suppressClick = false; }, 300);
-    /* 松手即恢复 mandatory 吸附，交给浏览器原生把位置拉回最近一张。 */
-    settle();
+    scrollDeckTo(indexFromScroll(), true);
   }
 }
 deck.addEventListener('pointerdown', function(e){
-  if (drag || (e.pointerType === 'mouse' && e.button !== 0)) return;
+  if (e.pointerType !== 'mouse' || e.button !== 0 || drag) return;
   drag = {id:e.pointerId, x:e.clientX, y:e.clientY, scroll:deck.scrollLeft, dragging:false};
 }, {passive:true});
 deck.addEventListener('pointermove', function(e){
   if (!drag || e.pointerId !== drag.id) return;
   var dx = e.clientX - drag.x;
-  var dy = e.clientY - drag.y;
   if (!drag.dragging){
-    if (Math.abs(dx) < 7 && Math.abs(dy) < 7) return;
-    /* 纵向为主时立即放手，让页面或卡内正文继续原生滚动。 */
-    if (Math.abs(dx) <= Math.abs(dy) * 1.15){ drag = null; return; }
+    if (Math.abs(dx) < 7) return;
     drag.dragging = true;
-    deck.classList.add('is-dragging');
-    snapOff();
-    /* 鼠标/触控笔越过卡片边界后仍要收到 move；轻点时不捕获，保留 label 的点击目标。 */
-    if (e.pointerType !== 'touch'){
-      try { deck.setPointerCapture(e.pointerId); } catch (err) {}
-    }
+    try { deck.setPointerCapture(e.pointerId); } catch (err) {}
   }
   e.preventDefault();
+  deck.style.scrollSnapType = 'none';
   deck.scrollLeft = drag.scroll - dx;
 }, {passive:false});
-deck.addEventListener('pointerup', releaseDrag);
-deck.addEventListener('pointercancel', releaseDrag);
-/* 触摸已有隐式指针捕获；显式 capture 反而会触发 lostpointercapture 并中断横滑。 */
-deck.addEventListener('lostpointercapture', function(e){
-  if (e.pointerType !== 'touch') releaseDrag(e);
+deck.addEventListener('pointerup', function(e){
+  deck.style.scrollSnapType = '';
+  releaseDrag(e);
 });
+deck.addEventListener('pointercancel', function(e){
+  deck.style.scrollSnapType = '';
+  releaseDrag(e);
+});
+deck.addEventListener('lostpointercapture', releaseDrag);
 deck.addEventListener('click', function(e){
   if (!suppressClick) return;
   e.preventDefault();
   e.stopPropagation();
   suppressClick = false;
 }, true);
+/* Shift+滚轮转横向；普通滚轮/触控板横滑走原生。 */
 deck.addEventListener('wheel', function(e){
-  if (drag && drag.dragging){ e.preventDefault(); return; }
+  if (!e.shiftKey) return;
   var unit = e.deltaMode === 1 ? 16 : (e.deltaMode === 2 ? deck.clientWidth : 1);
-  var dx = e.deltaX * unit;
-  var dy = e.deltaY * unit;
-  if (e.shiftKey && Math.abs(dy) > Math.abs(dx)) dx = dy;
-  if (!dx || (!e.shiftKey && Math.abs(dx) <= Math.abs(dy))) return;
+  var dx = (e.deltaY || e.deltaX) * unit;
+  if (!dx) return;
   e.preventDefault();
-  if (!wheelActive){
-    wheelActive = true;
-    snapOff();
-  }
   deck.scrollLeft += dx;
-  clearTimeout(wheelTimer);
-  wheelTimer = setTimeout(function(){
-    wheelActive = false;
-    settle();
-  }, 140);
 }, {passive:false});
 
 cards.forEach(function(c, i){
@@ -843,7 +843,6 @@ window.addEventListener('resize', queueRefresh);
 if (window.visualViewport) window.visualViewport.addEventListener('resize', queueRefresh);
 fitCards();
 measureCards();
-snapOn();
 var hashed = links.findIndex(function(a){ return a.getAttribute('href') === location.hash; });
 var initial = hashed >= 0 ? hashed : 0;
 setCurrent(initial, hashed >= 0);
