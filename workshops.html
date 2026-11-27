@@ -242,13 +242,18 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .card__meta b{margin-left:6px;font-weight:700;color:var(--ink)}
 /* ---------- 十二场：每卡一扇木门 + 锁眼。点任意一扇，十二扇全开（永不关）。
    开门那一下不预选；开后再点正常预选/撤销。
-   全部 transform/opacity 合成器动画；门与海报都限制在卡片圆角内。 ---------- */
+   全部 transform/opacity 合成器动画；门与海报都限制在卡片圆角内。
+   海报必须「下载完整 + 解码完成」才开门，iOS Safari 渐进式 JPEG 边下边显示
+   会出现半截/马赛克，这里用 decode() 兜住。 ---------- */
 .card--door .card__face{overflow:hidden}
 /* 门/锁/提示层级高于卡内文字（文字 z-index:1），关着时完全盖住旧卡面。 */
 .card__poster{
   position:absolute;inset:0;z-index:2;width:100%;height:100%;
   object-fit:cover;object-position:top center;border-radius:inherit;
+  /* 完整下载并解码后才淡入，杜绝 Safari 边下边渲染的半截/马赛克画面 */
+  opacity:0;transition:opacity .35s ease;
 }
+.card__poster.is-ready{opacity:1}
 .card__door{
   position:absolute;inset:0;z-index:4;border-radius:inherit;
   background:
@@ -574,9 +579,33 @@ function loadPosters(){
   if (postersLoaded) return;
   postersLoaded = true;
   document.querySelectorAll('.card__poster[data-src]').forEach(function(img){
+    armPoster(img);
     img.src = img.getAttribute('data-src');
     img.removeAttribute('data-src');
   });
+}
+/* 单张海报：下载+解码完成才加 .is-ready（淡入），并返回 Promise 供开门等待。
+   complete 但 naturalWidth=0 说明加载失败，也放行，不让门永远关着。 */
+function armPoster(img){
+  if (img._posterP) return img._posterP;
+  img._posterP = new Promise(function(resolve){
+    var settled = false;
+    function ready(){
+      if (settled) return;
+      settled = true;
+      img.classList.add('is-ready');
+      resolve();
+    }
+    function fail(){ if (!settled){ settled = true; resolve(); } }
+    function settle(){
+      if (!img.complete || img.naturalWidth === 0){ if (img.complete) fail(); return; }
+      if (img.decode){ img.decode().then(ready, ready); } else { ready(); }
+    }
+    if (img.complete && img.naturalWidth > 0){ settle(); return; }
+    img.addEventListener('load', settle, {once:true});
+    img.addEventListener('error', fail, {once:true});
+  });
+  return img._posterP;
 }
 /* 门都关着，海报空闲时逐张预取，不与首屏抢带宽；点击时兜底立即加载。 */
 if ('requestIdleCallback' in window) requestIdleCallback(loadPosters, {timeout:3500});
@@ -586,12 +615,21 @@ function openAllDoors(origin){
   doorsOpened = true;
   loadPosters();
   var originIdx = origin ? cards.indexOf(origin) : 0;
+  /* 被点的那扇：等它的海报下载+解码完成立刻开（预取通常已完成，零等待）；
+     其余门照旧错峰开，海报未就绪就先保持关闭，就绪后淡入，绝不露马赛克。 */
   cards.forEach(function(c, i){
     if (!c.classList.contains('card--door')) return;
-    if (c === origin){ c.classList.add('is-open'); return; }
-    /* 其余门按与起点卡的距离错峰开，动画仍是纯 transform，合成器渲染。 */
+    var img = c.querySelector('.card__poster');
+    var readyP = img ? armPoster(img) : Promise.resolve();
+    if (c === origin){
+      var guardedOrigin = Promise.race([readyP, new Promise(function(r){ setTimeout(r, 5000); })]);
+      guardedOrigin.then(function(){ c.classList.add('is-open'); });
+      return;
+    }
     var delay = 90 + Math.abs(i - originIdx) * 70;
-    setTimeout(function(){ c.classList.add('is-open'); }, delay);
+    /* 兜底：网络极差时最多等 5s 也开门，不让门永远关着。 */
+    var guarded = Promise.race([readyP, new Promise(function(r){ setTimeout(r, 5000); })]);
+    setTimeout(function(){ guarded.then(function(){ c.classList.add('is-open'); }); }, delay);
   });
 }
 cards.forEach(function(c){
