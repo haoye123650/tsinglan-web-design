@@ -364,6 +364,11 @@ body{
 /* 的 */ .title--flow i:nth-child(5){transform:translate(4.95em,1.85em)}
 /* 学 */ .title--flow i:nth-child(6){transform:translate(6.1em,1.7em)}
 /* 校 */ .title--flow i:nth-child(7){transform:translate(7.25em,1.55em)}
+/* 视觉字号补偿：字体本身「可/的/学/校」墨迹略小，微放大让七字看起来一样大 */
+.title--flow i:nth-child(3){transform:translate(2.6em,.12em) rotate(3deg) scale(1.06)}
+.title--flow i:nth-child(5){transform:translate(4.92em,1.82em) scale(1.08)}
+.title--flow i:nth-child(6){transform:translate(6.06em,1.67em) scale(1.06)}
+.title--flow i:nth-child(7){transform:translate(7.2em,1.52em) scale(1.05)}
 .title--flow .title__glow,
 .title--flow .title__tube{inset:0}
 @media (max-height:680px){
@@ -830,10 +835,6 @@ body{
       <!-- 内环 -->
       <g stroke="rgba(107,78,196,.55)" stroke-dasharray="1 7">
         <circle cx="300" cy="300" r="152"/>
-      </g>
-      <!-- 左右卡尺：只量字标，不横切副标题 -->
-      <g stroke="rgba(199,155,110,.6)" stroke-width="1.3">
-        <path d="M86 262h-24v76h24M514 262h24v76h-24"/>
       </g>
       <!-- 十字短刻度 -->
       <g stroke="rgba(199,155,110,.55)" stroke-width="1.2">
