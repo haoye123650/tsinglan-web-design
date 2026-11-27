@@ -65,13 +65,15 @@
 
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0;padding:0}
-html{-webkit-text-size-adjust:100%;background:var(--ink);overflow:clip}
+html{-webkit-text-size-adjust:100%;background:var(--ink);overflow-x:clip;overflow-y:auto}
 body{
   background:var(--ink);
   color:var(--paper);
   font-family:var(--font-ui);
-  overflow:clip;
-  overscroll-behavior:none;
+  overflow-x:clip;
+  overflow-y:visible;
+  /* 只禁横向橡皮筋，纵向保留原生回弹与下拉刷新 */
+  overscroll-behavior-x:none;
 }
 
 /* ---------- 背景层 ---------- */
@@ -239,8 +241,9 @@ body{
   grid-template-rows:auto 1fr auto;
   padding:
     calc(var(--pad) * .9 + env(safe-area-inset-top))
-    calc(var(--pad) + 8px)
-    calc(var(--pad) * 1.05 + env(safe-area-inset-bottom));
+    calc(var(--pad) + env(safe-area-inset-right,0px))
+    calc(var(--pad) * 1.05 + env(safe-area-inset-bottom))
+    calc(var(--pad) + env(safe-area-inset-left,0px));
 }
 
 /* ---------- 顶栏 ---------- */
@@ -248,13 +251,13 @@ body{
 .hud--top{
   position:relative;
   z-index:20;
-  display:grid;
-  grid-template-columns:minmax(0,1fr) auto;
-  align-items:start;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
   gap:clamp(8px,2vw,16px);
 }
-.hud--top .brands{grid-column:1;justify-self:start}
-.hud--top .brands__logo--ts{grid-column:2;justify-self:end}
+.hud--top .brands{flex:0 1 auto;min-width:0}
+.hud--top .brands__logo--ts{flex:0 1 auto;min-width:64px;margin-left:auto;width:clamp(78px,26vw,220px)}
 .brands{
   display:flex;
   flex-direction:column;
@@ -270,12 +273,14 @@ body{
   -webkit-user-drag:none;
 }
 /* 论坛主视觉在上，年会 lockup 在下，宽度收一档形成台阶，视觉重量才平衡 */
-.brands__logo--forum{width:clamp(108px,42vw,320px)}
-.brands__logo--pgy{width:clamp(88px,34vw,262px);opacity:.94}
+.brands__logo--forum{width:clamp(108px,42vw,320px);max-width:100%}
+.brands__logo--pgy{width:clamp(88px,34vw,262px);max-width:100%;opacity:.94}
 /* 学校 lockup 顶到右上角，右边缘与取景框同一条线 */
 .brands__logo--ts{
   flex:none;
-  width:clamp(78px,30vw,252px);
+  /* 吃满右栏实际宽度（上限 252px），窄屏由网格自动收缩，永不裁切 */
+  width:100%;
+  max-width:252px;
   opacity:.97;
 }
 
@@ -348,7 +353,7 @@ body{
    坐标取自 流动title.svg 的 matrix（375 画布），字号统一，全部 em 相对单位，
    随 --tfs 缩放；只动 transform，不触发重排。 ---------- */
 .title--flow{
-  width:min(94vw,760px);height:3.2em;
+  width:min(94vw,760px);height:3.2em;max-width:100%;
   margin-left:auto;margin-right:auto;
   font-size:min(10.2vw,82px);
   white-space:nowrap;
@@ -740,7 +745,7 @@ body{
   .brands{gap:6px}
   .brands__logo--forum{width:clamp(112px,34vw,250px)}
   .brands__logo--pgy{width:clamp(92px,27vw,204px)}
-  .brands__logo--ts{width:clamp(84px,24vw,184px)}
+  .brands__logo--ts{width:clamp(84px,24vw,184px);max-width:100%}
 }
 /* 短屏（iPhone SE2/8 的 667、安卓 640 这一档）：再收一档，别让底部被切 */
 @media (max-height:760px){
