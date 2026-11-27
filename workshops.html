@@ -239,7 +239,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 }
 .card__meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:auto;padding-top:12px;border-top:1px solid rgba(62,40,12,.12);font-size:var(--fs-small);color:#564034}
 .card__meta b{margin-left:6px;font-weight:700;color:var(--ink)}
-/* ---------- 01 场：卡片内单扇木门 + 左侧挂锁。点开锁开门露海报，再点关门。
+/* ---------- 01 场：卡片内单扇木门 + 门上挂锁。点一下开锁开门露海报，开了不再关。
    全部 transform/opacity 合成器动画；门与海报都限制在卡片圆角内。 ---------- */
 .card--door .card__face{overflow:hidden}
 /* 门/锁/提示层级高于卡内文字（文字 z-index:1），关着时完全盖住旧卡面。 */
@@ -268,39 +268,52 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   font-family:var(--font-led);font-size:clamp(72px,24vw,120px);font-weight:900;line-height:.9;
   color:rgba(255,217,168,.5);letter-spacing:-.06em;
 }
-.card__door-t{color:#FFD9A8;font-size:13px;font-weight:600;letter-spacing:.3em;text-indent:.3em}
+.card__door-t{color:#FFD9A8;font-size:12px;font-weight:600;letter-spacing:.14em;text-indent:.14em}
 .card__door-sub{color:rgba(255,217,168,.6);font-size:11px;letter-spacing:.14em}
-/* 挂锁：门左缘（开门侧，右缘是铰链）。锁梁开门时先弹起，再随门转走。 */
+/* 挂锁：装在门板上（门的子元素），随门一起旋开消失。
+   银灰锁梁 + 金黄锁体 + 深棕钥匙孔，仿常见挂锁样式。 */
 .card__lock{
-  position:absolute;z-index:5;left:10px;top:50%;transform:translateY(-50%);
-  width:34px;display:flex;flex-direction:column;align-items:center;
-  transition:opacity .25s ease .1s;pointer-events:none;
-  filter:drop-shadow(0 2px 4px rgba(0,0,0,.4));
+  position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  width:56px;display:flex;flex-direction:column;align-items:center;
+  pointer-events:none;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.35));
 }
 .card__lock-shackle{
-  width:18px;height:14px;border:3px solid #E8BE4C;border-bottom:0;border-radius:9px 9px 0 0;
+  width:34px;height:28px;border:7px solid #C9CCD3;border-bottom:0;border-radius:17px 17px 0 0;
+  border-top-color:#E6E8EC;border-left-color:#DEE0E5;border-right-color:#B4B7BF;
   transform-origin:left bottom;
   transition:transform .3s cubic-bezier(.34,1.56,.64,1);
 }
 .card__lock-body{
-  width:30px;height:24px;border-radius:6px;margin-top:-1px;
-  background:linear-gradient(180deg,#E8BE4C,#C98F2B 70%,#A96F16);
+  position:relative;width:54px;height:44px;border-radius:9px;margin-top:-2px;
+  background:linear-gradient(150deg,#F7CE4E 0%,#EDB62F 55%,#D99A1E 100%);
+  box-shadow:inset 0 2px 3px rgba(255,244,200,.55),inset -3px -4px 6px rgba(160,105,10,.35);
   display:flex;align-items:center;justify-content:center;
 }
-.card__lock-body::before{content:"";width:6px;height:9px;border-radius:3px;background:#4B342F}
-.card--door.is-open .card__lock-shackle{transform:rotate(-38deg) translateY(-2px)}
-.card--door.is-open .card__lock{opacity:0}
-/* 开门后角标：提示再点一下关门 */
-.card__door-hint{
-  position:absolute;z-index:6;left:50%;bottom:10px;transform:translateX(-50%);
-  padding:5px 12px;border-radius:999px;white-space:nowrap;
-  background:rgba(30,17,12,.72);color:#FFD9A8;font-size:11px;letter-spacing:.12em;
-  opacity:0;transition:opacity .25s ease .55s;pointer-events:none;
+/* 左上高光弧，让锁体带一点圆润的光泽 */
+.card__lock-body::before{
+  content:"";position:absolute;left:5px;top:4px;width:20px;height:26px;
+  border-radius:10px 4px 14px 4px;background:linear-gradient(160deg,rgba(255,240,180,.65),rgba(255,240,180,0) 70%);
 }
-.card--door.is-open .card__door-hint{opacity:1}
-.card--door:not(.is-open) .card__door-hint{transition:opacity .1s ease}
+.card__lock-hole{position:relative;width:14px;height:20px;display:block}
+.card__lock-hole::before{
+  content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);
+  width:13px;height:13px;border-radius:50%;background:#8A6516;
+  box-shadow:inset 0 1px 2px rgba(60,40,5,.5);
+}
+.card__lock-hole::after{
+  content:"";position:absolute;left:50%;top:9px;transform:translateX(-50%);
+  width:7px;height:11px;background:#8A6516;
+  clip-path:polygon(28% 0,72% 0,100% 100%,0 100%);
+}
+/* 锁下的柔和落影，贴合门面 */
+.card__lock::after{
+  content:"";width:44px;height:7px;margin-top:5px;border-radius:50%;
+  background:radial-gradient(50% 50% at 50% 50%,rgba(0,0,0,.35),transparent 72%);
+}
+.card--door.is-open .card__lock-shackle{transform:rotate(-40deg) translateY(-3px)}
 @media (prefers-reduced-motion:reduce){
-  .card__door,.card__lock,.card__lock-shackle,.card__door-hint{transition:none}
+  .card__door,.card__lock-shackle{transition:none}
 }
 /* ---------- 底栏：预选后才点亮的金砖登记按钮 ---------- */
 .dock{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:0 var(--pad) calc(10px + env(safe-area-inset-bottom,0px));pointer-events:none;background:linear-gradient(180deg,rgba(75,52,47,0),#4B342F 16px)}
@@ -438,7 +451,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
       <div class="stage">
       <button type="button" class="edge edge--prev" id="deck-prev" aria-label="上一场" hidden><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M15 4 L7 12 L15 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <div class="deck" id="deck" aria-label="十二场工作坊，左右滑动换场">
-        <label class="card card--door" id="w01"><input type="radio" name="workshop" autocomplete="off" value="01"><span class="card__face"><img class="card__poster" id="poster-img" alt="01 场海报：AI 教育创新的国际经验与基础教育本土化实践 · 黎蒙" decoding="async"><span class="card__door" aria-hidden="true"><b class="card__door-num">01</b><span class="card__door-t">开门看海报</span><span class="card__door-sub">黎蒙 · AI 教育创新</span></span><span class="card__lock" aria-hidden="true"><span class="card__lock-shackle"></span><span class="card__lock-body"></span></span><span class="card__door-hint" aria-hidden="true">再点一下关门</span><span class="card__top"><b>01</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">拒绝「伪装变革」：AI 时代重构真实学习设计的实操路径</span><span class="card__who">黎蒙</span></span><span class="card__meta"><span>地点<b>C100</b></span><span>名额<b>60–80 人</b></span></span></span></label>
+        <label class="card card--door" id="w01"><input type="radio" name="workshop" autocomplete="off" value="01"><span class="card__face"><img class="card__poster" id="poster-img" alt="01 场海报：AI 教育创新的国际经验与基础教育本土化实践 · 黎蒙" decoding="async"><span class="card__door" aria-hidden="true"><b class="card__door-num">01</b><span class="card__door-t">点击开门 查看工作坊详情</span><span class="card__door-sub">黎蒙 · AI 教育创新</span><span class="card__lock"><span class="card__lock-shackle"></span><span class="card__lock-body"><i class="card__lock-hole"></i></span></span></span><span class="card__top"><b>01</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">拒绝「伪装变革」：AI 时代重构真实学习设计的实操路径</span><span class="card__who">黎蒙</span></span><span class="card__meta"><span>地点<b>C100</b></span><span>名额<b>60–80 人</b></span></span></span></label>
         <label class="card" id="w02"><input type="radio" name="workshop" autocomplete="off" value="02"><span class="card__face"><span class="card__top"><b>02</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">当 AI 比我们会讲道理：国际化学校的德育，如何从「管住人」走向「长出判断」</span><span class="card__who">林静姿</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
         <label class="card" id="w03"><input type="radio" name="workshop" autocomplete="off" value="03"><span class="card__face"><span class="card__top"><b>03</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">破解学习迷宫：AI 驱动下的个性化学习空间与路线设计</span><span class="card__who">孙成伟</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
         <label class="card" id="w04"><input type="radio" name="workshop" autocomplete="off" value="04"><span class="card__face"><span class="card__top"><b>04</b><span class="card__end"><span class="card__flag">已预选</span><i class="card__sq" aria-hidden="true"></i></span></span><span class="card__body"><span class="card__name">让数据「开口说话」：AI 驱动下的教务管理转型</span><span class="card__who">祁镇华 · 向晶</span></span><span class="card__meta"><span>地点<b>待补</b></span><span>名额<b>待补</b></span></span></span></label>
@@ -541,11 +554,10 @@ cards.forEach(function(c){
     if (input.checked) pick(c);
   });
   /* click：点已选中的卡时，radio 不会触发 change，这里手动撤销。
-     带门的卡（01）不走这里：label 会向 input 二次派发 click，
-     任何 preventDefault 都会连带取消门 toggle，01 的开关门在自己的监听里处理。 */
+     转发到 input 的合成 click 跳过（target 是 input），只处理真实点卡面的那一次。
+     01 关门时 input 未选中，走不到撤销分支；开门后与其他卡行为一致。 */
   c.addEventListener('click', function(e){
     if (e.target.closest('input')) return;
-    if (c.classList.contains('card--door')) return;
     if (input.checked){
       e.preventDefault();
       input.checked = false;
@@ -558,8 +570,8 @@ if (hold){
     if (hold.getAttribute('aria-disabled') === 'true') e.preventDefault();
   });
 }
-/* ---------- 01 场：卡片内开门看海报。点一下开锁开门，再点一下关门。
-   门只是卡片里的一层，预选/滑动逻辑完全不动。 ---------- */
+/* ---------- 01 场：卡片内开门看海报。第一下只开锁开门（不预选），门开了不再关；
+   开门后再点卡片才走正常预选/撤销，与其他卡一致。 ---------- */
 var posterImg = document.getElementById('poster-img');
 var posterLoaded = false;
 var card01 = document.getElementById('w01');
@@ -572,12 +584,20 @@ if (card01){
   };
   if ('requestIdleCallback' in window) requestIdleCallback(loadPoster, {timeout:2500});
   else setTimeout(loadPoster, 1200);
+  /* 键盘选中 radio 等旁路也让门打开，保证选中时看得到海报。 */
+  card01.querySelector('input').addEventListener('change', function(){
+    loadPoster();
+    card01.classList.add('is-open');
+  });
   card01.addEventListener('click', function(e){
     /* label 会把点击转发给内部 input（真实浏览器里 forwarded click 也是 trusted），
-       只处理直接点在卡面上的那一次，转发到 input 的忽略，避免 toggle 两次抵消。 */
+       只处理直接点在卡面上的那一次，转发到 input 的忽略。 */
     if (e.target.closest('input')) return;
+    if (card01.classList.contains('is-open')) return; /* 门只开一次，永不关门 */
+    /* 开门这一下拦下 label 默认行为：不选中 radio，预选留给开门后的点击。 */
+    e.preventDefault();
     loadPoster();
-    card01.classList.toggle('is-open');
+    card01.classList.add('is-open');
   });
 }
 })();
