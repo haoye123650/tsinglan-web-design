@@ -270,23 +270,25 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 }
 .card__door-t{color:#FFD9A8;font-size:12px;font-weight:600;letter-spacing:.14em;text-indent:.14em}
 .card__door-sub{color:rgba(255,217,168,.6);font-size:11px;letter-spacing:.14em}
-/* 锁眼：门板左缘（开门侧，右缘是铰链）只有一个金色钥匙孔形（圆孔+梯形孔），
-   无护片无圆环，是门的子元素，随门一起旋开消失。 */
+/* 锁眼：门板左缘（开门侧，右缘是铰链）只有一个钥匙孔形（圆孔+梯形孔），
+   与门同色系但更深，像凿进门里的暗孔；下缘一丝金高光衬出孔形。
+   是门的子元素，随门一起旋开消失。 */
 .card__keyhole{
   position:absolute;left:22px;top:50%;transform:translateY(-50%);
   width:18px;height:27px;pointer-events:none;
-  filter:drop-shadow(0 1px 2px rgba(0,0,0,.45));
+  filter:drop-shadow(0 1px 1px rgba(255,217,168,.28));
 }
 .card__keyhole i{position:relative;width:18px;height:27px;display:block}
 .card__keyhole i::before{
   content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);
   width:16px;height:16px;border-radius:50%;
-  background:radial-gradient(120% 120% at 34% 28%,#F2CE7E 0%,#D9A94E 58%,#B07E28 100%);
+  background:radial-gradient(120% 120% at 50% 30%,#241713 0%,#1A0F0C 60%,#140B09 100%);
+  box-shadow:inset 0 2px 3px rgba(0,0,0,.8),inset 0 -1px 1px rgba(255,217,168,.22);
 }
 .card__keyhole i::after{
   content:"";position:absolute;left:50%;top:12px;transform:translateX(-50%);
   width:11px;height:15px;
-  background:linear-gradient(180deg,#D9A94E,#B07E28);
+  background:linear-gradient(180deg,#1A0F0C,#140B09);
   clip-path:polygon(32% 0,68% 0,100% 100%,0 100%);
 }
 @media (prefers-reduced-motion:reduce){
