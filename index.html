@@ -343,6 +343,28 @@ body{
   text-rendering:geometricPrecision;
 }
 .title span{display:block}
+
+/* ---------- 流线字标：用户设计的七字弧线排布（无限可沿弧、能下落、的学校横排）。
+   透明 PNG 白芯粉边直接上图；glow 层用同一张图 blur 出霓虹呼吸，仍是合成器动画。 ---------- */
+.title--flow{
+  font-size:0;line-height:0;letter-spacing:0;white-space:normal;
+  width:min(88vw,620px);margin-left:auto;margin-right:auto;
+}
+.title__flow{
+  display:block;width:100%;height:auto;position:relative;z-index:2;
+}
+.title__flow-glow{
+  position:absolute;inset:0;width:100%;height:auto;z-index:0;
+  filter:blur(14px) saturate(1.6) brightness(1.15);
+  opacity:.65;pointer-events:none;user-select:none;
+  animation:neonBreath 3.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion:reduce){
+  .title__flow-glow{animation:none}
+}
+@media (max-height:680px){
+  .title--flow{width:min(76vw,520px)}
+}
 .title__glow,
 .title__tube{
   position:absolute;
@@ -821,11 +843,9 @@ body{
       <circle cx="300" cy="300" r="3.2" stroke="rgba(159,211,236,.8)"/>
     </svg>
 
-    <h1 class="title in in3">
-      <span class="title__glow" aria-hidden="true">无限可能的学校</span>
-      <span class="title__tube title__tube--pink" aria-hidden="true">无限可能的学校</span>
-      <span class="title__tube title__tube--ice" aria-hidden="true">无限可能的学校</span>
-      <span class="title__base">无限可能的学校</span>
+    <h1 class="title title--flow in in3">
+      <img class="title__flow-glow" src="assets/title-flow.png" alt="" aria-hidden="true">
+      <img class="title__flow" src="assets/title-flow.png" alt="无限可能的学校">
     </h1>
 
     <div class="spec in in4" aria-hidden="true">
