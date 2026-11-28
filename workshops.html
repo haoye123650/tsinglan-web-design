@@ -472,8 +472,8 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 
 <div class="dock">
   <div class="dock__in">
-    <div class="dock__choice" id="dock-choice"><span id="pick-state">十二选一</span><strong id="pick-current">点卡片预选一场</strong></div>
-    <a class="hold" id="submit-hold" role="button" aria-disabled="true" aria-describedby="pick-note" tabindex="-1" aria-label="先选一场，才能前往登记">先选一场，才能去登记</a>
+    <div class="dock__choice" id="dock-choice"><span id="pick-state">十二选一</span><strong id="pick-current">名额有限 · 报满即止</strong></div>
+    <a class="hold" id="submit-hold" role="button" aria-disabled="true" aria-describedby="pick-note" tabindex="-1" aria-label="点击卡片预选一场，再前往登记">点击卡片预选，再前往登记</a>
   </div>
 </div>
 
@@ -522,8 +522,8 @@ function disarm(){
   hold.setAttribute('role','button');
   hold.setAttribute('aria-disabled','true');
   hold.setAttribute('tabindex','-1');
-  hold.setAttribute('aria-label','先选一场，才能前往登记');
-  hold.textContent = '先选一场，才能去登记';
+  hold.setAttribute('aria-label','点击卡片预选一场，再前往登记');
+  hold.textContent = '点击卡片预选，再前往登记';
   hold.classList.remove('is-ready');
 }
 function pick(c){
@@ -543,7 +543,7 @@ function clearPick(){
   paint();
   note.textContent = '点卡片预选，再点一次可撤销；选好后点下方按钮前往登记。';
   pickState.textContent = '十二选一';
-  pickCurrent.textContent = '点卡片预选一场';
+  pickCurrent.textContent = '名额有限 · 报满即止';
   dockChoice.classList.remove('is-pick');
   disarm();
 }
