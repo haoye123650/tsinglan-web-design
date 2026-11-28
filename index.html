@@ -355,29 +355,30 @@ body{
 .title--flow{
   width:min(94vw,760px);height:3.2em;max-width:100%;
   margin-left:auto;margin-right:auto;
-  font-size:min(10.2vw,82px);
+  /* 七字墨迹固定约 8.79em 宽：字号=容器宽/8.8，任何机型都恰好铺满、居中不偏 */
+  font-size:calc(min(94vw,760px)/8.8);
   white-space:nowrap;
 }
 .title--flow i{
   position:absolute;left:0;top:0;font-style:normal;line-height:1;
   transform-origin:0 0;
 }
-/* 无 */ .title--flow i:nth-child(1){transform:translate(-.1em,1.8em) rotate(-30deg)}
-/* 限 */ .title--flow i:nth-child(2){transform:translate(1.15em,.75em) rotate(-13deg)}
-/* 可 */ .title--flow i:nth-child(3){transform:translate(2.42em,.15em) rotate(3deg)}
-/* 能 */ .title--flow i:nth-child(4){transform:translate(3.7em,.7em) rotate(17deg)}
-/* 的 */ .title--flow i:nth-child(5){transform:translate(4.95em,1.85em)}
-/* 学 */ .title--flow i:nth-child(6){transform:translate(6.3em,1.7em)}
-/* 校 */ .title--flow i:nth-child(7){transform:translate(7.65em,1.55em)}
+/* 无 */ .title--flow i:nth-child(1){transform:translate(-.055em,1.8em) rotate(-30deg)}
+/* 限 */ .title--flow i:nth-child(2){transform:translate(1.195em,.75em) rotate(-13deg)}
+/* 可 */ .title--flow i:nth-child(3){transform:translate(2.465em,.15em) rotate(3deg)}
+/* 能 */ .title--flow i:nth-child(4){transform:translate(3.745em,.7em) rotate(17deg)}
+/* 的 */ .title--flow i:nth-child(5){transform:translate(4.995em,1.85em)}
+/* 学 */ .title--flow i:nth-child(6){transform:translate(6.345em,1.7em)}
+/* 校 */ .title--flow i:nth-child(7){transform:translate(7.695em,1.55em)}
 /* 视觉字号补偿：字体本身「可/的/学/校」墨迹略小，微放大让七字看起来一样大 */
-.title--flow i:nth-child(3){transform:translate(2.4em,.12em) rotate(3deg) scale(1.06)}
-.title--flow i:nth-child(5){transform:translate(4.92em,1.82em) scale(1.08)}
-.title--flow i:nth-child(6){transform:translate(6.26em,1.67em) scale(1.06)}
-.title--flow i:nth-child(7){transform:translate(7.6em,1.52em) scale(1.05)}
+.title--flow i:nth-child(3){transform:translate(2.445em,.12em) rotate(3deg) scale(1.06)}
+.title--flow i:nth-child(5){transform:translate(4.965em,1.82em) scale(1.08)}
+.title--flow i:nth-child(6){transform:translate(6.305em,1.67em) scale(1.06)}
+.title--flow i:nth-child(7){transform:translate(7.645em,1.52em) scale(1.05)}
 .title--flow .title__glow,
 .title--flow .title__tube{inset:0}
 @media (max-height:680px){
-  .title--flow{font-size:min(9vw,70px);height:3.1em}
+  .title--flow{width:min(94vw,620px);font-size:calc(min(94vw,620px)/8.8);height:3.1em}
 }
 
 .title__glow,
@@ -574,165 +575,87 @@ body{
   letter-spacing:.08em;
   color:rgba(199,155,110,.8);
 }
-/* 快捷通道：切角金键是主铭牌。字右侧的实心箭头指向一条金线路径；
-   背景—日程、日程—工作坊用横杠连起来，不套外框，也不做成下划线导航。 */
+/* 快捷通道：三张金描边小卡（编号 + 名称 + 箭头），等宽铺满一行。
+   全部静态 CSS，交互只动 transform/opacity/颜色，合成器渲染零重排。 */
 .gate{
-  --key-h:30px;
-  display:flex;
-  flex-flow:row nowrap;
-  align-items:center;
-  justify-content:center;
+  display:block;
   width:100%;
   min-width:0;
-  gap:clamp(10px,2.4vw,18px);
-  padding:8px 4px 2px;
+  padding:4px 0 0;
 }
-.gate__tag{
-  position:relative;
-  flex:none;
-  margin:0;
-  filter:drop-shadow(0 0 12px rgba(199,155,110,.28));
+.gate__label{
+  margin:0 0 5px;
+  text-align:center;
+  font-family:var(--font-mono);
+  font-size:9px;
+  letter-spacing:.34em;
+  text-indent:.34em;
+  color:rgba(199,155,110,.62);
 }
-.gate__key{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  min-height:var(--key-h);
-  padding:0 11px 0 12px;
-  color:#150C06;
-  font-family:"PingFang SC","Hiragino Sans GB","Heiti SC","Microsoft YaHei",sans-serif;
-  font-size:var(--fs-note);
-  font-weight:700;
-  letter-spacing:.1em;
-  line-height:1;
-  white-space:nowrap;
-  background:linear-gradient(178deg,#FFF1DC 0%,var(--gold-l) 38%,var(--gold) 100%);
-  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
-  transition:transform .08s linear;
-}
-.gate__tag:active .gate__key{transform:translateY(4px)}
-.gate__ico{width:16px;height:16px;flex:none;display:block;color:#150C06}
-.gate__tag::before,
-.gate__tag::after{
-  content:"";
-  position:absolute;
-  width:7px;height:7px;
-  border:1px solid rgba(159,211,236,.75);
-  pointer-events:none;
-}
-.gate__tag::before{left:-7px;top:-7px;border-right:0;border-bottom:0}
-.gate__tag::after{right:-7px;bottom:-7px;border-left:0;border-top:0}
+.gate__label span{letter-spacing:0;text-indent:0;opacity:.6}
 .dock{
-  display:flex;
-  flex-flow:row nowrap;
-  align-items:center;
-  justify-content:center;
-  width:auto;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(8px,2.2vw,14px);
+  width:100%;
   min-width:0;
-  gap:0;
-  padding:0;
 }
 .dock a{
   position:relative;
-  display:inline-flex;
+  display:flex;
   align-items:center;
-  flex:none;
-  min-height:44px;
-  padding:0 2px;
+  justify-content:center;
+  gap:7px;
+  min-height:40px;
+  padding:0 6px;
   color:rgba(242,236,230,.92);
   font-family:"PingFang SC","Hiragino Sans GB","Heiti SC","Microsoft YaHei",sans-serif;
   font-size:14px;
-  font-weight:500;
-  letter-spacing:.04em;
+  font-weight:600;
+  letter-spacing:.06em;
   line-height:1;
   white-space:nowrap;
   text-decoration:none;
+  border:1px solid rgba(199,155,110,.34);
+  background:linear-gradient(180deg,rgba(199,155,110,.10),rgba(199,155,110,.03));
+  clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);
   touch-action:manipulation;
   -webkit-tap-highlight-color:transparent;
+  transition:transform .12s ease-out, border-color .12s linear, background-color .12s linear;
 }
-.dock__bar{
-  flex:none;
-  width:clamp(16px,4.5vw,28px);
-  height:2px;
-  margin-inline:clamp(5px,1.3vw,10px);
-  background:linear-gradient(90deg,rgba(199,155,110,.28),var(--gold) 22%,var(--gold-l) 50%,var(--gold) 78%,rgba(199,155,110,.28));
-  opacity:.72;
-  transform:scaleY(1);
-  transform-origin:center;
-  pointer-events:none;
-  transition:opacity .14s linear, transform .14s linear;
+.dock a em{
+  font-style:normal;
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:.08em;
+  color:rgba(199,155,110,.75);
 }
-.dock a:active{color:#FFD9A8;text-shadow:0 0 10px rgba(255,217,168,.45)}
+.dock a i{
+  font-style:normal;
+  font-size:12px;
+  color:rgba(255,217,168,.7);
+  transition:transform .12s ease-out;
+}
+.dock a:active{
+  transform:translateY(2px);
+  border-color:rgba(255,217,168,.8);
+  background-color:rgba(199,155,110,.14);
+}
+.dock a:active i{transform:translateX(3px)}
 .dock a:focus{outline:none}
 .dock a:focus-visible{outline:1px solid rgba(255,217,168,.85);outline-offset:3px}
-.dock a:active + .dock__bar,
-.dock__bar:has(+ a:active),
-.dock a:focus-visible + .dock__bar,
-.dock__bar:has(+ a:focus-visible){
-  opacity:1;
-  transform:scaleY(2);
-  background:linear-gradient(90deg,var(--gold),var(--gold-l) 50%,var(--gold));
-}
 @media (hover:hover) and (pointer:fine){
-  .dock a:hover{color:#FFD9A8;text-shadow:0 0 10px rgba(255,217,168,.45)}
-  .dock a:hover + .dock__bar,
-  .dock__bar:has(+ a:hover){
-    opacity:1;
-    transform:scaleY(2);
-    background:linear-gradient(90deg,var(--gold),var(--gold-l) 50%,var(--gold));
+  .dock a:hover{
+    border-color:rgba(255,217,168,.75);
+    background-color:rgba(199,155,110,.12);
+    color:#FFD9A8;
   }
+  .dock a:hover i{transform:translateX(3px)}
 }
-
-/* ---------- 入场 ---------- */
-.in{opacity:0;transform:translateY(12px);animation:bootIn .9s cubic-bezier(.22,1,.36,1) forwards}
-.in1{animation-delay:.10s}
-.in3{animation-delay:.30s}
-.in4{animation-delay:.42s}
-.in5{animation-delay:.54s}
-.in6{animation-delay:.66s}
-@keyframes bootIn{to{opacity:1;transform:none}}
-
-/* ---------- 桌面增强 ---------- */
-@media (min-width:900px){
-  .core{--tfs:clamp(4.2rem,9vw,8.2rem)}
-  .play{min-height:68px;padding:0 62px}
-  .play b{font-size:19px;letter-spacing:.4em;text-indent:.4em}
-  .data{max-width:760px}
-  .hud--bottom{justify-items:center}
-  .data{width:100%}
-}
-
-/* 两侧竖排信息：宽屏才出现，给画面一个“仪表”感 */
-.rail{
-  display:none;
-  position:fixed;
-  top:50%;
-  z-index:12;
-  font-family:var(--font-mono);
-  font-size:8px;
-  letter-spacing:.34em;
-  color:rgba(159,211,236,.32);
-  white-space:nowrap;
-  writing-mode:vertical-rl;
-  transform:translateY(-50%);
-  pointer-events:none;
-}
-.rail--l{left:14px}
-.rail--r{right:14px}
-@media (min-width:1180px){
-  .rail{display:block}
-}
-
-/* ---------- 矮屏收紧 ---------- */
-/* 窄屏：Orbitron 比等宽字宽，小屏要再收一档 */
 @media (max-width:380px){
-  .tip{font-size:10px;letter-spacing:.08em}
-  .spec{letter-spacing:.14em}
-  .gate{--key-h:28px;gap:8px;padding:6px 0 1px}
-  .gate__key{padding:0 8px 0 9px;font-size:11px;letter-spacing:.04em;gap:4px}
-  .gate__ico{width:15px;height:15px}
-  .dock__bar{width:12px;margin-inline:3px}
-  .dock a{font-size:13px;padding:0 1px}
+  .dock a{font-size:13px;gap:5px;min-height:38px}
+  .dock a em{display:none}
+}
 }
 @media (max-height:680px){
   .play-wrap{margin-top:16px}
@@ -757,11 +680,9 @@ body{
   .play-wrap{margin-top:13px}
   .tip{margin-top:9px}
   .hud--bottom{gap:4px}
-  .gate{--key-h:28px;gap:8px;padding:6px 0 0}
-  .gate__key{padding:0 8px 0 9px;font-size:11px;letter-spacing:.04em;gap:4px}
-  .gate__ico{width:15px;height:15px}
-  .dock__bar{width:12px;margin-inline:3px}
-  .dock a{font-size:13px;padding:0 1px}
+  .gate{padding:6px 0 0}
+  .gate__label{margin-bottom:6px}
+  .dock a{font-size:13px;min-height:36px}
 }
 
 /* ---------- 降低动效 ---------- */
@@ -802,8 +723,7 @@ body{
   <span class="frame__ticks"></span>
 </div>
 
-<span class="rail rail--l" aria-hidden="true">SCANNING · 22.9°N 113.9°E</span>
-<span class="rail rail--r" aria-hidden="true">TRY AND ALL IS POSSIBLE · 2026</span>
+
 
 <main class="stage">
 
@@ -891,20 +811,11 @@ body{
       </div>
     </div>
     <div class="gate">
-      <p class="gate__tag" id="gate-label">
-        <span class="gate__key">
-          <span>快捷通道</span>
-          <svg class="gate__ico" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-            <path fill="currentColor" d="M.8 5.7h6.3V2.35L15.15 8 7.1 13.65V10.3H.8z"/>
-          </svg>
-        </span>
-      </p>
+      <p class="gate__label" id="gate-label"><span aria-hidden="true">—</span> 快捷通道 <span aria-hidden="true">—</span></p>
       <nav class="dock" aria-labelledby="gate-label">
-        <a href="story.html">背景</a>
-        <span class="dock__bar" aria-hidden="true"></span>
-        <a href="schedule.html">日程</a>
-        <span class="dock__bar" aria-hidden="true"></span>
-        <a href="workshops.html">工作坊</a>
+        <a href="story.html"><em>01</em><span>背景</span><i aria-hidden="true">→</i></a>
+        <a href="schedule.html"><em>02</em><span>日程</span><i aria-hidden="true">→</i></a>
+        <a href="workshops.html"><em>03</em><span>工作坊</span><i aria-hidden="true">→</i></a>
       </nav>
     </div>
   </footer>
