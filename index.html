@@ -963,11 +963,15 @@ body{
       ctx.fill();
     }
 
-    if(!reduce) requestAnimationFrame(draw);
+    if(!reduce && !document.hidden) requestAnimationFrame(draw);
   }
 
   resize();
-  window.addEventListener('resize', function(){ resize(); draw(0); }, {passive:true});
+  window.addEventListener('resize', function(){ resize(); if(!document.hidden) draw(0); }, {passive:true});
+  /* 切后台/锁屏立即停画，回前台再续：省电省 GPU，回页不堆积掉帧 */
+  document.addEventListener('visibilitychange', function(){
+    if(!document.hidden && !reduce) draw(0);
+  });
   draw(0);
 })();
 </script>
