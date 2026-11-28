@@ -575,78 +575,123 @@ body{
   letter-spacing:.08em;
   color:rgba(199,155,110,.8);
 }
-/* 快捷通道：三张金描边小卡（编号 + 名称 + 箭头），等宽铺满一行。
-   全部静态 CSS，交互只动 transform/opacity/颜色，合成器渲染零重排。 */
+/* 快捷通道（原设计）：切角金键主铭牌 + 金线横杠串起三个入口。
+   UI 优化：金键加内高光与底部暗边更有金属感、链接字加大提亮、横杠更饱满；
+   交互仍只动 transform/opacity/颜色，合成器渲染。 */
 .gate{
-  display:block;
+  --key-h:32px;
+  display:flex;
+  flex-flow:row nowrap;
+  align-items:center;
+  justify-content:center;
   width:100%;
   min-width:0;
-  padding:4px 0 0;
+  gap:clamp(10px,2.4vw,18px);
+  padding:6px 4px 0;
 }
-.gate__label{
-  margin:0 0 6px;
-  text-align:center;
-  font-family:var(--font-mono);
-  font-size:11px;
-  letter-spacing:.34em;
-  text-indent:.34em;
-  color:rgba(199,155,110,.62);
+.gate__tag{
+  position:relative;
+  flex:none;
+  margin:0;
+  filter:drop-shadow(0 0 14px rgba(255,217,168,.38));
 }
-.gate__label span{letter-spacing:0;text-indent:0;opacity:.6}
+.gate__key{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  min-height:var(--key-h);
+  padding:0 12px 0 13px;
+  color:#150C06;
+  font-family:"PingFang SC","Hiragino Sans GB","Heiti SC","Microsoft YaHei",sans-serif;
+  font-size:var(--fs-note);
+  font-weight:700;
+  letter-spacing:.1em;
+  line-height:1;
+  white-space:nowrap;
+  background:linear-gradient(178deg,#FFF6E6 0%,var(--gold-l) 34%,var(--gold) 82%,#B98A54 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55), inset 0 -1px 0 rgba(90,55,20,.35);
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  transition:transform .08s linear;
+}
+.gate__tag:active .gate__key{transform:translateY(3px)}
+.gate__ico{width:16px;height:16px;flex:none;display:block;color:#150C06}
+.gate__tag::before,
+.gate__tag::after{
+  content:"";
+  position:absolute;
+  width:7px;height:7px;
+  border:1px solid rgba(159,211,236,.75);
+  pointer-events:none;
+}
+.gate__tag::before{left:-7px;top:-7px;border-right:0;border-bottom:0}
+.gate__tag::after{right:-7px;bottom:-7px;border-left:0;border-top:0}
 .dock{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:clamp(8px,2.2vw,14px);
-  width:100%;
+  display:flex;
+  flex-flow:row nowrap;
+  align-items:center;
+  justify-content:center;
+  width:auto;
   min-width:0;
+  gap:0;
+  padding:0;
 }
 .dock a{
   position:relative;
-  display:flex;
+  display:inline-flex;
   align-items:center;
-  justify-content:center;
-  gap:7px;
-  min-height:37px;
-  padding:0 6px;
-  color:#FFD9A8;
+  flex:none;
+  min-height:44px;
+  padding:0 3px;
+  color:#F5EDE2;
   font-family:"PingFang SC","Hiragino Sans GB","Heiti SC","Microsoft YaHei",sans-serif;
-  font-size:16px;
-  font-weight:700;
-  letter-spacing:.08em;
+  font-size:15px;
+  font-weight:600;
+  letter-spacing:.06em;
   line-height:1;
   white-space:nowrap;
   text-decoration:none;
-  border:1px solid rgba(255,217,168,.55);
-  background:linear-gradient(180deg,rgba(199,155,110,.22),rgba(199,155,110,.08));
-  clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);
   touch-action:manipulation;
   -webkit-tap-highlight-color:transparent;
-  transition:transform .12s ease-out, border-color .12s linear, background-color .12s linear;
 }
-.dock a i{
-  font-style:normal;
-  font-size:13px;
-  color:rgba(255,217,168,.9);
-  transition:transform .12s ease-out;
+.dock__bar{
+  flex:none;
+  width:clamp(16px,4.5vw,28px);
+  height:2px;
+  margin-inline:clamp(5px,1.3vw,10px);
+  background:linear-gradient(90deg,rgba(199,155,110,.3),var(--gold) 22%,var(--gold-l) 50%,var(--gold) 78%,rgba(199,155,110,.3));
+  opacity:.85;
+  transform:scaleY(1);
+  transform-origin:center;
+  pointer-events:none;
+  transition:opacity .14s linear, transform .14s linear;
 }
-.dock a:active{
-  transform:translateY(2px);
-  border-color:rgba(255,217,168,.8);
-  background-color:rgba(199,155,110,.14);
-}
-.dock a:active i{transform:translateX(3px)}
+.dock a:active{color:#FFD9A8;text-shadow:0 0 10px rgba(255,217,168,.5)}
 .dock a:focus{outline:none}
 .dock a:focus-visible{outline:1px solid rgba(255,217,168,.85);outline-offset:3px}
+.dock a:active + .dock__bar,
+.dock__bar:has(+ a:active),
+.dock a:focus-visible + .dock__bar,
+.dock__bar:has(+ a:focus-visible){
+  opacity:1;
+  transform:scaleY(2);
+  background:linear-gradient(90deg,var(--gold),var(--gold-l) 50%,var(--gold));
+}
 @media (hover:hover) and (pointer:fine){
-  .dock a:hover{
-    border-color:rgba(255,217,168,.75);
-    background-color:rgba(199,155,110,.12);
-    color:#FFD9A8;
+  .dock a:hover{color:#FFD9A8;text-shadow:0 0 10px rgba(255,217,168,.5)}
+  .dock a:hover + .dock__bar,
+  .dock__bar:has(+ a:hover){
+    opacity:1;
+    transform:scaleY(2);
+    background:linear-gradient(90deg,var(--gold),var(--gold-l) 50%,var(--gold));
   }
-  .dock a:hover i{transform:translateX(3px)}
 }
 @media (max-width:380px){
-  .dock a{font-size:15px;gap:5px;min-height:36px}
+  .gate{--key-h:28px;gap:8px;padding:5px 0 0}
+  .gate__key{padding:0 8px 0 9px;font-size:11px;letter-spacing:.04em;gap:4px}
+  .gate__ico{width:15px;height:15px}
+  .dock__bar{width:12px;margin-inline:3px}
+  .dock a{font-size:14px;padding:0 1px}
+}
 }
 }
 @media (max-height:680px){
@@ -672,9 +717,32 @@ body{
   .play-wrap{margin-top:13px}
   .tip{margin-top:9px}
   .hud--bottom{gap:4px}
-  .gate{padding:6px 0 0}
-  .gate__label{margin-bottom:6px}
-  .dock a{font-size:15px;min-height:34px}
+  .gate{--key-h:28px;gap:8px;padding:5px 0 0}
+  .gate__key{padding:0 8px 0 9px;font-size:11px;letter-spacing:.04em;gap:4px}
+  .gate__ico{width:15px;height:15px}
+  .dock__bar{width:12px;margin-inline:3px}
+  .dock a{font-size:14px;padding:0 1px}
+}
+
+/* 两侧竖排信息：宽屏才出现（fixed 不占布局），给画面一个"仪表"感 */
+.rail{
+  display:none;
+  position:fixed;
+  top:50%;
+  z-index:12;
+  font-family:var(--font-mono);
+  font-size:8px;
+  letter-spacing:.34em;
+  color:rgba(159,211,236,.32);
+  white-space:nowrap;
+  writing-mode:vertical-rl;
+  transform:translateY(-50%);
+  pointer-events:none;
+}
+.rail--l{left:14px}
+.rail--r{right:14px}
+@media (min-width:1180px){
+  .rail{display:block}
 }
 
 /* ---------- 降低动效 ---------- */
@@ -717,6 +785,8 @@ body{
 
 
 
+<span class="rail rail--l" aria-hidden="true">SCANNING · 22.9°N 113.9°E</span>
+<span class="rail rail--r" aria-hidden="true">TRY AND ALL IS POSSIBLE · 2026</span>
 <main class="stage">
 
   <header class="hud hud--top">
@@ -803,11 +873,20 @@ body{
       </div>
     </div>
     <div class="gate">
-      <p class="gate__label" id="gate-label"><span aria-hidden="true">—</span> 快捷通道 <span aria-hidden="true">—</span></p>
+      <p class="gate__tag" id="gate-label">
+        <span class="gate__key">
+          <span>快捷通道</span>
+          <svg class="gate__ico" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M.8 5.7h6.3V2.35L15.15 8 7.1 13.65V10.3H.8z"/>
+          </svg>
+        </span>
+      </p>
       <nav class="dock" aria-labelledby="gate-label">
-        <a href="story.html"><span>背景</span><i aria-hidden="true">→</i></a>
-        <a href="schedule.html"><span>日程</span><i aria-hidden="true">→</i></a>
-        <a href="workshops.html"><span>工作坊</span><i aria-hidden="true">→</i></a>
+        <a href="story.html">背景</a>
+        <span class="dock__bar" aria-hidden="true"></span>
+        <a href="schedule.html">日程</a>
+        <span class="dock__bar" aria-hidden="true"></span>
+        <a href="workshops.html">工作坊</a>
       </nav>
     </div>
   </footer>
