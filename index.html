@@ -59,8 +59,6 @@
   --neon-hot:#FF2E9A;
 
   --pad:clamp(16px,4.6vw,42px);
-  --px:0;
-  --py:0;
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -88,11 +86,6 @@ body{
   object-fit:cover;
   object-position:56% 42%;
   filter:saturate(.86) contrast(1.12) brightness(.82);
-  transform:
-    translate3d(calc(var(--px) * -12px), calc(var(--py) * -10px), 0)
-    scale(1.02);
-  transition:transform .9s cubic-bezier(.22,1,.36,1);
-  will-change:transform;
 }
 
 /* 压暗 + 双色染（紫在左下、冰蓝在右上） */
@@ -317,9 +310,7 @@ body{
   left:50%;top:41%;
   width:calc(var(--lw) * 1.06);
   height:auto;
-  transform:
-    translate3d(calc(-50% + var(--px) * 9px), calc(-50% + var(--py) * 7px), 0);
-  transition:transform 1s cubic-bezier(.22,1,.36,1);
+  transform:translate3d(-50%,-50%,0);
   z-index:-1;
   opacity:1;
   pointer-events:none;
@@ -897,22 +888,6 @@ body{
 <script>
 (function(){
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var canHover = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-
-  /* 视差：只给有鼠标的设备，幅度很小，不干扰阅读 */
-  if(!reduce && canHover){
-    var raf = 0, tx = 0, ty = 0;
-    window.addEventListener('pointermove', function(e){
-      tx = (e.clientX / window.innerWidth - .5);
-      ty = (e.clientY / window.innerHeight - .5);
-      if(raf) return;
-      raf = requestAnimationFrame(function(){
-        document.documentElement.style.setProperty('--px', tx.toFixed(3));
-        document.documentElement.style.setProperty('--py', ty.toFixed(3));
-        raf = 0;
-      });
-    }, {passive:true});
-  }
 
   /* 粒子场：金与冰蓝两种尘埃，缓慢上升 */
   var cvs = document.getElementById('fx');
