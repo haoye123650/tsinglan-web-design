@@ -573,23 +573,41 @@ if (hold){
 /* ---------- 十二场门联动：点任意一扇未开的门 → 十二扇全开，永不关。
    门立即开（纯 CSS transform，流畅），海报在门后独立加载淡入，二者解耦：
    —— 不再让海报的下载/解码阻塞开门（此前 Promise 卡住会让门迟迟不开甚至状态错乱）。
-   —— 海报用 .is-ready 淡入，仍杜绝半截/马赛克。 ---------- */
+   —— 海报用 .is-ready 淡入，仍杜绝半截/马赛克。
+   海报只按当前封面位置加载：当前这一张，再加左右各一张。
+   滑到新的一场时再补它和它的邻居。不在空闲时、也不在第一次开门时把 12 张一起赋 src。
+   门可以十二扇一起错峰打开，离屏的海报仍留着 data-src，靠近了才下载。 ---------- */
 var doorsOpened = false;
-var postersLoaded = false;
-function loadPosters(){
-  if (postersLoaded) return;
-  postersLoaded = true;
-  document.querySelectorAll('.card__poster[data-src]').forEach(function(img){
-    /* 先赋 src 再 arm：无 src 的 img.complete 恒为 true 且 naturalWidth=0，
-       若先 arm 会误判「加载失败」而提前 settle，导致海报永不淡入。 */
-    img.src = img.getAttribute('data-src');
-    img.removeAttribute('data-src');
-    armPoster(img);
-  });
+/* 封面流只把左右邻卡旋进视野，多预取一张并不出现在画面里，却会在入场时多下一张约 160KB。
+   左右各 1 张：下一张在停留时已经开始下载，滑过去时海报通常已经就绪。 */
+var POSTER_NEAR = 1;
+function loadPoster(img){
+  if (!img || img._posterStarted) return;
+  var src = img.getAttribute('data-src');
+  if (!src) return;
+  /* 先赋 src 再 arm：无 src 的 img.complete 恒为 true 且 naturalWidth=0，
+     若先 arm 会误判「加载失败」而提前 settle，导致海报永不淡入。 */
+  img._posterStarted = true;
+  img.src = src;
+  img.removeAttribute('data-src');
+  armPoster(img);
+}
+function loadNearbyPosters(index){
+  if (typeof index !== 'number' || index !== index) return;
+  var from = Math.max(0, index - POSTER_NEAR);
+  var to = Math.min(cards.length - 1, index + POSTER_NEAR);
+  for (var i = from; i <= to; i++) loadPoster(cards[i].querySelector('.card__poster'));
+}
+function initialPosterIndex(){
+  var hash = location.hash;
+  for (var i = 0; i < cards.length; i++){
+    if ('#' + cards[i].id === hash) return i;
+  }
+  return 0;
 }
 /* 单张海报：下载 + 解码完成后加 .is-ready 淡入。只负责海报自己的显示，不阻塞开门。
-   修复：load 监听在 armPoster 时始终挂上（img.src 尚未赋值时 complete 必为 false），
-   此前只在「首次就 complete」时才走 settle，导致后续加载完成无回调、海报永不淡入。 */
+   load 监听始终挂上。src 刚赋上时若图已在缓存里（complete 且 naturalWidth>0）就当场淡入，
+   否则等 load；避免只在「调用当下已经 complete」时才收尾，导致海报永不出现。 */
 function armPoster(img){
   if (img._posterP) return img._posterP;
   img._posterP = new Promise(function(resolve){
@@ -616,13 +634,15 @@ function armPoster(img){
   });
   return img._posterP;
 }
-/* 门都关着，海报空闲时逐张预取，不与首屏抢带宽；点击时兜底立即加载。 */
-if ('requestIdleCallback' in window) requestIdleCallback(loadPosters, {timeout:3500});
-else setTimeout(loadPosters, 1500);
+/* 入场就按下标加载当前卡和左右邻居（含 #w07 这类深链）。
+   封面流换场时派发 workshop-deck-index，这里再补新位置的邻居。开门不在这里加载。 */
+loadNearbyPosters(initialPosterIndex());
+document.addEventListener('workshop-deck-index', function(e){
+  loadNearbyPosters(e.detail);
+});
 function openAllDoors(origin){
   if (doorsOpened) return;
   doorsOpened = true;
-  loadPosters();
   var originIdx = origin ? cards.indexOf(origin) : 0;
   /* 门立即开，不等海报：被点的先开，其余按距离错峰开（纯 transform，合成器渲染）。 */
   cards.forEach(function(c, i){
@@ -881,10 +901,22 @@ function queueRefresh(){
   if (!resizeRaf) resizeRaf = requestAnimationFrame(refresh);
 }
 
+/* 海报只跟「停住的那一张」或明确点中的那一张。
+   平滑滚过中间场次时不逐张赋 src，避免点 08 把 03–07 一起下载。
+   手指慢慢滑过、每次只前进一场时，仍会补上新的邻居。 */
+var posterIndex = -1;
+var suppressFlyby = false;
+function focusPosters(i){
+  if (typeof i !== 'number' || i < 0 || i === posterIndex) return;
+  posterIndex = i;
+  document.dispatchEvent(new CustomEvent('workshop-deck-index', {detail: i}));
+}
 /* 两侧箭头：点击前后换卡，走与场次条相同的原生平滑滚动 + 吸附。 */
 function step(delta){
   var i = clampIndex(indexFromScroll() + delta);
+  suppressFlyby = false;
   setCurrent(i, true);
+  focusPosters(i);
   scrollDeckTo(i, true);
   if (history.replaceState) history.replaceState(null, '', links[i].getAttribute('href'));
 }
@@ -895,7 +927,9 @@ links.forEach(function(a, i){
   a.addEventListener('click', function(e){
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     e.preventDefault();
+    if (Math.abs(i - posterIndex) > 1) suppressFlyby = true;
     setCurrent(i, true);
+    focusPosters(i);
     centerLink(i, true);
     scrollDeckTo(i, true);
     scrollPageToStage();
@@ -910,15 +944,22 @@ deck.addEventListener('scroll', function(){
     var i = indexFromScroll();
     placeCover(i);
     setCurrent(i, true);
+    if (suppressFlyby){
+      if (i === posterIndex) suppressFlyby = false;
+    }else if (Math.abs(i - posterIndex) <= 1){
+      focusPosters(i);
+    }
   });
 }, {passive:true});
 
 function inputActive(){ return !!(drag && drag.dragging); }
 /* 原生 mandatory 吸附常驻；滚动结束后只同步地址 hash，不做任何滚动校正。 */
 function settle(){
+  suppressFlyby = false;
   var i = indexFromScroll();
   placeCover(i);
   setCurrent(i, true);
+  focusPosters(i);
   if (history.replaceState) history.replaceState(null, '', links[i].getAttribute('href'));
 }
 function finishScroll(){
@@ -992,7 +1033,9 @@ deck.addEventListener('wheel', function(e){
 cards.forEach(function(c, i){
   c.querySelector('input').addEventListener('change', function(){
     if (!this.checked) return;
+    if (Math.abs(i - posterIndex) > 1) suppressFlyby = true;
     setCurrent(i, true);
+    focusPosters(i);
     if (Math.abs(deck.scrollLeft - i * slotW) > 4) scrollDeckTo(i, true);
   });
 });
@@ -1004,6 +1047,7 @@ measureCards();
 var hashed = links.findIndex(function(a){ return a.getAttribute('href') === location.hash; });
 var initial = hashed >= 0 ? hashed : 0;
 setCurrent(initial, hashed >= 0);
+focusPosters(initial);
 scrollDeckTo(initial, false);
 placeCover(initial);
 if (hashed >= 0) scrollPageToStage();
